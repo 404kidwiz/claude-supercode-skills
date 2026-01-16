@@ -1,149 +1,91 @@
 ---
 name: payment-integration
-description: Payment systems specialist who integrates payment gateways, processes transactions, and ensures PCI compliance with expertise in Stripe, PayPal, and financial payment architectures
-triggers:
-  - "payment gateway"
-  - "Stripe integration"
-  - "PayPal API"
-  - "payment processing"
-  - "PCI compliance"
-  - "transaction system"
-  - "subscription billing"
-  - "payment form"
+description: Expert in integrating payment gateways (Stripe, PayPal, Adyen) and designing PCI-compliant billing architectures. Use when implementing checkout flows, subscriptions, or payment processing. Triggers include "Stripe", "PayPal", "payment gateway", "checkout", "subscription billing", "PCI compliance", "payment processing".
 ---
 
-# Payment Integration Specialist
+# Payment Integration
 
-## Domain Expertise
-- **Payment Gateways**: Stripe, PayPal, Square, Adyen, Braintree
-- **Payment Methods**: Credit cards, ACH, wire transfers, digital wallets, cryptocurrency
-- **PCI Compliance**: Security standards, tokenization, secure data handling
-- **Subscription Billing**: Recurring payments, usage-based billing, dunning management
-- **Fraud Detection**: Machine learning models, risk scoring, chargeback prevention
-- **International Payments**: Multi-currency, cross-border transactions, local payment methods
+## Purpose
+Provides expertise in integrating payment gateways and designing PCI-compliant billing systems. Specializes in implementing checkout flows, subscription management, and payment processing with providers like Stripe, PayPal, and Adyen.
 
-## Core Capabilities
-
-### Payment Gateway Integration
-- Integrate multiple payment processors for redundancy
-- Implement secure payment forms and checkout flows
-- Handle payment method tokenization and vaulting
-- Process one-time and recurring transactions
-- Manage payment method updates and customer information
-
-### Security and Compliance
-- Implement PCI DSS compliant payment processing
-- Create secure tokenization and encryption systems
-- Design fraud detection and prevention mechanisms
-- Build audit trails and compliance reporting
-- Implement secure key management and data protection
-
-### Billing Systems
-- Create subscription management and billing engines
-- Implement usage-based and tiered pricing models
-- Build dunning management for failed payments
-- Design invoicing and financial reporting systems
-- Handle tax calculations and multi-currency support
-
-## Industry Best Practices
-
-### Security Standards
-- Never store raw payment card information
-- Use payment processor tokenization and vaulting
-- Implement HTTPS and secure communication protocols
-- Use fraud detection tools and velocity checks
-- Follow OWASP security guidelines for web applications
-
-### User Experience Design
-- Create frictionless checkout experiences
-- Implement multiple payment method options
-- Design mobile-optimized payment forms
-- Provide clear error messages and recovery flows
-- Support saved payment methods and guest checkout
-
-## When to Use This Agent
-
-**Use for:**
-- Integrating payment gateways into applications
+## When to Use
+- Integrating Stripe, PayPal, or other payment gateways
+- Implementing checkout and payment flows
 - Building subscription billing systems
-- Implementing PCI-compliant payment processing
-- Creating international payment solutions
-- Developing fraud detection systems
+- Ensuring PCI-DSS compliance
+- Handling payment webhooks
+- Implementing payment retry logic
+- Setting up multi-currency payments
+- Building invoicing systems
 
-**Ideal for:**
-- E-commerce platforms and marketplaces
-- SaaS companies with subscription models
-- Mobile applications with in-app purchases
-- Businesses expanding to international markets
+## Quick Start
+**Invoke this skill when:**
+- Integrating payment gateways (Stripe, PayPal, Adyen)
+- Building checkout or subscription flows
+- Designing PCI-compliant payment systems
+- Implementing webhook handlers for payments
+- Setting up recurring billing
 
-## Example Interactions
+**Do NOT invoke when:**
+- General ledger/accounting systems → use `/fintech-engineer`
+- API design without payment focus → use `/api-designer`
+- Frontend checkout UI only → use `/frontend-design`
+- Security audit → use `/security-auditor`
 
-### "Stripe payment integration"
+## Decision Framework
 ```
-User: Integrate Stripe payment processing into our web application
-Agent: I'll implement a complete payment system with:
-- Stripe Elements for secure payment forms
-- Customer creation and payment method management
-- Subscription setup and recurring billing
-- Webhook handling for payment events
-- Dashboard integration for transaction management
-```
-
-### "Multi-gateway payment system"
-```
-User: Build a payment system with Stripe and PayPal for redundancy
-Agent: I'll create:
-- Unified payment API abstracting multiple gateways
-- Smart routing and failover mechanisms
-- Consolidated transaction reporting and reconciliation
-- Customer data synchronization across platforms
-- Payment method vaulting with token management
-```
-
-### "Subscription billing engine"
-```
-User: Create a subscription billing system for SaaS application
-Agent: I'll develop:
-- Tiered pricing model implementation
-- Usage-based metering and billing
-- Automated dunning and retry logic
-- Invoice generation and tax calculations
-- Self-service customer portal for billing management
+Payment Use Case?
+├── One-time Purchase
+│   └── Stripe Checkout / PayPal Buttons
+├── Subscription
+│   └── Stripe Billing / Recurly
+├── Marketplace/Split Payments
+│   └── Stripe Connect / PayPal Commerce
+├── Enterprise/B2B
+│   └── Invoicing with NET terms
+└── Global Payments
+    └── Adyen / Multi-gateway strategy
 ```
 
-## Tools and Technologies
-- **Payment Processors**: Stripe, PayPal, Square, Adyen, Braintree
-- **SDKs**: Stripe.js, PayPal SDK, Square Connect API
-- **Security**: SSL/TLS, HMAC verification, webhooks
-- **Databases**: PostgreSQL, Redis for session management
-- **Frameworks**: Node.js, Python Django, Ruby on Rails, Java Spring
-- **Cloud**: AWS, Google Cloud, Azure for hosting
+## Core Workflows
 
-## Payment Methods Support
-- **Cards**: Visa, Mastercard, American Express, Discover
-- **Digital Wallets**: Apple Pay, Google Pay, PayPal, Venmo
-- **Bank Transfers**: ACH, SEPA, wire transfers
-- **Local Methods**: iDEAL, Sofort, Alipay, WeChat Pay
-- **Buy Now Pay Later**: Afterpay, Klarna, Affirm
+### 1. Stripe Integration
+1. Set up Stripe account and API keys
+2. Create products and prices
+3. Implement Checkout Session or Elements
+4. Handle payment confirmation
+5. Set up webhook endpoint
+6. Process webhook events (succeeded, failed)
 
-## Compliance Requirements
-- **PCI DSS**: Data security standards for payment processing
-- **GDPR**: Privacy regulations for EU customers
-- **SOX**: Financial reporting compliance for public companies
-- **KYC/AML**: Identity verification requirements
-- **Tax Compliance**: VAT, sales tax, international tax regulations
+### 2. Subscription Billing
+1. Define subscription plans and pricing
+2. Create customer in payment provider
+3. Implement subscription creation flow
+4. Handle trial periods
+5. Manage upgrades/downgrades
+6. Implement dunning for failed payments
 
-## Testing and Development
-- **Sandbox Environments**: Test modes for all payment processors
-- **Test Cards**: Comprehensive test card numbers and scenarios
-- **Webhook Testing**: Tools for testing payment events
-- **Load Testing**: Performance testing for high transaction volumes
-- **Security Testing**: Penetration testing and vulnerability scanning
+### 3. Webhook Handling
+1. Create secure webhook endpoint
+2. Verify webhook signatures
+3. Make handlers idempotent
+4. Process events in order
+5. Handle retry scenarios
+6. Log all webhook events
 
-## Performance Metrics
-- Transaction success rates and error analysis
-- Payment processing latency and throughput
-- Chargeback ratios and fraud detection rates
-- Customer payment conversion rates
-- System uptime and availability statistics
-- Cost per transaction and processing efficiency
+## Best Practices
+- Never store full card numbers—use tokenization
+- Always verify webhook signatures
+- Implement idempotency for payment operations
+- Use test mode thoroughly before production
+- Handle all payment states (pending, succeeded, failed)
+- Store payment provider IDs for reconciliation
+
+## Anti-Patterns
+| Anti-Pattern | Problem | Correct Approach |
+|--------------|---------|------------------|
+| Storing card numbers | PCI violation | Use tokenization |
+| No webhook verification | Security risk | Verify signatures |
+| Synchronous payment only | Poor UX, timeouts | Async with webhooks |
+| Missing idempotency | Duplicate charges | Idempotency keys |
+| No retry logic | Lost revenue | Implement dunning |

@@ -1,170 +1,274 @@
 ---
 name: powershell-module-architect
 description: Use when user needs PowerShell module design, function structure, reusable libraries, profile optimization, or cross-version compatibility across PowerShell 5.1 and PowerShell 7+.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-This skill is used when the user needs PowerShell module architecture expertise, function structure design, reusable library creation, or cross-version compatibility between PowerShell 5.1 and PowerShell 7+. The skill specializes in transforming fragmented scripts into clean, documented, testable, reusable tooling.
+# PowerShell Module Architect
+
+## Purpose
+
+Provides PowerShell module design and architecture expertise specializing in creating structured, reusable, and maintainable PowerShell modules. Focuses on module architecture, function design, cross-version compatibility, and profile optimization for enterprise PowerShell environments.
 
 ## When to Use
 
-- User requests PowerShell module creation or refactoring
-- Designing module structure with public/private function separation
-- Creating reusable libraries and helper functions
+- Transforming scattered scripts into structured, reusable modules
+- Designing module architecture with public/private function separation
+- Creating cross-version compatible modules (PowerShell 5.1 & 7+)
 - Optimizing PowerShell profiles for faster load times
-- Building cross-version compatible modules (5.1 and 7+)
-- Implementing proper module manifests and versioning
-- Structuring advanced functions with parameter validation
-- Creating DRY (Don't Repeat Yourself) shared code
+- Building advanced functions with proper parameter validation
 
-## What This Skill Does
+## Quick Start
 
-The powershell-module-architect skill provides comprehensive PowerShell module and profile architecture capabilities. It handles transformation of scripts into modular, maintainable code with emphasis on function design, cross-version compatibility, and developer experience.
+**Invoke this skill when:**
+- Transforming scattered scripts into structured, reusable modules
+- Designing module architecture with public/private function separation
+- Creating cross-version compatible modules (PowerShell 5.1 & 7+)
+- Optimizing PowerShell profiles for faster load times
+- Building advanced functions with proper parameter validation
 
-### Module Architecture
-- Public/Private function separation with Export-ModuleMember
-- Module manifests (.psd1) with proper metadata and versioning
-- DRY helper libraries for shared logic across functions
-- Dot-sourcing structure for clarity and performance
-- Module initialization and cleanup
+**Do NOT invoke when:**
+- Simple one-off scripts that won't be reused (use powershell-5.1-expert or powershell-7-expert)
+- Already have well-structured modules needing functionality additions (use relevant domain skill)
+- UI development (use powershell-ui-architect instead)
+- Security hardening (use powershell-security-hardening instead)
 
-### Profile Engineering
-- Optimize load time with lazy imports (Import-Module -RequiredVersion)
-- Organize profile fragments: core, dev, infrastructure
-- Provide ergonomic wrappers for common tasks
-- Environment-specific profile loading
+## Decision Framework
 
-### Function Design
-- Advanced functions with CmdletBinding and parameter sets
-- Strict parameter typing with [ValidateSet, ValidateRange, ValidatePattern]
-- Consistent error handling with try/catch and Write-Error/Write-Warning
-- -WhatIf/-Confirm support for destructive operations
-- Comment-based help with examples and parameters
+### When to Create a Module
 
-### Cross-Version Support
-- Capability detection for PowerShell 5.1 vs 7+ features
-- Backward-compatible design patterns using #if ($PSVersionTable.PSVersion -ge [version]'6.0')
-- Modernization guidance for migration from 5.1 to 7+
-- Polyfills and compatibility shims where needed
+| Scenario | Recommendation |
+|----------|----------------|
+| 3+ related functions | Create module |
+| Cross-team sharing needed | Create module + manifest |
+| Single-use automation | Keep as script |
+| Complex parameter sets | Advanced function in module |
+| Version compatibility needed | Module with compatibility layer |
 
-## Core Capabilities
+### Module Structure Decision
 
-### Module Structure Design
-- Module organization: Functions, Classes, Enums, Aliases
-- Private helper functions using internal naming convention (_HelperFunction)
-- Module-level variables and state management
-- Dependency management and module loading order
+```
+Script Organization Need
+│
+├─ Few related functions (3-10)?
+│  └─ Single .psm1 with inline functions
+│
+├─ Many functions (10+)?
+│  └─ Dot-source pattern (Public/Private folders)
+│
+├─ Publishing to gallery?
+│  └─ Full manifest + tests + docs
+│
+└─ Team collaboration?
+   └─ Git repo + CI/CD + Pester tests
+```
 
-### Advanced Function Patterns
-- Parameter sets with [Parameter(ParameterSetName='SetName')]
-- Dynamic parameters based on other parameter values
-- ShouldProcess support for -WhatIf/-Confirm
-- Output formatting with Format-Table, Format-List
-- Pipeline input support with ValueFromPipeline
+## Core Workflow: Transform Scripts into Module
 
-### Module Manifest Configuration
-- Module versioning and author information
-- Required modules and module dependencies
-- PowerShell version constraints (PowerShellVersion)
-- Exported functions, cmdlets, aliases, variables
-- Private data and module metadata
+**Use case:** Refactor 10-50 scattered .ps1 scripts into organized module
 
-### Testing and Quality
-- Pester test structure for modules
-- Unit tests for individual functions
-- Integration tests for module workflows
-- Code coverage analysis
-- Static analysis with PSScriptAnalyzer
+### Step 1: Analysis
 
-## Tool Restrictions
+```powershell
+# Inventory existing scripts
+$scripts = Get-ChildItem -Path ./scripts -Filter *.ps1 -Recurse
 
-This skill uses standard file and code tools:
-- Read, Write, Edit for PowerShell module files (.psm1, .psd1)
-- Bash for executing pwsh and testing modules
-- Glob for finding PowerShell modules, scripts, and test files
-- Grep for searching in module files and dependencies
+# Analyze function signatures
+foreach ($script in $scripts) {
+    $content = Get-Content $script.FullName -Raw
+    $functions = [regex]::Matches($content, 'function\s+(\S+)')
+    
+    Write-Host "$($script.Name): $($functions.Count) functions"
+}
 
-Does NOT use:
-- Browser automation tools
-- Cross-platform tools when focusing on Windows-specific modules
-- PowerShell 7+ features when maintaining 5.1 compatibility
+# Expected output:
+# AD-UserManagement.ps1: 12 functions
+# AD-GroupManagement.ps1: 8 functions
+# Common-Helpers.ps1: 15 functions (candidates for Private/)
+```
 
-## Integration with Other Skills
+### Step 2: Design Module Structure
 
-- **powershell-5.1-expert**: Collaborates on 5.1-specific implementation details
-- **powershell-7-expert**: Works together on modern runtime integration
-- **windows-infra-admin**: Partners on domain-specific function design
-- **azure-infra-engineer**: Coordinates cloud infrastructure automation modules
-- **m365-admin**: Works on workload automation modules
-- **it-ops-orchestrator**: Routes module-building tasks appropriately
+```powershell
+# Create module skeleton
+$moduleName = "Organization.ActiveDirectory"
+$modulePath = "./modules/$moduleName"
 
-## Example Interactions
+New-Item -Path "$modulePath/Public" -ItemType Directory -Force
+New-Item -Path "$modulePath/Private" -ItemType Directory -Force
+New-Item -Path "$modulePath/Tests" -ItemType Directory -Force
+New-Item -Path "$modulePath/$moduleName.psm1" -ItemType File -Force
+New-Item -Path "$modulePath/$moduleName.psd1" -ItemType File -Force
+```
 
-**Scenario: Refactoring AD Scripts into Module**
+### Step 3: Categorize Functions
 
-User: "I have 50 AD management scripts scattered across folders. Refactor them into a reusable module with proper structure."
+```
+Public functions (exported to users):
+  ├─ Get-OrgADUser
+  ├─ New-OrgADUser
+  ├─ Set-OrgADUser
+  ├─ Remove-OrgADUser
+  └─ ... (user-facing functions)
 
-Skill Response:
-1. Analyzes existing scripts for common patterns and shared code
-2. Designs module structure: Organization-AD module with 3 subfolders
-3. Extracts common helper functions into Private subfolder
-4. Creates public functions for AD users, groups, computers, OUs
-5. Builds module manifest (Organization-AD.psd1) with proper metadata
-6. Implements parameter validation and error handling
-7. Adds comment-based help with examples for each function
-8. Creates Pester tests for critical functions
-9. Delivers well-structured module with 45 exported functions, organized helpers
+Private functions (internal helpers):
+  ├─ _ValidateDomainConnection
+  ├─ _BuildDistinguishedName
+  ├─ _ConvertToCanonicalName
+  └─ ... (utility functions)
+```
 
-**Scenario: Standardized Profile for Helpdesk**
+### Step 4: Implement Module File
 
-User: "Create a standardized PowerShell profile for helpdesk teams that loads quickly and provides ergonomic wrappers."
+```powershell
+# Organization.ActiveDirectory.psm1
 
-Skill Response:
-1. Analyzes helpdesk team's common tasks and frequently used modules
-2. Designs profile with lazy loading for better startup performance
-3. Creates profile fragments: Microsoft.PowerShell_profile.ps1 with includes
-4. Implements ergonomic wrappers: Get-ADUserQuick, Set-ADUserQuick
-5. Adds prompt customization with useful context information
-6. Includes module loading: ActiveDirectory, ExchangeOnlineManagement
-7. Adds custom aliases for common commands (gad -> Get-ADUser)
-8. Implements error handling for missing modules
-9. Delivers optimized profile reducing load time from 8s to 1.2s
+# Dot-source Private functions first
+$Private = @(Get-ChildItem -Path $PSScriptRoot\Private\*.ps1 -ErrorAction SilentlyContinue)
+foreach ($import in $Private) {
+    try {
+        . $import.FullName
+    } catch {
+        Write-Error "Failed to import private function $($import.FullName): $_"
+    }
+}
 
-## Best Practices
+# Dot-source Public functions
+$Public = @(Get-ChildItem -Path $PSScriptRoot\Public\*.ps1 -ErrorAction SilentlyContinue)
+foreach ($import in $Public) {
+    try {
+        . $import.FullName
+    } catch {
+        Write-Error "Failed to import public function $($import.FullName): $_"
+    }
+}
 
-- Separate public API from private implementation
-- Use consistent naming conventions: Verb-Noun for functions
-- Implement proper error handling with try/catch and Write-Error
-- Use -WhatIf/-Confirm for any operation that changes system state
-- Write comment-based help with SYNOPSIS, DESCRIPTION, PARAMETERS, EXAMPLES
-- Validate parameters with [Validate*] attributes
-- Use parameter sets for mutually exclusive parameters
-- Keep profiles lean: heavy initialization in modules, not profiles
-- Test modules with Pester across PowerShell 5.1 and 7+
+# Export Public functions explicitly
+Export-ModuleMember -Function $Public.BaseName
+```
 
-## Output Format
+### Step 5: Create Module Manifest
 
-The powershell-module-architect skill delivers:
+```powershell
+# Generate manifest
+$manifestParams = @{
+    Path              = "$modulePath/$moduleName.psd1"
+    RootModule        = "$moduleName.psm1"
+    ModuleVersion     = '1.0.0'
+    Author            = 'IT Team'
+    CompanyName       = 'Organization'
+    Description       = 'Active Directory management functions'
+    PowerShellVersion = '5.1'  # Minimum version
+    FunctionsToExport = @(
+        'Get-OrgADUser',
+        'New-OrgADUser',
+        'Set-OrgADUser',
+        'Remove-OrgADUser'
+    )
+    VariablesToExport = @()
+    AliasesToExport   = @()
+}
+New-ModuleManifest @manifestParams
+```
 
-1. **Module Files**: .psm1 module files with organized function structure
-2. **Module Manifests**: .psd1 files with proper metadata and dependencies
-3. **Public Functions**: Exported functions with comment-based help
-4. **Private Helpers**: Internal helper functions for shared logic
-5. **Profile Files**: PowerShell profiles with optimized loading
-6. **Test Suites**: Pester tests for module validation
-7. **Documentation**: README files, function documentation, and usage examples
-8. **Build Scripts**: Module build and packaging scripts
+### Step 6: Add Pester Tests
 
-## Tool Restrictions
+```powershell
+# Tests/Module.Tests.ps1
+BeforeAll {
+    Import-Module "$PSScriptRoot/../Organization.ActiveDirectory.psd1" -Force
+}
 
-This skill uses standard file and code tools for PowerShell module development:
+Describe "Organization.ActiveDirectory Module" {
+    It "Exports expected functions" {
+        $commands = Get-Command -Module Organization.ActiveDirectory
+        $commands.Count | Should -BeGreaterThan 0
+    }
+    
+    It "Has valid module manifest" {
+        $manifest = Test-ModuleManifest -Path "$PSScriptRoot/../Organization.ActiveDirectory.psd1"
+        $manifest.Version | Should -Be '1.0.0'
+    }
+}
 
-- Read, Write, Edit: Module files (.psm1, .psd1), script files
-- Bash: Executes pwsh for testing and validation
-- Glob: Finds modules, scripts, and test files
-- Grep: Searches code for patterns, dependencies, and consistency
+Describe "Get-OrgADUser" {
+    It "Accepts Identity parameter" {
+        { Get-OrgADUser -Identity "testuser" -WhatIf } | Should -Not -Throw
+    }
+}
+```
 
-Does NOT use:
-- Browser automation tools
-- Platform-specific GUI tools
-- Database tools (uses standard file tools)
+## Quick Reference: Advanced Function Template
+
+```powershell
+function Get-OrgUser {
+    <#
+    .SYNOPSIS
+        Retrieves Active Directory user by name.
+    
+    .DESCRIPTION
+        Queries Active Directory for user object and returns detailed properties.
+    
+    .PARAMETER Name
+        The username or SamAccountName to search for.
+    
+    .EXAMPLE
+        Get-OrgUser -Name "jdoe"
+        
+        Returns all properties for user jdoe.
+    
+    .EXAMPLE
+        "jdoe", "asmith" | Get-OrgUser
+        
+        Retrieves multiple users via pipeline.
+    #>
+    [CmdletBinding()]
+    param(
+        [Parameter(Mandatory, ValueFromPipeline)]
+        [ValidateNotNullOrEmpty()]
+        [string]$Name
+    )
+    
+    process {
+        Get-ADUser -Identity $Name -Properties *
+    }
+}
+```
+
+## Integration Patterns
+
+### powershell-5.1-expert
+- **Handoff**: Module architecture designed → 5.1 expert implements Windows-specific functions
+- **Collaboration**: Module structure decisions considering 5.1 compatibility
+
+### powershell-7-expert
+- **Handoff**: Module structure defined → 7 expert adds modern syntax optimizations
+- **Collaboration**: Dual-mode functions using version detection
+
+### windows-infra-admin
+- **Handoff**: Module architecture → Windows admin implements domain-specific logic
+- **Shared responsibility**: Active Directory, GPO, DNS module functions
+
+### azure-infra-engineer
+- **Handoff**: Module patterns → Azure engineer builds cloud automation modules
+- **Integration**: Cross-cloud modules combining on-prem & Azure
+
+## Red Flags - When to Escalate
+
+| Observation | Action |
+|-------------|--------|
+| 100+ functions in single module | Consider splitting into sub-modules |
+| Complex cross-version issues | Consult powershell-5.1 and 7 experts |
+| Performance <1s profile load | Apply lazy loading patterns |
+| Security-sensitive operations | Involve powershell-security-hardening |
+
+## Additional Resources
+
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+  - Profile optimization workflow
+  - Module manifest template
+  - Dynamic parameters pattern
+  
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)
+  - Anti-patterns (monolithic files, missing help)
+  - Cross-version compatibility patterns
+  - Advanced parameter validation

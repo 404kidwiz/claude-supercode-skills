@@ -1,8 +1,23 @@
 ---
 name: wordpress-master
 description: Use when user needs WordPress development, theme or plugin creation, site optimization, security hardening, multisite management, or scaling WordPress from small sites to enterprise platforms.
-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, WebSearch
 ---
+
+# WordPress Master
+
+## Purpose
+
+Provides WordPress development and architecture expertise specializing in custom themes, plugins, performance optimization, and enterprise scaling. Builds WordPress solutions from simple sites to enterprise platforms handling millions of visitors.
+
+## When to Use
+
+- Custom WordPress theme or plugin development
+- WordPress site performance optimization
+- Security hardening or audit for WordPress site
+- WordPress multisite setup or management
+- Headless WordPress implementation
+- E-commerce solution development (WooCommerce)
+- WordPress migration or upgrade
 
 This skill provides expert WordPress architecture and development capabilities, specializing in full-stack development, performance optimization, and enterprise solutions. The WordPress master masters custom theme/plugin development, multisite management, security hardening, and scaling WordPress from small sites to enterprise platforms handling millions of visitors.
 

@@ -1,7 +1,108 @@
 ---
 name: project-manager
 description: Project management expert specializing in planning, execution, monitoring, and closure of projects. Masters traditional and agile methodologies to deliver projects on time, within budget, and to quality standards.
-domain: project-management
+---
+
+# Project Manager
+
+## Purpose
+
+Provides project management expertise specializing in planning, execution, monitoring, and closure of projects. Masters traditional and agile methodologies to deliver projects on time, within budget, and to quality standards.
+
+## When to Use
+
+- Planning and executing new projects or initiatives
+- Managing project timelines, budgets, and resources
+- Coordinating cross-functional teams
+- Tracking project progress and milestones
+- Managing risks and resolving project issues
+- Facilitating project communication with stakeholders
+
+## Examples
+
+### Example 1: Enterprise Software Implementation
+
+**Scenario:** A Fortune 500 company implementing a new ERP system across 12 countries.
+
+**Approach:**
+1. Established program governance with steering committee
+2. Created detailed work breakdown structure (500+ tasks)
+3. Implemented hybrid methodology (Waterfall for core, Agile for integrations)
+4. Established risk register with mitigation strategies
+5. Set up automated status dashboards and escalation paths
+
+**Results:**
+- Delivered on time and 5% under budget
+- 98% user adoption within 3 months
+- Zero critical defects in production
+- Awarded "Best Implementation" by vendor
+
+### Example 2: Product Launch Coordination
+
+**Scenario:** Coordinating a multi-team product launch with 6-month deadline.
+
+**Approach:**
+1. Created master launch checklist with 200+ items
+2. Established cross-functional war room
+3. Implemented daily standups and weekly exec reviews
+4. Identified critical path and protected it aggressively
+5. Developed rollback procedures for each component
+
+**Results:**
+- Launched on schedule (within 2 days of target)
+- Coordinated 8 teams seamlessly
+- Zero post-launch P0 incidents
+- Achieved 150% of Day 1 user sign-up target
+
+### Example 3: Turnaround Project
+
+**Scenario:** Recovering a failing project (6 months behind, budget doubled).
+
+**Approach:**
+1. Conducted honest assessment of current state
+2. Identified root causes (scope creep, resource issues, technical debt)
+3. Renegotiated scope to MVP with clear deferral criteria
+4. Brought in experienced team members
+5. Implemented strict change control
+
+**Results:**
+- Delivered MVP in 4 months (from turnaround start)
+- Stabilized team morale
+- Established sustainable pace
+- Saved 40% of original budget overrun
+
+## Best Practices
+
+### Planning
+
+- **Clear Objectives**: Define success criteria upfront with stakeholders
+- **Realistic Estimates**: Use historical data and team input
+- **Contingency Planning**: Build in buffers for uncertainty
+- **Stakeholder Alignment**: Ensure everyone agrees on scope
+
+### Execution
+
+- **Visible Progress**: Maintain dashboards and status reports
+- **Regular Communication**: Standups, reviews, and updates
+- **Issue Management**: Log and track issues to resolution
+- **Change Control**: Manage scope changes formally
+
+### Team Management
+
+- **Right Resources**: Match skills to task requirements
+- **Empowerment**: Give teams authority to make decisions
+- **Recognition**: Celebrate successes and acknowledge efforts
+- **Development**: Use projects as growth opportunities
+
+### Risk Management
+
+- **Early Identification**: Proactively identify potential issues
+- **Mitigation Planning**: For each risk, have a plan B
+- **Escalation**: Clear paths for when to escalate
+- **Learning**: Document lessons learned for future projects
+
+## Domain Expertise
+
 methodologies:
   - Waterfall Project Management
   - Agile & Scrum Frameworks
@@ -74,120 +175,3 @@ metrics_success:
   - Team performance and productivity
   - Risk mitigation effectiveness
 ---
-
-# Project Manager Skill
-
-## Overview
-The Project Manager skill provides comprehensive project management capabilities, from initiation through closure. This agent excels at balancing scope, time, cost, and quality while managing stakeholder expectations and team dynamics.
-
-## Core Capabilities
-
-### Project Planning & Execution
-- Develop comprehensive project plans with clear objectives and deliverables
-- Create detailed work breakdown structures (WBS) and task dependencies
-- Establish realistic timelines using critical path analysis
-- Allocate resources effectively and manage team capacity
-- Define and track key performance indicators (KPIs)
-
-### Risk & Issue Management
-- Identify, assess, and prioritize project risks and issues
-- Develop risk mitigation strategies and contingency plans
-- Monitor risk indicators and implement preventive measures
-- Facilitate rapid issue resolution and escalation management
-- Maintain comprehensive risk registers with mitigation actions
-
-### Budget & Resource Management
-- Develop detailed project budgets with cost estimates and contingencies
-- Track actual costs against budget and manage variance analysis
-- Optimize resource allocation across competing priorities
-- Manage vendor relationships and contract performance
-- Forecast resource needs and plan for scaling requirements
-
-### Communication & Stakeholder Management
-- Develop and execute stakeholder communication plans
-- Provide regular status updates and progress reports
-- Facilitate project meetings and decision-making sessions
-- Manage stakeholder expectations and resolve conflicts
-- Ensure project alignment with organizational strategic objectives
-
-## Typical Workflows
-
-### 1. Project Lifecycle Management
-```mermaid
-graph TD
-    A[Initiation] --> B[Planning]
-    B --> C[Execution]
-    C --> D[Monitoring & Control]
-    D --> E[Closure]
-    D --> C
-```
-
-### 2. Risk Management Process
-1. **Risk Identification**: Brainstorm potential threats and opportunities
-2. **Risk Assessment**: Evaluate probability and impact using risk matrices
-3. **Risk Prioritization**: Rank risks based on overall risk score
-4. **Response Planning**: Develop mitigation, transfer, or acceptance strategies
-5. **Risk Monitoring**: Track risk indicators and effectiveness of responses
-
-### 3. Project Management Frameworks
-
-#### Waterfall Methodology
-- Sequential phases: Initiation → Planning → Execution → Monitoring → Closure
-- Detailed upfront planning and documentation
-- Clear milestones and deliverables
-- Best for projects with well-defined requirements
-
-#### Agile/Scrum Framework
-- Iterative development with sprints (2-4 week cycles)
-- Daily stand-ups, sprint planning, and retrospectives
-- Flexible scope adaptation based on feedback
-- Best for projects with evolving requirements
-
-## Best Practices
-- Always start with a clear project charter defining scope and objectives
-- Maintain detailed documentation for transparency and knowledge transfer
-- Use data-driven decision making with regular performance tracking
-- Communicate proactively with all stakeholders at appropriate levels
-- Plan for contingencies and maintain risk buffers in schedules and budgets
-- Focus on delivering business value, not just completing tasks
-
-## Key Project Metrics
-
-### Schedule Performance
-- **Schedule Variance (SV)**: EV - PV (Earned Value - Planned Value)
-- **Schedule Performance Index (SPI)**: EV / PV
-- **Critical Path Tracking**: Monitor tasks that determine project duration
-
-### Cost Performance
-- **Cost Variance (CV)**: EV - AC (Earned Value - Actual Cost)
-- **Cost Performance Index (CPI)**: EV / AC
-- **Budget at Completion (BAC)** vs **Estimate at Completion (EAC)**
-
-### Quality Indicators
-- Defect density and resolution rates
-- Customer/stakeholder satisfaction scores
-- Team performance and productivity metrics
-- Scope creep and change request frequency
-
-## Integration Notes
-This skill works best when combined with:
-- **Product Manager**: For product backlog and feature prioritization
-- **Business Analyst**: For requirements gathering and documentation
-- **Technical Lead**: For technical feasibility and implementation planning
-- **Scrum Master**: For agile team facilitation and process optimization
-
-## Communication Templates
-
-### Weekly Status Report
-- **Project Health**: Green/Yellow/Red status indicators
-- **Accomplishments**: Completed deliverables and milestones
-- **In Progress**: Current tasks and completion percentages
-- **Risks/Issues**: Blockers and mitigation strategies
-- **Next Steps**: Priorities for the upcoming week
-
-### Steering Committee Update
-- **Executive Summary**: High-level project status
-- **KPI Dashboard**: Key metrics and trends
-- **Financial Overview**: Budget performance and forecasts
-- **Strategic Alignment**: Progress toward business objectives
-- **Decision Items**: Actions requiring executive approval

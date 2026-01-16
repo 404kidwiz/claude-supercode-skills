@@ -1,190 +1,93 @@
 ---
 name: elixir-expert
-description: Use when user needs Elixir and Phoenix development, OTP applications, concurrent systems, real-time features with LiveView, or distributed BEAM VM applications.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in Elixir, Phoenix Framework, and OTP. Specializes in building concurrent, fault-tolerant, and real-time applications using the BEAM. Use when building Elixir applications, working with Phoenix, implementing GenServers, or designing distributed systems on the BEAM.
 ---
 
-The elixir-expert skill specializes in building concurrent, fault-tolerant systems using Elixir 1.15+ and OTP patterns. This skill masters Phoenix framework, LiveView real-time interfaces, and BEAM VM optimization for highly available distributed applications.
+# Elixir Expert
+
+## Purpose
+Provides expertise in Elixir development, Phoenix Framework, and OTP patterns. Covers concurrent programming, real-time features with LiveView, and building fault-tolerant distributed systems on the BEAM VM.
 
 ## When to Use
+- Building Elixir applications
+- Developing Phoenix web applications
+- Implementing real-time features with LiveView
+- Using OTP patterns (GenServer, Supervisor)
+- Building distributed systems on BEAM
+- Designing fault-tolerant architectures
+- Working with Ecto for database access
 
-- Phoenix web application or API development
-- Real-time features with WebSockets or LiveView
-- Concurrent system architecture or OTP design
-- GenServer or supervision tree implementation
-- Ecto database models and migrations
-- Multi-node clustering or distributed systems
-- Performance optimization for BEAM VM
-- Hot code upgrades or zero-downtime deployments
+## Quick Start
+**Invoke this skill when:**
+- Building Elixir applications
+- Developing Phoenix web applications
+- Implementing real-time features with LiveView
+- Using OTP patterns
+- Designing fault-tolerant systems
 
-## What This Skill Does
+**Do NOT invoke when:**
+- Building Ruby on Rails apps (use rails-expert)
+- Building Node.js backends (use javascript-pro)
+- Building Python backends (use python-pro)
+- Infrastructure automation (use terraform-engineer)
 
-The elixir-expert skill delivers robust Elixir applications through systematic phases of architecture analysis, OTP-focused implementation, and production readiness verification. It ensures fault tolerance, concurrency excellence, and reliable distributed system design.
+## Decision Framework
+```
+Concurrency Pattern:
+├── Stateful process → GenServer
+├── Async work → Task
+├── Background job → Oban or Task.Supervisor
+├── Event streaming → GenStage / Broadway
+├── Real-time UI → Phoenix LiveView
+└── External service → Retry with exponential backoff
 
-### Functional Programming Mastery
+Supervision Strategy:
+├── Process can crash independently → one_for_one
+├── Processes depend on each other → one_for_all
+├── Ordered restart needed → rest_for_one
+└── Dynamic children → DynamicSupervisor
+```
 
-Applies immutable data transformations, uses pipeline operator for clean data flow, implements pattern matching in all contexts, utilizes guard clauses for constraints, leverages higher-order functions with Enum/Stream, implements recursion with tail-call optimization, and uses protocols and behaviors for polymorphism and contracts.
+## Core Workflows
 
-### OTP Excellence
+### 1. Phoenix Application Setup
+1. Generate Phoenix project
+2. Configure database with Ecto
+3. Define schemas and migrations
+4. Create contexts for business logic
+5. Build controllers or LiveViews
+6. Add authentication
+7. Deploy with releases
 
-Designs and implements GenServer state management, creates proper supervision tree hierarchies, configures application design and supervision trees, uses Agent for simple state needs, implements Task for async operations, employs Registry for process discovery, manages DynamicSupervisor for runtime children, and utilizes ETS/DETS for shared state.
+### 2. OTP Application Design
+1. Identify stateful components
+2. Design supervision tree
+3. Implement GenServers for state
+4. Add proper error handling
+5. Implement graceful shutdown
+6. Test supervision strategies
 
-### Concurrency Patterns
-
-Designs lightweight process architecture, implements message passing patterns, manages process linking and monitoring, handles timeouts with proper backpressure, implements GenStage for backpressure management, uses Flow for parallel processing, deploys Broadway for data pipelines, and manages process pooling with Poolboy.
-
-### Error Handling Philosophy
-
-Embraces "let it crash" philosophy with supervision, uses tagged tuples {:ok, value} | {:error, reason}, applies with statements for happy path flow, rescues only at system boundaries, implements graceful degradation patterns, creates circuit breaker implementations, uses retry strategies with exponential backoff, and logs errors with Logger.
-
-### Phoenix Framework
-
-Implements context-based architecture for domain boundaries, builds LiveView real-time UIs without JavaScript, creates Channels for WebSocket communication, designs Plugs and middleware, optimizes router design patterns, applies controller best practices, implements component architecture, and uses PubSub for distributed messaging.
-
-## Core Capabilities
-
-### LiveView Expertise
-
-- Server-rendered real-time UIs with minimal JavaScript
-- LiveComponent composition and reusability
-- Hooks for JavaScript interoperability
-- Streams for large collection rendering
-- Uploads handling with progress tracking
-- Presence tracking for collaborative features
-- Form handling with validation and error management
-- Optimistic UI updates for responsiveness
-
-### Ecto Mastery
-
-- Schema design with associations and validations
-- Changesets for data validation and type casting
-- Query composition with fluent API
-- Multi-tenancy patterns for shared databases
-- Migrations best practices for schema evolution
-- Repo configuration and connection pooling
-- Transaction management and rollback handling
-
-### Performance Optimization
-
-- BEAM scheduler understanding and optimization
-- Process hibernation for memory savings
-- Binary optimization and memory efficiency
-- ETS for hot data fast access
-- Lazy evaluation with Stream
-- Profiling with :observer tool
-- Memory analysis and leak detection
-- Benchmarking with Benchee
-
-### Testing Methodology
-
-- ExUnit test organization and structure
-- Doctests for code examples
-- Property-based testing with StreamData
-- Mox for behavior mocking and isolation
-- Sandbox for database test isolation
-- Integration test patterns
-- LiveView testing with HEEx assertions
-- Wallaby for browser automation tests
-
-### Macro and Metaprogramming
-
-- Quote and unquote mechanics for AST manipulation
-- Compile-time code generation
-- Use, import, and alias patterns
-- Custom DSL creation for domain languages
-- Macro hygiene and variable scoping
-- Module attributes for configuration
-- Code reflection and introspection
-
-### Build and Tooling
-
-- Mix task creation and execution
-- Umbrella project organization for large applications
-- Release configuration with Mix releases
-- Environment configuration management
-- Dependency management with Hex
-- Documentation generation with ExDoc
-- Static analysis with Dialyzer
-- Code quality with Credo
-
-### Distributed Systems
-
-- Node clustering with libcluster
-- Distributed Registry patterns for service discovery
-- Horde for distributed supervisors
-- Phoenix.PubSub across nodes for messaging
-- Consistent hashing strategies for data distribution
-- Leader election patterns
-- Network partition handling with CAP trade-offs
-- State synchronization across nodes
-
-## Tool Restrictions
-
-The elixir-expert skill uses standard file operations for Elixir development. It requires Elixir, Mix build tool, Hex package manager, and optionally Docker for containerization. Does not perform frontend UI development—coordinate with frontend-developer for JavaScript/TypeScript components.
-
-## Integration with Other Skills
-
-- Provides APIs to frontend-developer for integration
-- Shares real-time patterns with websocket-engineer
-- Collaborates with devops-engineer for release deployment
-- Works with kubernetes-specialist for container orchestration
-- Supports database-administrator with Ecto patterns
-- Guides rust-engineer on NIF (Native Implemented Functions) integration
-- Helps performance-engineer with BEAM VM tuning
-- Assists microservices-architect on distribution patterns
-
-## Example Interactions
-
-### Scenario 1: Phoenix LiveView Application
-
-User: "Build a real-time dashboard with Phoenix LiveView"
-
-Response:
-1. Analyze requirements for real-time features and data flow
-2. Design Phoenix context architecture with domain boundaries
-3. Implement LiveView components with server-side rendering
-4. Set up Phoenix Channels for WebSocket communication
-5. Create PubSub subscriptions for live updates
-6. Implement presence tracking for collaborative features
-7. Test with ExUnit and LiveView testing utilities
-
-### Scenario 2: GenServer Supervision Tree
-
-User: "Design a fault-tolerant GenServer application"
-
-Response:
-1. Analyze requirements for state management and fault tolerance
-2. Design supervision tree with appropriate strategies
-3. Implement GenServer behaviors with proper callbacks
-4. Set up DynamicSupervisor for runtime children
-5. Use Registry for process discovery and naming
-6. Implement graceful shutdown and restart policies
-7. Add telemetry and monitoring for observability
-
-### Scenario 3: Distributed Clustering
-
-User: "Set up multi-node clustering for our Elixir app"
-
-Response:
-1. Analyze requirements for horizontal scaling and distribution
-2. Configure libcluster for automatic node discovery
-3. Implement distributed Registry for process management
-4. Set up Phoenix.PubSub for cross-node messaging
-5. Design consistent hashing for data distribution
-6. Implement leader election patterns
-7. Test network partition handling and recovery
+### 3. Real-Time with LiveView
+1. Generate LiveView module
+2. Define assigns and state
+3. Implement handle_event callbacks
+4. Use pubsub for broadcasts
+5. Optimize with temporary_assigns
+6. Add JS hooks if needed
 
 ## Best Practices
+- Let it crash - design for failure recovery
+- Use supervision trees for fault tolerance
+- Keep GenServer state minimal
+- Use contexts to organize business logic
+- Prefer immutable data transformations
+- Test concurrent code with async: true
 
-- Always design supervision tree first, then processes
-- Use pattern matching extensively for clarity
-- Leverage contexts for domain boundaries in Phoenix
-- Apply "let it crash" philosophy with supervision
-- Use tagged tuples {:ok, value} | {:error, reason}
-- Implement Dialyzer specs for type safety
-- Test thoroughly with ExUnit and property-based tests
-- Monitor with Telemetry and :observer
-
-## Output Format
-
-Delivers Phoenix applications with LiveView components, GenServer-based services, supervision trees, distributed clustering, comprehensive tests (ExUnit with property-based testing), Dialyzer type specifications, and telemetry instrumentation. Includes Mix releases for production deployment.
+## Anti-Patterns
+| Anti-Pattern | Problem | Correct Approach |
+|--------------|---------|------------------|
+| Large GenServer state | Memory and serialization | External storage, ETS |
+| Defensive coding | Hides bugs | Let it crash, supervise |
+| Blocking GenServer | Process bottleneck | Async tasks for I/O |
+| No supervision | Unrecoverable crashes | Proper supervision tree |
+| Mutable mindset | Bugs and race conditions | Embrace immutability |

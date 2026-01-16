@@ -1,16 +1,38 @@
 ---
 name: dotnet-framework-4.8-expert
-title: .NET Framework 4.8 Expert
 description: Legacy .NET Framework expert specializing in .NET Framework 4.8, WCF services, ASP.NET MVC, and maintaining enterprise applications with modern integration patterns.
-category: Backend Development
-version: 1.0.0
-author: OpenCode
-tags: [dotnet-framework, wcf, aspnet-mvc, legacy, enterprise]
 ---
 
 # .NET Framework 4.8 Expert
 
-A specialized .NET Framework 4.8 expert with deep knowledge of maintaining and extending legacy enterprise applications, WCF service development, ASP.NET MVC architecture, and integrating modern patterns with existing systems.
+## Purpose
+
+Provides legacy .NET Framework development expertise specializing in WCF services, ASP.NET MVC, and enterprise application maintenance. Supports extending and integrating legacy .NET 4.8 applications with modern patterns while managing technical debt and migration strategies.
+
+## When to Use
+
+- Maintaining or extending .NET Framework 4.8 applications
+- Developing WCF services for enterprise integrations
+- Working with ASP.NET MVC 5 web applications
+- Managing Entity Framework 6 database access
+- Integrating legacy COM components
+- Planning migration strategies to modern .NET
+
+## Quick Start
+
+### Invoke When
+- Maintaining .NET Framework 4.x applications
+- Building or extending WCF SOAP/REST services
+- ASP.NET MVC 5 development
+- Entity Framework 6 database operations
+- Windows Service development
+- COM interop requirements
+
+### Don't Invoke When
+- New projects (use .NET 8+ with dotnet-core-expert)
+- Modern web APIs (use ASP.NET Core)
+- Cross-platform needs (use .NET 8)
+- Containerized deployments (prefer .NET 8)
 
 ## Core Competencies
 
@@ -46,424 +68,89 @@ A specialized .NET Framework 4.8 expert with deep knowledge of maintaining and e
 - Performance optimization for legacy code
 - Migration strategies to modern frameworks
 
-## Development Patterns
+## Decision Framework
 
-### WCF Service Implementation
-```csharp
-// Service Contract
-[ServiceContract]
-public interface IProductService
-{
-    [OperationContract]
-    List<Product> GetAllProducts();
-    
-    [OperationContract]
-    Product GetProductById(int id);
-    
-    [OperationContract]
-    void AddProduct(Product product);
-    
-    [OperationContract]
-    [WebInvoke(Method = "POST", RequestFormat = WebMessageFormat.Json, 
-               ResponseFormat = WebMessageFormat.Json, UriTemplate = "products")]
-    Product AddRestProduct(Product product);
-}
+### When to Modernize vs. Maintain
 
-// Service Implementation
-public class ProductService : IProductService
-{
-    private readonly IProductRepository _repository;
-    
-    public ProductService()
-    {
-        _repository = new ProductRepository();
-    }
-    
-    public List<Product> GetAllProducts()
-    {
-        return _repository.GetAll().ToList();
-    }
-    
-    public Product GetProductById(int id)
-    {
-        return _repository.GetById(id);
-    }
-    
-    public void AddProduct(Product product)
-    {
-        _repository.Add(product);
-    }
-    
-    public Product AddRestProduct(Product product)
-    {
-        _repository.Add(product);
-        return product;
-    }
-}
-
-// Service Configuration
-<system.serviceModel>
-  <services>
-    <service name="MyApp.Services.ProductService" behaviorConfiguration="ServiceBehavior">
-      <endpoint address="basic" binding="basicHttpBinding" contract="MyApp.Services.IProductService" />
-      <endpoint address="rest" binding="webHttpBinding" contract="MyApp.Services.IProductService" behaviorConfiguration="RestBehavior" />
-      <host>
-        <baseAddresses>
-          <add baseAddress="http://localhost:8080/ProductService/" />
-        </baseAddresses>
-      </host>
-    </service>
-  </services>
-  <behaviors>
-    <serviceBehaviors>
-      <behavior name="ServiceBehavior">
-        <serviceMetadata httpGetEnabled="true" />
-        <serviceDebug includeExceptionDetailInFaults="true" />
-      </behavior>
-    </serviceBehaviors>
-    <endpointBehaviors>
-      <behavior name="RestBehavior">
-        <webHttp />
-      </behavior>
-    </endpointBehaviors>
-  </behaviors>
-</system.serviceModel>
+```
+Evaluating legacy .NET Framework application?
+│
+├─ Is it actively developed (>1 feature/month)?
+│  │
+│  ├─ YES → Does it need cross-platform or containers?
+│  │        │
+│  │        ├─ YES → **Plan migration to .NET 8** ✓
+│  │        │        (use Upgrade Assistant)
+│  │        │
+│  │        └─ NO → Business-critical?
+│  │                 │
+│  │                 ├─ YES → **Incremental modernization** ✓
+│  │                 │        (strangler fig pattern)
+│  │                 │
+│  │                 └─ NO → **Maintain in place** ✓
+│  │
+│  └─ NO → End-of-life planned?
+│           │
+│           ├─ YES → **Minimal maintenance** ✓
+│           │        (security patches only)
+│           │
+│           └─ NO → **Maintain in place** ✓
+│                    (with documentation focus)
 ```
 
-### ASP.NET MVC 5 Controller
-```csharp
-// Controller
-public class ProductController : Controller
-{
-    private readonly IProductService _productService;
-    
-    public ProductController()
-    {
-        _productService = new ProductService();
-    }
-    
-    // GET: Product
-    public ActionResult Index()
-    {
-        var products = _productService.GetAllProducts();
-        return View(products);
-    }
-    
-    // GET: Product/Details/5
-    public ActionResult Details(int id)
-    {
-        var product = _productService.GetProductById(id);
-        if (product == null)
-        {
-            return HttpNotFound();
-        }
-        return View(product);
-    }
-    
-    // GET: Product/Create
-    public ActionResult Create()
-    {
-        return View();
-    }
-    
-    // POST: Product/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(Product product)
-    {
-        if (ModelState.IsValid)
-        {
-            _productService.AddProduct(product);
-            return RedirectToAction("Index");
-        }
-        return View(product);
-    }
-    
-    // GET: Product/Edit/5
-    public ActionResult Edit(int id)
-    {
-        var product = _productService.GetProductById(id);
-        if (product == null)
-        {
-            return HttpNotFound();
-        }
-        return View(product);
-    }
-    
-    // POST: Product/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit(Product product)
-    {
-        if (ModelState.IsValid)
-        {
-            // Update logic here
-            return RedirectToAction("Index");
-        }
-        return View(product);
-    }
-}
+### WCF vs. Modern Alternatives
 
-// View Model
-public class ProductViewModel
-{
-    public int Id { get; set; }
-    [Required(ErrorMessage = "Product name is required")]
-    [StringLength(100)]
-    public string Name { get; set; }
-    
-    [Required]
-    [Range(0.01, 9999.99)]
-    public decimal Price { get; set; }
-    
-    [DataType(DataType.MultilineText)]
-    public string Description { get; set; }
-}
-```
+| Aspect | WCF | ASP.NET Web API 2 | gRPC |
+|--------|-----|-------------------|------|
+| **Protocol** | SOAP, REST | REST | HTTP/2 |
+| **Best for** | Enterprise SOAP | REST APIs | High-perf services |
+| **Interop** | Excellent (.NET, Java) | Universal | Limited |
+| **Complexity** | High | Medium | Medium |
+| **Maintenance** | Legacy | Legacy | Modern |
 
-### Entity Framework 6 Implementation
-```csharp
-// DbContext
-public class ApplicationDbContext : DbContext
-{
-    public ApplicationDbContext() : base("name=DefaultConnection")
-    {
-        Database.SetInitializer(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
-    }
-    
-    public DbSet<Product> Products { get; set; }
-    public DbSet<Category> Categories { get; set; }
-    public DbSet<Order> Orders { get; set; }
-    
-    protected override void OnModelCreating(DbModelBuilder modelBuilder)
-    {
-        modelBuilder.Entity<Product>()
-            .Property(p => p.Price)
-            .HasPrecision(10, 2);
-            
-        modelBuilder.Entity<Product>()
-            .HasRequired(p => p.Category)
-            .WithMany(c => c.Products)
-            .HasForeignKey(p => p.CategoryId);
-            
-        base.OnModelCreating(modelBuilder);
-    }
-}
+### Entity Framework 6 vs. Alternatives
 
-// Repository Pattern
-public class ProductRepository : IProductRepository
-{
-    private readonly ApplicationDbContext _context;
-    
-    public ProductRepository()
-    {
-        _context = new ApplicationDbContext();
-    }
-    
-    public IEnumerable<Product> GetAll()
-    {
-        return _context.Products.Include(p => p.Category).ToList();
-    }
-    
-    public Product GetById(int id)
-    {
-        return _context.Products.Include(p => p.Category).FirstOrDefault(p => p.Id == id);
-    }
-    
-    public void Add(Product product)
-    {
-        _context.Products.Add(product);
-        _context.SaveChanges();
-    }
-    
-    public void Update(Product product)
-    {
-        _context.Entry(product).State = EntityState.Modified;
-        _context.SaveChanges();
-    }
-    
-    public void Delete(int id)
-    {
-        var product = _context.Products.Find(id);
-        if (product != null)
-        {
-            _context.Products.Remove(product);
-            _context.SaveChanges();
-        }
-    }
-}
-```
+| Aspect | EF6 | Dapper | ADO.NET |
+|--------|-----|--------|---------|
+| **Complexity** | Low | Medium | High |
+| **Performance** | Good | Excellent | Best |
+| **Flexibility** | Good | Excellent | Full control |
+| **Best for** | CRUD apps | Performance-critical | Complex queries |
 
-## Advanced .NET Framework Features
+## Best Practices
 
-### Windows Service Implementation
-```csharp
-// Windows Service
-public class FileProcessorService : ServiceBase
-{
-    private Timer _timer;
-    private readonly IFileProcessor _fileProcessor;
-    
-    public FileProcessorService()
-    {
-        ServiceName = "FileProcessorService";
-        _fileProcessor = new FileProcessor();
-    }
-    
-    protected override void OnStart(string[] args)
-    {
-        _timer = new Timer(1000 * 60 * 5); // Every 5 minutes
-        _timer.Elapsed += ProcessFiles;
-        _timer.Start();
-        
-        EventLog.WriteEntry("File Processor Service started");
-    }
-    
-    protected override void OnStop()
-    {
-        _timer?.Stop();
-        _timer?.Dispose();
-        EventLog.WriteEntry("File Processor Service stopped");
-    }
-    
-    private void ProcessFiles(object sender, ElapsedEventArgs e)
-    {
-        try
-        {
-            _fileProcessor.ProcessPendingFiles();
-        }
-        catch (Exception ex)
-        {
-            EventLog.WriteEntry($"Error processing files: {ex.Message}", EventLogEntryType.Error);
-        }
-    }
-}
+### .NET Framework Development
+- **Dependency Management**: Use NuGet Package Manager, pin versions
+- **Configuration**: Use web.config/app.config transforms for environments
+- **Logging**: Implement comprehensive logging (log4net, Serilog)
+- **Error Handling**: Global exception handlers, proper error pages
+- **Testing**: MSTest or NUnit for unit tests, integration tests
 
-// Service Installer
-[RunInstaller(true)]
-public class FileProcessorServiceInstaller : Installer
-{
-    public FileProcessorServiceInstaller()
-    {
-        var serviceProcessInstaller = new ServiceProcessInstaller
-        {
-            Account = ServiceAccount.LocalSystem
-        };
-        
-        var serviceInstaller = new ServiceInstaller
-        {
-            ServiceName = "FileProcessorService",
-            DisplayName = "File Processor Service",
-            Description = "Processes files from incoming directory",
-            StartType = ServiceStartMode.Automatic
-        };
-        
-        Installers.Add(serviceProcessInstaller);
-        Installers.Add(serviceInstaller);
-    }
-}
-```
+### WCF Services
+- **Security**: Use wsHttpBinding with message security
+- **Binding Selection**: Match bindings to requirements
+- **Throttling**: Configure throttling, instancing, concurrency
+- **Error Handling**: Use fault contracts, implement IErrorHandler
+- **Testing**: Use WCF Test Client or Postman
 
-### COM Interop Example
-```csharp
-// COM Interop for Excel
-using Excel = Microsoft.Office.Interop.Excel;
-using System.Runtime.InteropServices;
+### ASP.NET MVC
+- **Controller Patterns**: Use dependency injection, avoid business logic
+- **View Models**: Separate view models from domain models
+- **Validation**: Use data annotations and IValidatableObject
+- **Security**: Anti-forgery tokens, output encoding, authorization
 
-public class ExcelExporter
-{
-    public void ExportDataToExcel(List<Product> products, string filePath)
-    {
-        Excel.Application excelApp = null;
-        Excel.Workbook workbook = null;
-        Excel.Worksheet worksheet = null;
-        
-        try
-        {
-            excelApp = new Excel.Application();
-            excelApp.Visible = false;
-            
-            workbook = excelApp.Workbooks.Add();
-            worksheet = (Excel.Worksheet)workbook.ActiveSheet;
-            
-            // Headers
-            worksheet.Cells[1, 1] = "ID";
-            worksheet.Cells[1, 2] = "Name";
-            worksheet.Cells[1, 3] = "Price";
-            worksheet.Cells[1, 4] = "Category";
-            
-            // Data
-            int row = 2;
-            foreach (var product in products)
-            {
-                worksheet.Cells[row, 1] = product.Id;
-                worksheet.Cells[row, 2] = product.Name;
-                worksheet.Cells[row, 3] = product.Price;
-                worksheet.Cells[row, 4] = product.Category?.Name;
-                row++;
-            }
-            
-            // AutoFit columns
-            worksheet.Columns.AutoFit();
-            
-            workbook.SaveAs(filePath);
-            workbook.Close();
-            excelApp.Quit();
-        }
-        finally
-        {
-            // Cleanup COM objects
-            if (worksheet != null) Marshal.ReleaseComObject(worksheet);
-            if (workbook != null) Marshal.ReleaseComObject(workbook);
-            if (excelApp != null) Marshal.ReleaseComObject(excelApp);
-            
-            GC.Collect();
-            GC.WaitForPendingFinalizers();
-        }
-    }
-}
-```
+### Database Access (EF6)
+- **Context Management**: Context per request, repository pattern
+- **Query Optimization**: Use Include() for eager loading, avoid N+1
+- **Migrations**: Use Code First Migrations, version control
+- **Performance**: Compiled queries, caching strategies
 
-## Development Workflow
-
-### Project Setup
-```xml
-<!-- Web.config configuration -->
-<configuration>
-  <connectionStrings>
-    <add name="DefaultConnection" connectionString="Data Source=.;Initial Catalog=MyAppDb;Integrated Security=True" 
-         providerName="System.Data.SqlClient" />
-  </connectionStrings>
-  
-  <appSettings>
-    <add key="webpages:Version" value="3.0.0.0" />
-    <add key="webpages:Enabled" value="false" />
-    <add key="ClientValidationEnabled" value="true" />
-    <add key="UnobtrusiveJavaScriptEnabled" value="true" />
-  </appSettings>
-  
-  <system.web>
-    <compilation debug="true" targetFramework="4.8" />
-    <httpRuntime targetFramework="4.8" />
-    <authentication mode="Forms">
-      <forms loginUrl="~/Account/Login" timeout="2880" />
-    </authentication>
-  </system.web>
-</configuration>
-```
-
-### Testing Strategy
-- Unit tests with MSTest or NUnit
-- Integration tests with test databases
-- WCF service testing with test clients
-- ASP.NET MVC controller testing with mocked services
-- Performance testing with load testing tools
-
-### Deployment and Configuration
-- Web Deploy for ASP.NET applications
-- Windows Installer for Windows Services
-- Configuration transforms for different environments
-- IIS configuration and application pool management
+### Legacy Application Management
+- **Technical Debt**: Document and prioritize, address critical issues
+- **Testing**: Add unit tests around new features
+- **Security**: Keep .NET Framework patched
+- **Documentation**: Maintain architecture diagrams, data flows
+- **Migration**: Evaluate .NET Upgrade Assistant
 
 ## Common Use Cases
 
@@ -501,34 +188,7 @@ public class ExcelExporter
 - For web APIs: Consider ASP.NET Core
 - For modern desktop apps: Consider WPF with .NET 6+ or MAUI
 
-## Example Interactions
+## Additional Resources
 
-### Legacy System Enhancement
-**User:** "I need to add a new feature to an existing ASP.NET MVC 5 application"
-
-**Expected Response:**
-- Analyze existing codebase architecture and patterns
-- Implement new controller actions following existing conventions
-- Update database schema with Entity Framework 6 migrations
-- Add appropriate validation and error handling
-- Ensure compatibility with existing authentication system
-
-### WCF Service Integration
-**User:** "I need to create a WCF service that integrates with a legacy database"
-
-**Expected Response:**
-- Design service contracts with proper data contracts
-- Implement service layer with repository pattern
-- Configure service bindings for security and reliability
-- Add error handling and logging mechanisms
-- Create client proxy classes for service consumption
-
-### Performance Optimization
-**User:** "My .NET Framework application is running slowly"
-
-**Expected Response:**
-- Profile application performance with diagnostic tools
-- Identify bottlenecks in database queries and code
-- Optimize Entity Framework queries with proper includes
-- Implement caching strategies where appropriate
-- Suggest infrastructure improvements and scaling options
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)

@@ -281,10 +281,3 @@ Organize output with increasing detail:
 **Precision**: Ensure accuracy in data extraction and interpretation
 
 ---
-
-## Progressive Disclosure
-
-For detailed reference materials, see:
-- **Document Analysis Techniques**: [reference/document-analysis.md](reference/document-analysis.md)
-- **Diagram Interpretation Guide**: [reference/diagram-interpretation.md](reference/diagram-interpretation.md)
-- **Data Visualization Patterns**: [reference/data-visualization.md](reference/data-visualization.md)

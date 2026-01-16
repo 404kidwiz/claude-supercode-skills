@@ -1,16 +1,22 @@
 ---
 name: compliance-auditor
 description: Specialized auditor for SOC2, HIPAA, GDPR, and regulatory compliance frameworks across industries
-tools:
-  - read
-  - grep
-  - glob
-version: 1.0.0
-author: OpenCode Agent Skills
-category: compliance-auditing
 ---
 
 # Compliance Auditor Skill
+
+## Purpose
+
+Provides regulatory compliance auditing expertise specializing in SOC2, HIPAA, GDPR, and industry-specific compliance frameworks. Conducts gap analysis, evidence collection, control assessments, and remediation guidance to ensure organizations meet regulatory requirements and security standards.
+
+## When to Use
+
+- Conducting SOC 2 Type I & II audits
+- Ensuring HIPAA compliance for healthcare systems
+- Implementing GDPR data privacy requirements
+- Preparing for PCI DSS assessments
+- Mapping compliance requirements to organizational controls
+- Performing gap analysis and remediation planning
 
 ## Overview
 Expert in regulatory compliance auditing, specializing in SOC2, HIPAA, GDPR, and industry-specific compliance frameworks with gap analysis and remediation guidance.
@@ -263,3 +269,137 @@ compliance_auditing:
 - SaaS and technology companies
 - Government contractors
 - Educational institutions
+
+## Examples
+
+### Example 1: SOC 2 Type II Preparation for SaaS Startup
+
+**Scenario:** A growing SaaS company preparing for their first SOC 2 Type II audit needs to implement controls and collect evidence for the Security and Availability trust services criteria.
+
+**Audit Preparation Approach:**
+1. **Gap Analysis**: Compared current practices against SOC 2 trust services criteria
+2. **Control Implementation**: Deployed access management, encryption, and monitoring controls
+3. **Evidence Collection**: Automated collection of logs, configurations, and access reviews
+4. **Remediation**: Addressed 23 gaps identified in initial assessment
+
+**Key Controls Implemented:**
+- Multi-factor authentication for all system access
+- Automated log retention and security monitoring
+- Encrypted data at rest and in transit (TLS 1.3, AES-256)
+- Incident response procedures with documented evidence
+- Vendor management program with security assessments
+
+**Audit Result**: Passed with 2 minor observations (no material findings)
+
+### Example 2: HIPAA Compliance for Healthcare Application
+
+**Scenario:** A healthcare technology company needs to ensure their patient portal meets HIPAA requirements for PHI protection.
+
+**Compliance Assessment:**
+1. **PHI Inventory**: Mapped all locations where PHI is stored, processed, or transmitted
+2. **Technical Controls**: Evaluated encryption, access controls, and audit logging
+3. **Administrative Safeguards**: Reviewed policies, procedures, and workforce training
+4. **Business Associate Agreements**: Audited all third-party relationships
+
+**Critical Findings and Remediation:**
+- Unencrypted database backups → Implemented TDE and encrypted backup storage
+- Excessive user access → Deployed role-based access control (RBAC)
+- Missing audit logs → Integrated CloudTrail and database audit logging
+- Outdated BAA with vendor → Negotiated updated BAA with current requirements
+
+**Outcome**: Achieved full HIPAA compliance within 90 days
+
+### Example 3: GDPR Data Privacy Implementation
+
+**Scenario:** An e-commerce company expanding to EU markets needs to implement GDPR compliance for customer data processing.
+
+**Privacy Implementation:**
+1. **Data Mapping**: Documented all personal data flows across the organization
+2. **Consent Management**: Implemented cookie consent and preference management
+3. **Data Subject Rights**: Built automated processes for access, deletion, and portability requests
+4. **Data Retention**: Defined and implemented retention schedules
+
+**Implementation Components:**
+- Privacy-by-design architecture review
+- Consent management platform integration
+- Data subject request (DSR) automation workflow
+- International data transfer mechanisms (Standard Contractual Clauses)
+- Privacy impact assessment (PIA) process
+
+**Measurable Outcomes:**
+- Consent capture rate: 98% (up from 45%)
+- DSR response time: 5 days average (regulatory requirement: 30 days)
+- Data breach notification process tested quarterly
+- Privacy training completion: 100% of employees
+
+## Best Practices
+
+### Audit Preparation
+
+- **Start Early**: Begin compliance efforts 6-12 months before audit
+- **Gap Analysis First**: Understand where you stand before planning remediation
+- **Phased Approach**: Address highest-risk gaps first
+- **Evidence Automation**: Collect evidence continuously, not just before audit
+- **Management Buy-In**: Ensure leadership understands compliance requirements
+
+### Control Framework
+
+- **Risk-Based Controls**: Implement controls based on risk assessment findings
+- **Defense in Depth**: Multiple layers of controls for critical areas
+- **Least Privilege**: Grant minimum access required for each role
+- **Change Management**: Document and review all control changes
+- **Continuous Monitoring**: Implement automated control effectiveness testing
+
+### Documentation Excellence
+
+- **Clear Policies**: Write policies that are understandable and actionable
+- **Procedure Documentation**: Detail how policies are implemented operationally
+- **Evidence Artifacts**: Maintain comprehensive evidence of control operation
+- **Traceability**: Link controls to requirements and risks
+- **Version Control**: Track policy changes over time
+
+### Third-Party Management
+
+- **Due Diligence**: Assess security posture before engagement
+- **Contract Requirements**: Include security requirements in contracts
+- **Ongoing Monitoring**: Reassess vendors periodically
+- **Incident Coordination**: Establish breach notification procedures
+- **Exit Planning**: Define data handling at relationship end
+
+### Regulatory Updates
+
+- **Track Changes**: Monitor regulatory developments in your industry
+- **Impact Assessment**: Evaluate how changes affect current compliance
+- **Proactive Adaptation**: Update controls before enforcement deadlines
+- **Industry Collaboration**: Participate in industry compliance groups
+- **Expert Consultation**: Engage specialists for complex requirements
+
+## Anti-Patterns
+
+### Audit Process Anti-Patterns
+
+- **Checkbox Compliance**: Treating compliance as a form-filling exercise - focus on actual security outcomes
+- **Point-in-Time Snapshots**: Assessing controls only at audit time - implement continuous compliance monitoring
+- **Evidence Fabrication**: Creating evidence rather than demonstrating real controls - build genuine compliance programs
+- **Scope Shrinking**: Minimizing audit scope to reduce findings - address root causes instead of hiding problems
+
+### Control Implementation Anti-Patterns
+
+- **Paper Controls**: Policies that exist only in documentation - implement technical enforcement mechanisms
+- **Over-Complex Controls**: Controls so complex they cannot be operationalized - balance security with operability
+- **Control Redundancy**: Implementing overlapping controls without coordination - map and rationalize control portfolio
+- **Control Gaps**: Leaving security domains uncovered - maintain comprehensive control coverage
+
+### Evidence Collection Anti-Patterns
+
+- **Last Minute Rush**: Collecting evidence only when auditors arrive - automate continuous evidence collection
+- **Incomplete Evidence**: Providing partial evidence that raises more questions - ensure comprehensive documentation
+- **Outdated Evidence**: Using evidence from outdated systems or processes - maintain current evidence artifacts
+- **Inaccessible Evidence**: Evidence that cannot be located or produced - organize and index evidence systematically
+
+### Remediation Anti-Patterns
+
+- **Temporary Fixes**: Applying bandages instead of solving root causes - implement permanent solutions
+- **Finding Chasing**: Prioritizing based on audit severity rather than risk - assess actual risk impact
+- **Remediation Debt**: Accumulating findings without resolution - maintain remediation backlog with timelines
+- **Siloed Remediation**: Fixing findings in isolation without systemic improvement - identify patterns and prevent recurrence

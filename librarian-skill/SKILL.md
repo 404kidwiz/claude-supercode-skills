@@ -173,6 +173,148 @@ Question: Why is X not working with Y library?
 - "How should I structure a FastAPI project?"
 - "What are the best practices for using Prisma ORM?"
 
+## Examples
+
+### Example 1: React Query Integration Research
+
+**Scenario:** Developer needs to understand React Query integration patterns for a new project.
+
+**Research Approach:**
+1. **Official Documentation**: Retrieved React Query v5 docs from Context7
+2. **GitHub Examples**: Found 50+ production implementations
+3. **Pattern Synthesis**: Identified common integration patterns
+
+**Key Findings:**
+- Server state management vs client state separation
+- Caching strategies and invalidation patterns
+- Error handling and retry logic
+- TypeScript integration patterns
+
+**Recommended Approach:**
+```typescript
+// Modern React Query v5 pattern
+const { data } = useQuery({
+  queryKey: ['todos'],
+  queryFn: fetchTodos,
+  staleTime: 1000 * 60 * 5, // 5 minutes
+  gcTime: 1000 * 60 * 60, // 1 hour
+})
+```
+
+**Deliverables:**
+- Integration guide with code examples
+- Migration path from v4 to v5
+- Performance optimization tips
+- Common pitfalls to avoid
+
+### Example 2: Docker Multi-Stage Build Best Practices
+
+**Scenario:** Developer wants production-ready Docker multi-stage build examples.
+
+**Research Process:**
+1. **Official Docs**: Retrieved Docker multi-stage build documentation
+2. **GitHub Search**: Found 100+ implementations in popular repos
+3. **Analysis**: Identified patterns across different tech stacks
+
+**Common Patterns:**
+```dockerfile
+# Stage 1: Build
+FROM node:20-alpine AS builder
+WORKDIR /app
+COPY package*.json ./
+RUN npm ci
+COPY . .
+RUN npm run build
+
+# Stage 2: Production
+FROM node:20-alpine AS production
+WORKDIR /app
+COPY --from=builder /app/dist ./dist
+COPY --from=builder /app/node_modules ./node_modules
+USER node
+CMD ["node", "dist/index.js"]
+```
+
+**Best Practices Identified:**
+- Minimal base images (alpine variants)
+- Dependency layer caching
+- Non-root user execution
+- Build argument optimization
+
+**Results:**
+- 80% reduction in image size
+- Build time improved with layer caching
+- Security score improved with minimal attack surface
+
+### Example 3: Next.js Authentication with NextAuth.js
+
+**Scenario:** Developer needs authentication implementation guidance for Next.js app.
+
+**Research Workflow:**
+1. **Official Documentation**: Retrieved NextAuth.js v5 documentation
+2. **GitHub Examples**: Analyzed 25+ production implementations
+3. **Provider Analysis**: Compared OAuth, Credentials, and custom providers
+
+**Implementation Patterns:**
+- Server-side vs client-side session management
+- Route protection patterns
+- Custom credentials provider setup
+- Database adapter integration
+
+**Security Considerations:**
+- CSRF protection mechanisms
+- Session security and cookie configuration
+- Provider security best practices
+- Rate limiting and brute force protection
+
+**Deliverables:**
+- Implementation guide with 3 provider examples
+- Security checklist for production
+- Migration guide from v4 to v5
+- Testing strategy for authentication flows
+
+## Best Practices
+
+### Documentation Research
+
+- **Start Official**: Always begin with official documentation
+- **Version Awareness**: Verify documentation matches your version
+- **API Reference**: Check specific method signatures and parameters
+- **Examples First**: Look for working examples before deep reading
+- **Migration Guides**: Check for upgrade paths when changing versions
+
+### GitHub Code Search
+
+- **Search Specific Patterns**: Use exact code patterns, not keywords
+- **Filter by Stars**: Prioritize well-maintained projects
+- **Check Recent Activity**: Look for active maintenance
+- **Multiple Examples**: Find 3+ implementations for patterns
+- **Read Tests**: Tests reveal actual usage patterns
+
+### Verification and Validation
+
+- **Cross-Reference**: Verify info across multiple sources
+- **Test Code Examples**: Always verify code in your environment
+- **Check Dates**: Ensure examples are recent
+- **Verify Dependencies**: Note required library versions
+- **Community Validation**: Check for community feedback/issues
+
+### Synthesis and Delivery
+
+- **Direct Answers**: Provide clear, actionable responses
+- **Working Code**: Include runnable code examples
+- **Context Adaptation**: Tailor examples to user's tech stack
+- **Best Practice Notes**: Highlight recommended patterns
+- **Warning Areas**: Call out common pitfalls and anti-patterns
+
+### Efficiency Strategies
+
+- **Parallel Searches**: Run multiple searches simultaneously
+- **Specific Queries**: Start narrow, broaden as needed
+- **Source Prioritization**: Official > Maintainer > Community
+- **Version Focus**: Target specific library versions
+- **Tool Mastery**: Learn advanced search operators
+
 ## Output Format
 
 When providing research results:
@@ -184,10 +326,3 @@ When providing research results:
 6. **Version Notes**: Mention if behavior differs between library versions
 
 ---
-
-## Progressive Disclosure
-
-For detailed reference materials, see:
-- **Search Techniques**: [reference/search-strategies.md](reference/search-strategies.md)
-- **Library Research Patterns**: [reference/library-research.md](reference/library-research.md)
-- **GitHub Search Examples**: [reference/github-examples.md](reference/github-examples.md)

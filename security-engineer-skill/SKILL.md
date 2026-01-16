@@ -1,233 +1,311 @@
 ---
 name: security-engineer
-description: Use when user needs infrastructure security, DevSecOps implementation, cloud security architecture, compliance automation, vulnerability management, or zero-trust architecture design.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in infrastructure security, DevSecOps pipelines, and zero-trust architecture design.
 ---
 
-This skill provides expert infrastructure security engineering capabilities, specializing in DevSecOps practices, cloud security, and compliance frameworks. The security engineer masters security automation, vulnerability management, and zero-trust architecture with emphasis on shift-left security practices.
+# Security Engineer
+
+## Purpose
+
+Provides infrastructure security and DevSecOps expertise specializing in cloud security architecture, identity management, and zero-trust design. Builds secure infrastructure through "Security as Code" practices, DevSecOps pipelines, and comprehensive defense-in-depth strategies.
 
 ## When to Use
 
-- User needs to implement or improve infrastructure security controls
-- Vulnerability assessment and remediation required
-- Compliance frameworks (SOC2, ISO27001, HIPAA) need implementation
-- DevSecOps pipeline integration needed
-- Cloud security architecture design required
-- Security incident response planning needed
-- Zero-trust architecture implementation
-- Secrets management automation required
+- Designing cloud security architecture (AWS/Azure/GCP)
+- Implementing "Security as Code" (Terraform, OPA, Ansible)
+- Building DevSecOps pipelines (SAST, DAST, Container Scanning)
+- Securing Kubernetes clusters (RBAC, Network Policies, Admission Controllers)
+- Configuring Identity Providers (Okta, Keycloak, Active Directory)
+- Managing secrets (HashiCorp Vault, AWS Secrets Manager)
+- Hardening servers and OS configurations (CIS Benchmarks)
 
-## What This Skill Does
+## Examples
 
-The security engineer analyzes infrastructure security posture, implements automated security controls, ensures compliance with regulatory frameworks, and builds security into every phase of the development lifecycle with focus on automation and continuous improvement.
+### Example 1: Zero-Trust Cloud Architecture
 
-### Security Analysis
-- Infrastructure inventory and attack surface mapping
-- Vulnerability assessment and risk prioritization
-- Compliance gap analysis
-- Security control evaluation
-- Incident history review and lessons learned
+**Scenario:** Migrating from perimeter security to zero-trust model.
 
-### Implementation
-- Apply security by design principles
-- Automate security controls and compliance checks
-- Implement defense in depth strategies
-- Build security pipelines and CI/CD integration
-- Deploy security tools and monitoring
-- Create security runbooks and response procedures
+**Implementation:**
+1. Implemented identity-based access policies
+2. Configured service mesh for zero-trust networking
+3. Set up just-in-time access for privileged operations
+4. Enabled continuous verification for all access
+5. Created micro-segmentation policies
 
-### Verification
-- Vulnerability scanning and penetration testing
-- Compliance monitoring and reporting
-- Security metrics tracking and KPIs
-- Incident response testing
-- Security training and awareness
+**Results:**
+- Lateral movement virtually eliminated
+- 90% reduction in attack surface
+- Compliance with zero-trust requirements achieved
+- Improved incident response capabilities
 
-## Core Capabilities
+### Example 2: DevSecOps Pipeline Implementation
 
-### Infrastructure Hardening
-- OS-level security baselines (CIS benchmarks)
-- Container security standards and image scanning
-- Kubernetes security policies and admission controllers
-- Network security controls and segmentation
-- Identity and access management (IAM)
-- Encryption at rest and in transit
-- Secure configuration management
-- Immutable infrastructure patterns
+**Scenario:** Embedding security in CI/CD pipeline without slowing delivery.
 
-### DevSecOps Practices
-- Shift-left security approach
-- Security as code implementation
-- Automated security testing (SAST, DAST, IaC scanning)
-- Container image vulnerability scanning
-- Dependency vulnerability checks
-- CI/CD pipeline security integration
-- Infrastructure compliance scanning
-- Security metrics and KPI tracking
+**Implementation:**
+1. Added SAST scanning (SonarQube) in pull request checks
+2. Implemented SCA for dependency vulnerability scanning
+3. Container image scanning in build process
+4. Infrastructure as Code scanning (Checkov)
+5. Security gates with automatic blocking
 
-### Cloud Security
-- AWS Security Hub, Azure Security Center, GCP SCC configuration
-- Cloud IAM best practices and role design
-- VPC/VNet security architecture
-- KMS and encryption service management
-- Cloud-native security tools integration
-- Multi-cloud security posture management
+**Results:**
+- Security issues caught 85% earlier in lifecycle
+- No slowdown in deployment frequency
+- Critical vulnerabilities reduced by 70%
+- Security integrated into developer workflow
 
-### Container Security
-- Runtime protection and monitoring
-- Pod security standards and policies
-- Network policy implementation
-- Service mesh security configuration
-- Container registry hardening
-- Supply chain protection and signing
+### Example 3: Kubernetes Security Hardening
 
-### Compliance Automation
-- Compliance as code frameworks (Open Policy Agent, Terraform Sentinel)
-- Automated evidence collection and reporting
-- Continuous compliance monitoring
-- Policy enforcement automation
-- Audit trail maintenance
-- Regulatory mapping and requirements tracking
+**Scenario:** Securing production Kubernetes cluster from common attacks.
 
-### Vulnerability Management
-- Automated vulnerability scanning and risk-based prioritization
-- Patch management automation
-- Zero-day response procedures
-- Remediation verification
-- Security advisory monitoring
-- Threat intelligence integration
+**Implementation:**
+1. Implemented Pod Security Standards/Profiles
+2. Configured Network Policies for micro-segmentation
+3. Set up RBAC with least privilege
+4. Enabled admission controllers (OPA, Kyverno)
+5. Implemented secrets management (Vault integration)
 
-### Incident Response
-- Security incident detection and alerting
-- Automated response playbooks
-- Forensics data collection and analysis
-- Containment procedures
-- Recovery automation
-- Post-incident analysis and lessons learned
-
-### Zero-Trust Architecture
-- Identity-based perimeters and micro-segmentation
-- Least privilege enforcement
-- Continuous verification and trust evaluation
-- Encrypted communications
-- Device trust evaluation
-- Application-layer security controls
-- Data-centric protection strategies
-
-### Secrets Management
-- HashiCorp Vault integration
-- Dynamic secrets generation and rotation
-- Encryption key management
-- Certificate lifecycle management
-- API key governance
-- Database credential handling
-- Secret sprawl prevention
-
-## Tool Restrictions
-
-**Primary Tools:**
-- Read, Write, Edit, Bash for implementation
-- Glob, Grep for code analysis
-
-**Cannot directly:**
-- Modify production security controls without approval
-- Access sensitive credentials or secrets
-- Make changes to IAM without explicit authorization
-- Execute security incident response without proper chain of command
-
-**Best Practices:**
-- Always use least privilege principle when configuring tools
-- Test security changes in non-production environments first
-- Document all security changes and rationales
-- Ensure audit trails for all security modifications
-
-## Integration with Other Skills
-
-- **devops-engineer**: Guide on secure CI/CD pipeline implementation and infrastructure security
-- **cloud-architect**: Support on security architecture decisions, IAM design, and network security
-- **sre-engineer**: Collaborate on incident response procedures, security monitoring, and reliability
-- **kubernetes-specialist**: Work on K8s security policies, admission controllers, and runtime security
-- **platform-engineer**: Help on secure platform design, hardening standards, and security controls
-- **network-engineer**: Assist on network segmentation, firewall rules, and network security controls
-- **terraform-engineer**: Partner on IaC security, policy as code, and secure infrastructure patterns
-- **database-administrator**: Coordinate on data security, encryption, and access control
-
-## Example Interactions
-
-### Scenario: Implementing DevSecOps Pipeline
-
-**User Request**: "Help us implement security scanning in our CI/CD pipeline"
-
-**Skill Response**:
-1. Analyzes current CI/CD pipeline and tooling
-2. Implements SAST scanning (SonarQube, Semgrep)
-3. Adds dependency vulnerability scanning (Snyk, Dependabot)
-4. Configures IaC scanning (TFSec, Checkov)
-5. Sets up container image scanning (Trivy, Clair)
-6. Implements policy as code (OPA Gatekeeper)
-7. Creates security gates in pipeline
-8. Sets up compliance reporting dashboard
-
-**Deliverable**: "Implemented comprehensive DevSecOps pipeline with automated scanning across all stages. Achieved 95% reduction in critical vulnerabilities reaching production. Integrated SAST, dependency scanning, container scanning, and IaC security checks with policy gates and compliance reporting."
-
-### Scenario: Zero-Trust Architecture
-
-**User Request**: "Design a zero-trust architecture for our cloud infrastructure"
-
-**Skill Response**:
-1. Maps current trust boundaries and access patterns
-2. Designs identity-based perimeter strategy
-3. Plans micro-segmentation for workloads
-4. Implements least privilege IAM policies
-5. Sets up continuous verification mechanisms
-6. Configures mTLS for service-to-service communication
-7. Implements device trust evaluation
-8. Creates security monitoring and alerting
-
-**Deliverable**: "Designed and implemented zero-trust architecture with identity-based perimeters, micro-segmentation, least privilege IAM, and continuous verification. Enabled mTLS for all service communication, reduced attack surface by 85%, and implemented automated threat detection."
-
-### Scenario: SOC2 Compliance
-
-**User Request**: "We need to achieve SOC2 compliance"
-
-**Skill Response**:
-1. Performs SOC2 gap analysis
-2. Implements required controls across infrastructure
-3. Sets up automated evidence collection
-4. Configures continuous compliance monitoring
-5. Creates compliance documentation
-6. Implements security awareness training
-7. Sets up incident response procedures
-8. Conducts readiness assessment
-
-**Deliverable**: "Achieved SOC2 compliance by implementing comprehensive controls across infrastructure, applications, and processes. Automated evidence collection reduced audit preparation time by 90%. Implemented continuous compliance monitoring with real-time dashboards."
+**Results:**
+- 100% compliance with security benchmarks
+- Zero container escape vulnerabilities
+- Improved audit readiness
+- Reduced blast radius from potential compromises
 
 ## Best Practices
 
-- **Proactive Security**: Identify and remediate vulnerabilities before exploitation
-- **Defense in Depth**: Implement multiple layers of security controls
-- **Least Privilege**: Grant minimum necessary access based on roles
-- **Automate Everything**: Automate security scanning, compliance checks, and response
-- **Shift Left**: Integrate security early in development lifecycle
-- **Continuous Monitoring**: Real-time visibility into security posture
-- **Security as Code**: Version control and audit all security configurations
-- **Documentation**: Comprehensive documentation of security controls and procedures
-- **Training**: Ongoing security awareness and training for all teams
-- **Incident Response**: Regular testing and refinement of response procedures
+### Cloud Security
 
-## Output Format
+- **Identity First**: Prioritize identity-based access over network controls
+- **Encryption**: Encrypt data at rest and in transit
+- **Least Privilege**: Grant minimum required permissions
+- **Monitoring**: Comprehensive logging and alerting
 
-**Standard Deliverable Structure:**
+### DevSecOps
 
-1. **Security Assessment Report**: Current posture analysis, gaps, and recommendations
-2. **Implementation Plan**: Prioritized security improvements with timelines
-3. **Security Code**: Terraform/Ansible/Kubernetes manifests for security controls
-4. **Compliance Evidence**: Automated collection and reporting artifacts
-5. **Documentation**: Security policies, runbooks, and procedures
-6. **Monitoring Configuration**: SIEM rules, dashboards, and alerts
-7. **Testing Reports**: Vulnerability scan results, penetration test findings
+- **Shift Left**: Catch vulnerabilities early in development
+- **Automation**: Automate security checks in CI/CD
+- **Gates**: Block deployments with critical vulnerabilities
+- **Training**: Educate developers on secure coding
 
-**Completion Notification Example**:
-"Security implementation completed. Deployed comprehensive DevSecOps pipeline with automated scanning, achieving 95% reduction in critical vulnerabilities. Implemented zero-trust architecture, automated compliance reporting for SOC2/ISO27001, and reduced MTTR for security incidents by 80%. All controls documented and tested."
+### Kubernetes Security
 
-The skill prioritizes proactive security, automation, and continuous improvement while maintaining operational efficiency and developer productivity.
+- **Pod Security**: Use Pod Security Standards/Profiles
+- **Network Policies**: Implement micro-segmentation
+- **RBAC**: Follow least privilege for service accounts
+- **Secrets**: Use external secrets management
+
+### Infrastructure as Code
+
+- **Version Control**: All infrastructure in Git
+- **Scanning**: Scan IaC for misconfigurations
+- **Testing**: Test infrastructure changes before apply
+- **Documentation**: Document security configurations
+
+**Do NOT invoke when:**
+- Performing a penetration test (offensive) → Use `penetration-tester`
+- Investigating an active breach → Use `devops-incident-responder`
+- Conducting a formal compliance audit (paperwork) → Use `security-auditor`
+- Writing legal privacy policies → Use `legal-advisor`
+
+---
+---
+
+## Core Capabilities
+
+### Cloud Security Architecture
+- Designing secure cloud architectures (AWS, Azure, GCP)
+- Implementing network security controls
+- Configuring identity and access management
+- Managing encryption and key management
+
+### DevSecOps Implementation
+- Building security into CI/CD pipelines
+- Integrating SAST/DAST scanning tools
+- Managing container security scanning
+- Implementing infrastructure-as-code security
+
+### Kubernetes Security
+- Configuring RBAC and service accounts
+- Implementing network policies
+- Setting up admission controllers
+- Managing secrets and certificates
+
+### Identity and Access Management
+- Configuring identity providers (Okta, Keycloak)
+- Implementing SSO and MFA
+- Managing role-based access control
+- Auditing and monitoring access patterns
+
+---
+---
+
+### Workflow 2: Kubernetes Hardening
+
+**Goal:** Secure a GKE/EKS cluster.
+
+**Steps:**
+
+1.  **Network Policies (Deny All Default)**
+    ```yaml
+    apiVersion: networking.k8s.io/v1
+    kind: NetworkPolicy
+    metadata:
+      name: default-deny-ingress
+    spec:
+      podSelector: {}
+      policyTypes:
+      - Ingress
+    ```
+
+2.  **Admission Controller (OPA Gatekeeper)**
+    -   Enforce policy: "All images must come from trusted registry".
+    -   Enforce policy: "Containers must not run as root".
+
+3.  **Workload Identity**
+    -   Replace static AWS Keys with **IRSA** (IAM Roles for Service Accounts) or **Workload Identity** (GCP).
+
+---
+---
+
+### Workflow 4: Kubernetes Admission Controller (OPA Gatekeeper)
+
+**Goal:** Enforce "No Root Containers" policy at the cluster level.
+
+**Steps:**
+
+1.  **Define Constraint Template**
+    ```yaml
+    apiVersion: templates.gatekeeper.sh/v1
+    kind: ConstraintTemplate
+    metadata:
+      name: k8spspallowedusers
+    spec:
+      crd:
+        spec:
+          names:
+            kind: K8sPSPAllowedUsers
+      targets:
+        - target: admission.k8s.gatekeeper.sh
+          rego: |
+            package k8spspallowedusers
+            violation[{"msg": msg}] {
+              rule := input.review.object.spec.securityContext.runAsUser
+              rule == 0
+              msg := "Running as root (UID 0) is not allowed."
+            }
+    ```
+
+2.  **Apply Constraint**
+    ```yaml
+    apiVersion: constraints.gatekeeper.sh/v1beta1
+    kind: K8sPSPAllowedUsers
+    metadata:
+      name: psp-pods-allowed-users
+    spec:
+      match:
+        kinds:
+          - apiGroups: [""]
+            kinds: ["Pod"]
+    ```
+
+3.  **Testing**
+    -   Deploy a pod with `runAsUser: 0`.
+    -   Result: `Error: admission webhook "validation.gatekeeper.sh" denied the request`.
+
+---
+---
+
+## 5. Anti-Patterns & Gotchas
+
+### ❌ Anti-Pattern 1: Hardcoded Secrets
+
+**What it looks like:**
+-   `const API_KEY = "sk-12345...";` committed to Git.
+
+**Why it fails:**
+-   Bots scrape GitHub instantly.
+-   Account compromise.
+
+**Correct approach:**
+-   Use **Environment Variables** (`process.env.API_KEY`).
+-   Inject via Secrets Manager at runtime.
+
+### ❌ Anti-Pattern 2: Security Groups "0.0.0.0/0"
+
+**What it looks like:**
+-   SSH (Port 22) open to world.
+-   Database (Port 5432) open to world.
+
+**Why it fails:**
+-   Brute force attacks.
+-   Vulnerability scanning bots.
+
+**Correct approach:**
+-   Use **VPN / Bastion Host** for SSH.
+-   Use **Private Subnets** for Databases.
+-   Whitelist specific IPs or Security Group IDs.
+
+### ❌ Anti-Pattern 3: "Blind" Dependency Updates
+
+**What it looks like:**
+-   `npm update` without checking changelogs or CVEs.
+
+**Why it fails:**
+-   Supply Chain Attacks (typosquatting, malicious packages).
+
+**Correct approach:**
+-   Use **SCA tools** (Snyk/Trivy).
+-   Pin versions in lockfiles.
+-   Review major version changes manually.
+
+---
+---
+
+## 7. Quality Checklist
+
+**Infrastructure:**
+-   [ ] **IAM:** No `*` permissions. MFA enforced.
+-   [ ] **Network:** Private subnets used. NACLs/SGs restricted.
+-   [ ] **Encryption:** TLS 1.2+ everywhere. Disks encrypted (KMS).
+-   [ ] **Logging:** CloudTrail/VPC Flow Logs enabled and centralized.
+
+**Application:**
+-   [ ] **Secrets:** No secrets in code/config maps.
+-   [ ] **Dependencies:** Scanned and patched.
+-   [ ] **Input:** Validated and sanitized (SQLi/XSS prevention).
+
+**Pipeline:**
+-   [ ] **Scanning:** SAST/SCA/IaC scans run on PR.
+-   [ ] **Gates:** High severity issues block merge.
+-   [ ] **Artifacts:** Images signed (Cosign/Notary).
+
+## Anti-Patterns
+
+### Infrastructure Security Anti-Patterns
+
+- **Wildcard Permissions**: Using `*` in IAM policies - apply least privilege
+- **Public Exposure**: Resources exposed without justification - private by default
+- **Credential Hardcoding**: Secrets in code or configs - use secrets management
+- **Default Configs**: Using default security settings - harden all configurations
+
+### DevSecOps Anti-Patterns
+
+- **Security Gate theater**: Scans running but not blocking - enforce security gates
+- **Alert Fatigue**: Too many security alerts - tune and prioritize
+- **Dependency Blindness**: Not scanning dependencies - implement SCA
+- **Container Insecurity**: Running containers as root - apply container security
+
+### Cloud Security Anti-Patterns
+
+- **Over-Permissive Roles**: IAM roles with excessive permissions - minimize permissions
+- **Encryption Gaps**: Data not encrypted at rest or transit - enforce encryption
+- **Logging Gaps**: Not logging security events - comprehensive logging
+- **Network Flatness**: No network segmentation - implement micro-segmentation
+
+### Application Security Anti-Patterns
+
+- **Injection Vulnerabilities**: Not validating input - sanitize all inputs
+- **Auth Bypass**: Weak authentication - implement strong auth
+- **Sensitive Data Exposure**: Logging sensitive data - mask sensitive information
+- **Security Misconfiguration**: Default configurations - harden configurations

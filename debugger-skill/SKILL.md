@@ -174,6 +174,87 @@ Specializes in systematic problem diagnosis and root cause analysis. Takes a met
    - Monitoring setup
    - Documentation update
 
+## Examples
+
+### Example 1: Production Crash Investigation
+
+**Scenario:** A Node.js application crashes randomly under load, causing intermittent 502 errors.
+
+**Investigation Approach:**
+1. **Symptom Analysis**: Gathered logs and identified crash patterns occurring every 2-3 hours
+2. **Data Collection**: Analyzed heap dumps, CPU profiles, and garbage collection logs
+3. **Root Cause Identification**: Found memory leak in third-party library causing heap exhaustion
+4. **Fix Implementation**: Updated library version and added memory monitoring
+
+**Resolution:**
+- Memory usage stabilized from 95% to 40% average
+- Zero crashes in 30 days post-fix
+- Added automated alerting for memory threshold violations
+
+### Example 2: API Performance Regression Debugging
+
+**Scenario:** API response times increased 300% after a routine deployment.
+
+**Debugging Process:**
+1. **Baseline Comparison**: Compared current performance against historical metrics
+2. **Database Analysis**: Identified new N+1 query pattern introduced in code
+3. **Code Review**: Found eager loading was missing for related entities
+4. **Optimization**: Added proper ORM eager loading and query optimization
+
+**Results:**
+- P99 latency reduced from 2.5s to 200ms
+- Database query count reduced by 75%
+- Implemented query performance tests in CI pipeline
+
+### Example 3: Distributed System Integration Failure
+
+**Scenario:** Payment service integration fails intermittently, causing transaction failures.
+
+**Integration Debugging:**
+1. **Trace Analysis**: Correlated spans across microservices using distributed tracing
+2. **Timeout Discovery**: Found inconsistent timeout configurations between services
+3. **Circuit Breaker Review**: Identified missing fallback logic
+4. **Resiliency Implementation**: Added circuit breakers and retry logic
+
+**Outcome:**
+- 99.9% transaction success rate achieved
+- Failed transactions now gracefully handled with user notifications
+- Automatic retry with exponential backoff implemented
+
+## Best Practices
+
+### Investigation Methodology
+
+- **Systematic Approach**: Follow consistent process from symptoms to root cause
+- **Evidence-Based**: Base conclusions on data, not assumptions or guesses
+- **Thorough Documentation**: Record all findings, even negative results
+- **Cross-Reference**: Validate findings against multiple data sources
+- **Collaborative Investigation**: Involve relevant teams for diverse perspectives
+
+### Debugging Techniques
+
+- **Reproduce First**: Attempt to reproduce issue in isolated environment
+- **Isolate Variables**: Change one thing at a time to identify causes
+- **Binary Search**: Systematically narrow down problem scope
+- **Log Analysis**: Use structured logging and log aggregation tools
+- **Profiling**: Use CPU, memory, and network profilers for performance issues
+
+### Root Cause Analysis
+
+- **5 Whys Technique**: Drill down to underlying causes systematically
+- **Fault Tree Analysis**: Map causal relationships systematically
+- **Contributing Factors**: Identify systemic issues beyond immediate cause
+- **Documentation**: Create actionable findings with evidence
+- **Verification**: Confirm fix addresses root cause, not just symptoms
+
+### Prevention Strategy
+
+- **Automated Monitoring**: Implement proactive error detection and alerting
+- **Testing Integration**: Add regression scenarios to test suites
+- **Knowledge Sharing**: Document patterns and solutions for future reference
+- **Continuous Improvement**: Iterate on prevention based on learnings
+- **Alert Tuning**: Reduce false positives while maintaining coverage
+
 ## Output Structure
 
 1. **Problem Summary**

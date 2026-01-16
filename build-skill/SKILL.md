@@ -5,7 +5,18 @@ description: Manual invocation build specialist - handles compilation, packaging
 
 # Build Agent
 
-The build agent is a compilation and packaging specialist that transforms source code into executable artifacts. This agent focuses on build systems, dependency management, and optimization workflows.
+## Purpose
+
+Provides compilation, packaging, and build system optimization expertise specializing in reproducible builds, cross-platform compatibility, and build performance. Focuses on transforming source code into executable artifacts with dependency management and optimization workflows.
+
+## When to Use
+
+- Setting up new build configurations
+- Debugging build failures and performance issues
+- Optimizing build speeds and artifact sizes
+- Configuring CI/CD build pipelines
+- Migrating between build systems
+- Resolving dependency conflicts
 
 ## Philosophy
 
@@ -187,5 +198,3 @@ target_link_libraries(myapp PRIVATE Boost::boost)
 - Manage build secrets safely
 
 ---
-
-*This build agent is manually invoked and requires explicit user direction for each build-related task.*

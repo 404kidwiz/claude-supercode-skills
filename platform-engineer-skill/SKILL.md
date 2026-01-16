@@ -1,151 +1,294 @@
 ---
 name: platform-engineer
-description: Use when user needs internal developer platforms, self-service infrastructure, developer portals, or platform engineering to improve developer experience and accelerate software delivery.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in building Internal Developer Platforms (IDP), self-service infrastructure, and Golden Paths using Backstage, Crossplane, and Kubernetes.
 ---
 
-This skill is used when the user needs expertise in building internal developer platforms, self-service infrastructure, or developer experience optimization. The skill specializes in creating platform APIs, GitOps workflows, golden path templates, and developer portals that reduce cognitive load and accelerate software delivery.
+# Platform Engineer
+
+## Purpose
+
+Provides Internal Developer Platform (IDP) expertise specializing in developer experience optimization, self-service infrastructure, and Golden Path templates. Builds platforms that reduce cognitive load for developers using Backstage, Crossplane, and GitOps.
 
 ## When to Use
 
-- User requests self-service infrastructure or internal developer platform
-- Building developer portals or service catalogs (Backstage)
-- Implementing GitOps workflows or infrastructure abstraction
-- Creating golden path templates or service scaffolding
-- Optimizing developer onboarding and experience
-- Designing platform APIs or developer tooling
-- Automating environment provisioning and resource management
-- Improving platform adoption and developer productivity
+- Building an Internal Developer Platform (IDP) from scratch
+- Implementing a Service Catalog or Developer Portal (Backstage)
+- Creating "Golden Path" templates for microservices (Spring Boot, Node.js, Go)
+- Abstracting cloud resources (RDS, S3) into custom platform APIs (Crossplane)
+- Designing self-service ephemeral environments
+- Measuring DORA metrics and Developer Experience (DevEx) KPIs
 
-## What This Skill Does
+## Examples
 
-The platform-engineer skill provides comprehensive platform engineering capabilities for building internal developer platforms. It handles end-to-end platform development from self-service capabilities through GitOps implementation to developer portal deployment. The skill ensures solutions achieve high self-service rates (>90%), fast provisioning (< 5 minutes), and excellent developer satisfaction (>4.5/5).
+### Example 1: Building a Developer Portal with Backstage
 
-### Platform Architecture
-- Multi-tenant platform design with resource isolation
-- RBAC implementation and access control
-- Cost allocation tracking and usage metrics
-- Compliance automation and audit trails
-- Disaster recovery planning and backup strategies
+**Scenario:** A mid-sized tech company wants to reduce developer onboarding time from 2 weeks to 2 days.
 
-### Developer Experience
-- Self-service portal design and onboarding automation
-- CLI tool development and IDE integration
-- Interactive documentation and feedback collection
-- Support channel setup and success metrics tracking
+**Implementation:**
+1. Deployed Backstage with standard integrations
+2. Created software templates for common service types (Go, Node.js, Python)
+3. Integrated with CI/CD (GitHub Actions) for automated provisioning
+4. Built service catalog with ownership and documentation
+5. Implemented TechDocs for centralized documentation
 
-### Self-Service Capabilities
-- Environment provisioning and database creation
-- Service deployment and access management
-- Resource scaling and monitoring setup
-- Log aggregation and cost visibility
+**Results:**
+- New service creation reduced from 2 weeks to 4 hours
+- Developer satisfaction increased 45%
+- Documentation coverage improved from 60% to 95%
+- Deployment frequency increased 3x
 
-### GitOps Implementation
-- Repository structure design and branch strategies
-- PR automation workflows and approval processes
-- Rollback procedures and drift detection
-- Secret management and multi-cluster synchronization
+### Example 2: Golden Path Templates for Microservices
 
-## Core Capabilities
+**Scenario:** A microservices platform needs to reduce time-to-production for new services.
 
-### Golden Path Templates
-- Service scaffolding and CI/CD pipeline templates
-- Testing framework setup and monitoring configuration
-- Security scanning integration and documentation templates
-- Best practices enforcement and compliance validation
+**Implementation:**
+1. Created standardized service templates with best practices embedded
+2. Implemented automated security scanning in templates
+3. Added observability (metrics, logging, tracing) by default
+4. Configured CI/CD pipelines with security gates
+5. Provided clear documentation and examples
 
-### Service Catalog
-- Backstage implementation and software templates
-- API documentation and component registry
-- Tech radar maintenance and dependency tracking
-- Ownership mapping and lifecycle management
+**Results:**
+- 80% of new services use Golden Paths
+- Time to first production deployment reduced from 2 weeks to 2 days
+- Security compliance automated (zero manual review needed)
+- Developer productivity score improved 35%
 
-### Platform APIs
-- RESTful API design and GraphQL endpoint creation
-- Event streaming setup and webhook integration
-- Rate limiting and authentication/authorization
-- API versioning strategy and SDK generation
+### Example 3: Crossplane Platform API
 
-### Infrastructure Abstraction
-- Crossplane compositions and Terraform modules
-- Helm chart templates and operator patterns
-- Resource controllers and policy enforcement
-- Configuration management and state reconciliation
+**Scenario:** Need to enable developers to provision cloud resources without direct access.
 
-## Tool Restrictions
+**Implementation:**
+1. Defined Crossplane XRDs for common infrastructure patterns
+2. Created composite resources for databases, queues, buckets
+3. Implemented RBAC with quotas and approvals
+4. Built self-service portal using Backstage plugin
+5. Integrated with existing workflows and tools
 
-This skill uses standard file and code tools:
-- Read, Write, Edit for infrastructure code and configuration files
-- Bash for executing deployment scripts and platform commands
-- Glob for finding infrastructure templates and configuration files
-- Grep for searching patterns in platform code
-
-Does NOT use:
-- Browser automation tools
-- Database-specific tools (uses Bash for database operations)
-- Cloud deployment tools (requires manual deployment steps or cloud CLI via Bash)
-
-## Integration with Other Skills
-
-- **devops-engineer**: Enables with self-service tools and platform capabilities
-- **cloud-architect**: Supports with platform abstractions and infrastructure design
-- **sre-engineer**: Collaborates on reliability, monitoring, and incident response
-- **kubernetes-specialist**: Works together on orchestration and container platforms
-- **security-engineer**: Helps with compliance automation and security policies
-- **backend-developer**: Guides with service templates and platform APIs
-- **frontend-developer**: Partners on UI standards and developer portal UX
-- **database-administrator**: Coordinates on data services and database provisioning
-
-## Example Interactions
-
-**Scenario: Building Internal Developer Platform**
-
-User: "We need to build an internal developer platform to reduce environment provisioning from 2 weeks to minutes."
-
-Skill Response:
-1. Analyzes current developer workflows and pain points
-2. Designs platform architecture with Backstage as developer portal
-3. Implements self-service capabilities for environment and database provisioning
-4. Creates golden path templates for microservices, APIs, and data pipelines
-5. Sets up GitOps workflows with ArgoCD/Flux for deployment automation
-6. Builds platform APIs for infrastructure abstraction (using Crossplane/Terraform)
-7. Implements monitoring, cost visibility, and feedback loops
-8. Achieves 95% self-service coverage, 3-minute provisioning time, 4.7/5 developer satisfaction
-
-**Scenario: Migrating to Self-Service Infrastructure**
-
-User: "Our developers spend too much time waiting for infrastructure tickets. We need self-service capabilities."
-
-Skill Response:
-1. Assesses current infrastructure request workflow and bottlenecks
-2. Identifies high-impact services for self-service (environments, databases, monitoring)
-3. Designs platform APIs using infrastructure-as-code patterns
-4. Implements RBAC and approval workflows for different service types
-5. Creates golden path templates with best practices baked in
-6. Sets up service catalog in Backstage for discoverability
-7. Implements cost allocation and usage tracking
-8. Delivers platform reducing infrastructure ticket backlog by 85% and developer wait time by 90%
+**Results:**
+- Developers can provision resources in minutes, not days
+- Cloud spend visibility improved (developers see cost impact)
+- Security posture improved (no direct cloud console access)
+- 60% reduction in infrastructure tickets
 
 ## Best Practices
 
-- Start with high-impact services and build incrementally
-- Design for self-service with built-in safety rails and approvals
-- Create golden paths that encode best practices and prevent misconfiguration
-- Gather continuous feedback through surveys, metrics, and direct conversations
-- Measure adoption rates, provisioning times, and developer satisfaction
-- Maintain backward compatibility to avoid breaking existing workflows
-- Ensure platform reliability with SLOs, monitoring, and incident response
-- Document extensively with interactive guides and video tutorials
+### Platform Design
 
-## Output Format
+- **Aggregator, Not Replacement**: Link to native tools, don't rebuild them
+- **Golden Path, Not Golden Cage**: Offer value, don't mandate usage
+- **Developer Experience First**: Treat developers as customers
+- **Iterative Improvement**: Start small, iterate based on feedback
 
-The platform-engineer skill delivers:
+### Self-Service
 
-1. **Infrastructure Code**: Terraform modules, Helm charts, and Crossplane compositions
-2. **Platform APIs**: REST/GraphQL endpoints and SDKs for platform services
-3. **Golden Path Templates**: Service scaffolding, CI/CD pipelines, and configuration templates
-4. **Developer Portal**: Backstage instance with plugins, templates, and documentation
-5. **GitOps Workflows**: Repository structures, automation scripts, and deployment configs
-6. **Documentation**: Platform guides, onboarding materials, and API documentation
-7. **Monitoring Dashboards**: Platform metrics, adoption metrics, and performance data
-8. **Runbooks**: Incident response procedures, troubleshooting guides, and recovery playbooks
+- **Fast Provisioning**: Complete resource provisioning in minutes
+- **Clear Documentation**: Self-documenting templates and workflows
+- **Escape Hatches**: Allow manual overrides when needed
+- **Feedback Loops**: Collect and act on developer feedback
+
+### Governance
+
+- **Security by Default**: Embed security in templates, not as add-ons
+- **Compliance Automation**: Automate compliance checks
+- **Cost Visibility**: Show cost impact to developers
+- **Audit Trails**: Log all actions for accountability
+
+### Operations
+
+- **High Availability**: Platform must be as reliable as production
+- **Monitoring**: Monitor platform health and adoption metrics
+- **Incident Response**: Have runbooks for platform issues
+- **Continuous Improvement**: Regular platform health reviews
+
+---
+---
+
+## Core Capabilities
+
+### Internal Developer Platform
+- Building self-service infrastructure platforms
+- Implementing service catalogs with Backstage
+- Creating developer portals and documentation hubs
+- Managing platform governance and policies
+
+### Golden Path Templates
+- Developing standardized application templates
+- Creating infrastructure-as-code modules
+- Implementing security and compliance controls
+- Automating service onboarding
+
+### GitOps and Infrastructure
+- Implementing GitOps workflows with ArgoCD/Flux
+- Managing Kubernetes clusters and operators
+- Configuring Crossplane for cloud resource abstraction
+- Setting up ephemeral environments
+
+### Developer Experience
+- Measuring DORA metrics and DevEx KPIs
+- Reducing developer cognitive load
+- Implementing internal tooling and automation
+- Managing developer onboarding and training
+
+---
+---
+
+### Workflow 2: Infrastructure Composition (Crossplane)
+
+**Goal:** Allow developers to request a PostgreSQL DB via Kubernetes Manifest (YAML) without knowing AWS details.
+
+**Steps:**
+
+1.  **Define Composite Resource Definition (XRD)**
+    ```yaml
+    # postgres-xrd.yaml
+    apiVersion: apiextensions.crossplane.io/v1
+    kind: CompositeResourceDefinition
+    metadata:
+      name: xpostgresqlinstances.database.example.org
+    spec:
+      group: database.example.org
+      names:
+        kind: XPostgreSQLInstance
+        plural: xpostgresqlinstances
+      claimNames:
+        kind: PostgreSQLInstance
+        plural: postgresqlinstances
+      versions:
+        - name: v1alpha1
+          served: true
+          referenceable: true
+          schema:
+            openAPIV3Schema:
+              type: object
+              properties:
+                spec:
+                  properties:
+                    storageGB:
+                      type: integer
+    ```
+
+2.  **Define Composition (AWS Implementation)**
+    ```yaml
+    # aws-composition.yaml
+    apiVersion: apiextensions.crossplane.io/v1
+    kind: Composition
+    metadata:
+      name: xpostgresqlinstances.aws.database.example.org
+    spec:
+      compositeTypeRef:
+        apiVersion: database.example.org/v1alpha1
+        kind: XPostgreSQLInstance
+      resources:
+        - base:
+            apiVersion: rds.aws.crossplane.io/v1alpha1
+            kind: DBInstance
+            spec:
+              forProvider:
+                region: us-east-1
+                dbInstanceClass: db.t3.micro
+                masterUsername: masteruser
+                allocatedStorage: 20
+          patches:
+            - fromFieldPath: "spec.storageGB"
+              toFieldPath: "spec.forProvider.allocatedStorage"
+    ```
+
+3.  **Developer Experience**
+    -   Developer applies:
+        ```yaml
+        apiVersion: database.example.org/v1alpha1
+        kind: PostgreSQLInstance
+        metadata:
+          name: my-db
+          namespace: my-app
+        spec:
+          storageGB: 50
+        ```
+    -   Crossplane provisions RDS instance automatically.
+
+---
+---
+
+## 4. Patterns & Templates
+
+### Pattern 1: The "Golden Path" Repository
+
+**Use case:** Centralized template management.
+
+```
+/templates
+  /spring-boot-microservice
+    /src
+    /Dockerfile
+    /chart
+    /catalog-info.yaml
+    /mkdocs.yml
+  /react-frontend
+    /src
+    /Dockerfile
+    /nginx.conf
+  /python-data-worker
+    /src
+    /requirements.txt
+```
+
+### Pattern 2: Scorecards (Gamification)
+
+**Use case:** Encouraging best practices via Backstage.
+
+*   **Bronze Level:**
+    *   [x] Has `catalog-info.yaml`
+    *   [x] Has README.md
+    *   [x] CI builds passing
+*   **Silver Level:**
+    *   [x] Code coverage > 80%
+    *   [x] Alerts defined in Prometheus
+    *   [x] Runbook link exists
+*   **Gold Level:**
+    *   [x] DORA Metrics tracked
+    *   [x] Security scan passing (0 High/Critical)
+    *   [x] SLOs defined
+
+### Pattern 3: TechDocs (Docs-as-Code)
+
+**Use case:** Keeping documentation close to code.
+
+```yaml
+# mkdocs.yml
+site_name: My Service Docs
+nav:
+  - Home: index.md
+  - API: api.md
+  - Architecture: architecture.md
+  - Runbook: runbook.md
+plugins:
+  - techdocs-core
+```
+
+---
+---
+
+## 6. Integration Patterns
+
+### **kubernetes-specialist:**
+-   **Handoff**: Platform Engineer defines abstract `PostgreSQL` claim → Kubernetes Specialist implements the operator/driver logic.
+-   **Collaboration**: Designing the underlying cluster topology for the IDP.
+-   **Tools**: Crossplane, ArgoCD.
+
+### **security-engineer:**
+-   **Handoff**: Platform Engineer builds the template → Security Engineer adds SAST/SCA steps to the CI skeleton.
+-   **Collaboration**: "Secure by Default" configurations in Golden Paths.
+-   **Tools**: OPA Gatekeeper, Snyk.
+
+### **sre-engineer:**
+-   **Handoff**: Platform Engineer exposes "Create Alert" capability → SRE defines the default alert rules.
+-   **Collaboration**: Defining SLI/SLO templates for services.
+-   **Tools**: Prometheus, PagerDuty.
+
+### **backend-developer:**
+-   **Handoff**: Platform Engineer provides the "Create Service" button → Backend Developer uses it to ship code.
+-   **Collaboration**: Gathering feedback on the template ("Is it too bloated?").
+-   **Tools**: Backstage.
+
+---

@@ -1,259 +1,107 @@
+---
+name: backend-developer
+description: Comprehensive backend development for building production-ready server-side applications with multiple frameworks, databases, and deployment strategies. Use when building APIs, services, databases, or server infrastructure.
+---
+
 # Backend Developer Skill
 
-## Overview
+## Purpose
 
-The Backend Developer skill provides comprehensive tools and references for building production-ready server-side applications. It supports multiple frameworks, databases, and deployment strategies.
+Provides comprehensive expertise in server-side application development across multiple frameworks, languages, and deployment strategies. Specializes in building scalable APIs, database design, authentication systems, and production-ready backend infrastructure.
 
-## Scripts
+## When to Use
 
-### API Scaffolding
-```bash
-python scripts/scaffold_api.py <framework> <project_name>
-
-# Frameworks: express, fastapi, django, spring
-
-# Example: scaffold an Express API
-python scripts/scaffold_api.py express my-api
-
-# Example: scaffold a FastAPI application
-python scripts/scaffold_api.py fastapi my-app
-```
-
-### Database Model Generation
-```bash
-python scripts/generate_model.py <orm> --schema <schema_file> --output <output_dir>
-
-# ORMs: sequelize, typeorm, sqlalchemy, django, jpa
-
-# Example: generate TypeORM models
-python scripts/generate_model.py typeorm --schema schema.json --output src/models
-```
-
-### Authentication Setup
-```bash
-python scripts/setup_auth.py <framework> <auth_type>
-
-# Auth types: jwt, oauth2, session
-
-# Example: setup JWT for Express
-python scripts/setup_auth.py express jwt
-
-# Example: setup OAuth2 for FastAPI
-python scripts/setup_auth.py fastapi oauth2
-```
-
-### Middleware Generation
-```bash
-python scripts/create_middleware.py <framework> --output <output_dir>
-
-# Frameworks: express, fastapi, django
-
-# Example: create Express validation middleware
-python scripts/create_middleware.py express --output src/middleware
-```
-
-### Error Handler Setup
-```bash
-python scripts/error_handler.py <framework> --output <output_dir>
-
-# Frameworks: express, fastapi
-
-# Example: create error handlers for Express
-python scripts/error_handler.py express --output src
-```
-
-### Logging Configuration
-```bash
-python scripts/setup_logging.py --output <output_dir>
-
-# Example: setup logging for project
-python scripts/setup_logging.py --output src/utils
-```
-
-### API Documentation Generation
-```bash
-python scripts/generate_docs.py --output <output_dir> --config <config_file>
-
-# Example: generate OpenAPI spec
-python scripts/generate_docs.py --output docs --config api-config.json
-```
-
-### Unit Test Templates
-```bash
-python scripts/create_tests.py <framework> --output <output_dir>
-
-# Frameworks: express, fastapi, django
-
-# Example: create test templates for Express
-python scripts/create_tests.py express --output tests
-```
-
-### Deployment Script
-```bash
-./scripts/deploy.sh [OPTIONS]
-
-# Options:
-# --skip-tests: Skip test execution
-# --platform <kubernetes|aws|gcp>: Deployment platform
-# --rollback: Rollback deployment
-# --health-check: Run health check only
-
-# Example: deploy to Kubernetes
-./scripts/deploy.sh --platform kubernetes
-
-# Example: deploy without tests
-./scripts/deploy.sh --skip-tests --platform aws
-```
-
-## References
-
-### API Patterns (`references/api_patterns.md`)
-- REST API best practices
-- Resource naming conventions
-- HTTP status codes
-- Pagination strategies
-- Versioning approaches
-- Common patterns (Repository, Service Layer, CQRS)
-- Authentication patterns
-- Error handling
-- Database patterns
-- Performance optimization
-- Security patterns
-
-### Backend Frameworks (`references/backend_frameworks.md`)
-- Express.js (Node.js/TypeScript)
-- FastAPI (Python)
-- Django (Python)
-- Spring Boot (Java)
-- Gin (Go)
-- Framework comparison
-- Quick start guides
-- Best practices
-- Testing approaches
-- Deployment strategies
-
-### Testing Strategies (`references/testing_strategies.md`)
-- Testing pyramid
-- Unit testing
-- Integration testing
-- End-to-end testing
-- Test data management
-- Test organization
-- Test coverage
-- Mocking and stubs
-- Performance testing
-- Continuous testing
-- Best practices
-
-### Deployment Guide (`references/deployment_guide.md`)
-- Deployment strategies (Blue-Green, Canary, Rolling)
-- Docker deployment
-- Kubernetes deployment
-- Cloud deployment (AWS, GCP, Azure)
-- CI/CD pipelines
-- Database migrations
-- Monitoring and observability
-- Security
-- Performance optimization
-- Troubleshooting
+- Building REST or GraphQL APIs
+- Designing database schemas and models
+- Implementing authentication and authorization
+- Setting up server infrastructure
+- Creating microservices or monolithic backends
+- Optimizing backend performance
+- Deploying server applications to production
+- Need multi-framework backend guidance (Express, FastAPI, Django, Spring)
 
 ## Quick Start
 
-### Create a New Project
+**Invoke this skill when:**
+- Building server-side APIs (REST, GraphQL) in Node.js, Python, Java, or Go
+- Implementing authentication/authorization (JWT, OAuth2, session-based)
+- Designing database schemas and ORM integration
+- Setting up backend testing (unit, integration, E2E)
+- Implementing middleware (logging, validation, error handling)
+- Deploying backend services to Kubernetes, AWS, GCP, or Azure
+- Optimizing backend performance (caching, query optimization, rate limiting)
 
-```bash
-# 1. Scaffold API
-python scripts/scaffold_api.py express my-backend-api
-
-# 2. Navigate to project
-cd my-backend-api
-
-# 3. Generate models
-python scripts/generate_model.py typeorm --schema schema.json --output src/models
-
-# 4. Setup authentication
-python scripts/setup_auth.py express jwt
-
-# 5. Create error handlers
-python scripts/error_handler.py express --output src
-
-# 6. Generate test templates
-python scripts/create_tests.py express --output tests
-```
-
-### Deploy to Production
-
-```bash
-# Build and deploy
-./scripts/deploy.sh --platform kubernetes
-
-# Run health check
-./scripts/deploy.sh --health-check
-
-# Rollback if needed
-./scripts/deploy.sh --rollback
-```
+**Do NOT invoke when:**
+- Only frontend development needed → Use frontend-developer or nextjs-developer
+- Database-specific optimization required → Use database-optimizer or postgres-pro
+- API design without implementation → Use api-designer
+- GraphQL-specific architecture → Use graphql-architect
+- DevOps/infrastructure only → Use devops-engineer or cloud-architect
 
 ## Framework Support
 
 ### Node.js/TypeScript
-- Express.js
-- NestJS
-- Koa.js
-- Fastify
+- Express.js, NestJS, Koa.js, Fastify
 
 ### Python
-- FastAPI
-- Django
-- Flask
-- Tornado
+- FastAPI, Django, Flask, Tornado
 
 ### Java
-- Spring Boot
-- Quarkus
-- Micronaut
+- Spring Boot, Quarkus, Micronaut
 
 ### Go
-- Gin
-- Echo
-- Fiber
+- Gin, Echo, Fiber
 
-## Features
+## Decision Framework
 
-### API Development
-- REST API scaffolding
-- Input validation
-- Error handling
-- Logging
-- Documentation generation
+### Backend Framework Selection
 
-### Database
-- Model generation
-- ORM support
-- Migration support
-- Connection pooling
+```
+Backend Framework Selection
+├─ JavaScript/TypeScript
+│   ├─ Need rapid development + type safety → NestJS
+│   ├─ Need lightweight/fast performance → Fastify
+│   └─ Need simplicity + ecosystem → Express.js
+│
+├─ Python
+│   ├─ Need async + high performance → FastAPI
+│   └─ Need batteries-included → Django (+ DRF)
+│
+├─ Java
+│   └─ Enterprise-ready → Spring Boot
+│
+└─ Go
+    └─ High-performance services → Gin or Fiber
+```
 
-### Security
-- JWT authentication
-- OAuth2 integration
-- Session management
-- Input sanitization
-- SQL injection prevention
+### Authentication Strategy Matrix
 
-### Testing
-- Unit test templates
-- Integration tests
-- Test fixtures
-- Mocking utilities
-- Coverage configuration
+| Scenario | Strategy | Complexity | Security |
+|----------|----------|------------|----------|
+| Stateless API (mobile, SPA) | JWT | Low | Medium |
+| Third-party login | OAuth 2.0 | Medium | High |
+| Traditional web app | Session-based | Low | High |
+| Microservices | JWT + API Gateway | High | High |
+| Enterprise SSO | SAML 2.0 | High | Very High |
 
-### Deployment
-- Docker support
-- Kubernetes manifests
-- Cloud deployment
-- CI/CD integration
-- Health checks
-- Monitoring setup
+### Database & ORM Selection
+
+```
+Database & ORM Decision
+├─ Relational (SQL)
+│   ├─ Node.js/TypeScript
+│   │   ├─ Need type safety + migrations → Prisma
+│   │   └─ Need flexibility → TypeORM or Sequelize
+│   ├─ Python
+│   │   ├─ Async required → Tortoise ORM or SQLModel
+│   │   └─ Sync / Django → Django ORM or SQLAlchemy
+│   └─ Java
+│       └─ JPA (Hibernate) or jOOQ
+│
+└─ NoSQL
+    ├─ Document store → MongoDB (Mongoose for Node.js)
+    └─ Key-value → Redis (caching, sessions)
+```
 
 ## Best Practices
 
@@ -271,19 +119,16 @@ python scripts/create_tests.py express --output tests
 ## Common Patterns
 
 ### Repository Pattern
-Use generated repositories for data access:
 - Separation of concerns
 - Easy testing
 - Swappable implementations
 
 ### Service Layer
-Use service layer for business logic:
 - Centralized business rules
 - Transaction management
 - Error handling
 
 ### Middleware Stack
-Use generated middleware for cross-cutting concerns:
 - Authentication
 - Authorization
 - Validation
@@ -318,31 +163,41 @@ Use generated middleware for cross-cutting concerns:
 - Review logs
 - Verify environment variables
 
-## Resources
+## Quality Checklist
 
-- [Express.js](https://expressjs.com/)
-- [FastAPI](https://fastapi.tiangolo.com/)
-- [Django](https://www.djangoproject.com/)
-- [Spring Boot](https://spring.io/projects/spring-boot)
-- [Kubernetes](https://kubernetes.io/)
-- [Docker](https://www.docker.com/)
+### Security
+- [ ] Input validation on all endpoints (Zod/Joi)
+- [ ] Password hashing (bcrypt cost 10+ or Argon2)
+- [ ] SQL injection prevention (parameterized queries)
+- [ ] Rate limiting on auth endpoints
+- [ ] Security headers (Helmet.js)
+- [ ] Environment variables for secrets
 
-## Included Automation Scripts
+### Authentication & Authorization
+- [ ] Strong JWT secret (256-bit)
+- [ ] Short-lived access tokens (15min)
+- [ ] Refresh token rotation
+- [ ] Authorization checks on protected routes
 
-The backend developer skill includes comprehensive automation scripts located in `scripts/`:
+### Error Handling
+- [ ] Global error handler
+- [ ] Async error handling (express-async-errors)
+- [ ] Clear validation error messages
+- [ ] 404 handling for unknown endpoints
 
-- **scaffold_api.py**: API scaffolding for Express, FastAPI, Django, and Spring frameworks with project structure and boilerplate code
-- **generate_model.py**: Database model generation for Sequelize, TypeORM, SQLAlchemy, Django ORM, and JPA with schema-driven creation
-- **setup_auth.py**: Authentication setup for JWT and OAuth2 in Express and FastAPI with secure token handling
-- **create_middleware.py**: Middleware generation for Express, FastAPI, and Django with validation, logging, and error handling
-- **error_handler.py**: Error handler setup for Express and FastAPI with consistent error responses and logging
-- **setup_logging.py**: Logging configuration with structured logging, log levels, and output destinations
-- **generate_docs.py**: API documentation generation with OpenAPI/Swagger specification
-- **create_tests.py**: Unit test template generation for Express, FastAPI, and Django with test fixtures and mocking
-- **deploy.sh**: Deployment script for Kubernetes, AWS, and GCP with health checks and rollback support
+### Performance
+- [ ] Database connection pooling
+- [ ] Query optimization (no N+1)
+- [ ] Caching (Redis for sessions, rate limiting)
+- [ ] Response compression (gzip/brotli)
 
-## References
+### Testing
+- [ ] Unit tests for services/repositories
+- [ ] Integration tests for API endpoints
+- [ ] >80% coverage for critical paths
+- [ ] Separate test database
 
-### Reference Documentation (`references/` directory)
-- **troubleshooting.md**: Troubleshooting guide for backend issues including database connections, authentication failures, and deployment problems
-- **best_practices.md**: Best practices for API development, error handling, testing, security, and deployment
+## Additional Resources
+
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)

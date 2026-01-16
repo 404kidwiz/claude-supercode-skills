@@ -1,8 +1,23 @@
 ---
 name: m365-admin
 description: Use when user needs Microsoft 365 administration, automation, and management for Exchange Online, Teams, SharePoint, licensing, and Graph API operations. Handles secure identity and workload automation.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
+
+# Microsoft 365 Administrator
+
+## Purpose
+
+Provides Microsoft 365 administration and automation expertise specializing in Exchange Online, Teams, SharePoint, and Graph API operations. Manages secure identity, workload automation, licensing optimization, and compliance configuration across the Microsoft 365 ecosystem.
+
+## When to Use
+
+- Exchange Online mailbox management and lifecycle
+- Microsoft Teams team lifecycle automation
+- SharePoint site management and security
+- License assignment and optimization
+- Microsoft Graph PowerShell automation
+- User provisioning and onboarding workflows
+- Compliance and security configuration
 
 This skill provides expert Microsoft 365 administration and automation capabilities. It designs, builds, and reviews scripts and workflows across Exchange Online, Teams, SharePoint, and other Microsoft cloud workloads with focus on automation, licensing optimization, and Graph API operations.
 
@@ -142,6 +157,133 @@ This skill automates and manages Microsoft 365 workloads through PowerShell and 
 - Error Handling: Implement robust error handling and logging
 - Monitoring: Add monitoring and alerting for critical workflows
 - Approval: Include approval workflows for high-impact changes
+
+## Examples
+
+### Example 1: Enterprise User Onboarding Automation
+
+**Scenario:** A company with 500+ employees needs automated onboarding across M365 workloads.
+
+**Implementation Approach:**
+1. **Graph API Integration**: Created PowerShell scripts using Microsoft Graph API
+2. **Workflow Design**: Sequential provisioning with dependency handling
+3. **Error Handling**: Retry logic and notification system
+4. **Testing**: Validated with test accounts before production
+
+**Onboarding Workflow:**
+1. Create Azure AD user account with proper attributes
+2. Assign M365 licenses based on job role
+3. Provision Exchange Online mailbox
+4. Create Teams team with department channels
+5. Add to SharePoint sites and distribution groups
+6. Send welcome email with credentials
+
+**Results:**
+- Onboarding time: 4 hours → 15 minutes
+- 100% consistency across all users
+- Zero manual errors in 6 months
+
+### Example 2: SharePoint Security Audit and Remediation
+
+**Scenario:** Need to audit all SharePoint sites for external sharing compliance.
+
+**Audit Process:**
+1. **Data Collection**: Retrieved all site collections via Graph API
+2. **Analysis**: Identified sharing settings and external users
+3. **Risk Assessment**: Categorized sites by sensitivity level
+4. **Remediation**: Applied policies based on risk level
+
+**Findings:**
+| Category | Sites | External Users | Risk Level |
+|----------|-------|----------------|------------|
+| High | 23 | 156 | Critical |
+| Medium | 45 | 34 | Medium |
+| Low | 120 | 8 | Low |
+
+**Actions Taken:**
+- Disabled external sharing on high-risk sites
+- Implemented approval workflow for external access
+- Added monitoring and alerting for policy violations
+
+### Example 3: M365 License Optimization Project
+
+**Scenario:** Optimize M365 license usage and reduce costs by identifying unused licenses.
+
+**Optimization Approach:**
+1. **License Audit**: Queried all assigned licenses via Graph API
+2. **Usage Analysis**: Analyzed sign-in activity and service usage
+3. **Optimization Plan**: Identified reclamation opportunities
+4. **Implementation**: Automated license reassignment process
+
+**Results:**
+- 127 unused licenses reclaimed
+- $45,000 annual savings
+- 15% reduction in license costs
+- Automated monitoring for license utilization
+
+## Best Practices
+
+### PowerShell Automation
+
+- **Use Microsoft Graph API**: Modern approach for M365 management
+- **Module Best Practices**: Use latest ExchangeOnlineManagement module
+- **Error Handling**: Implement try/catch blocks for all operations
+- **Logging**: Comprehensive logging for audit trails
+- **Testing**: Always test scripts in non-production first
+
+### Security and Compliance
+
+- **Least Privilege**: Use application permissions, not user delegated
+- **Conditional Access**: Implement for sensitive operations
+- **Audit Logging**: Enable unified audit logging
+- **Data Protection**: Encrypt sensitive data at rest and in transit
+- **Compliance**: Follow organizational compliance requirements
+
+### User Lifecycle Management
+
+- **Onboarding**: Automated provisioning with approval workflows
+- **Changes**: Handle role changes with proper access updates
+- **Offboarding**: Complete deprovisioning with data retention
+- **Licensing**: Regular audits and optimization
+- **Self-Service**: Enable user self-service where appropriate
+
+### Performance Optimization
+
+- **Batch Operations**: Use batch API calls for bulk operations
+- **Rate Limiting**: Handle throttling gracefully
+- **Caching**: Cache frequently accessed data
+- **Parallel Processing**: Use parallel execution for independent tasks
+- **Monitoring**: Track script performance and duration
+
+## Anti-Patterns
+
+### PowerShell Automation Anti-Patterns
+
+- **Sequential Everything**: Not leveraging parallel processing - use parallel execution for independent operations
+- **No Error Handling**: Scripts that fail silently - implement comprehensive try/catch/finally
+- **Hardcoded Values**: Embedding usernames, URLs in scripts - use parameters and configuration
+- **Chatty API Calls**: Making excessive API calls - batch operations and use delta queries
+
+### Security Anti-Patterns
+
+- **Over-Privileged Accounts**: Using admin accounts for routine tasks - apply least privilege principles
+- **Credential Hardcoding**: Storing passwords in scripts - use secure credential storage
+- **Audit Neglect**: Not enabling unified audit logging - enable and monitor audit logs
+- **Permission Creep**: Accumulating permissions without review - conduct regular access reviews
+
+### User Management Anti-Patterns
+
+- **Manual Provisioning**: Creating users manually instead of automation - automate user lifecycle
+- **License Waste**: Assigning licenses without tracking usage - monitor and optimize license usage
+- **Orphaned Accounts**: Leaving accounts after user departure - implement deprovisioning automation
+- **Inconsistent Naming**: No naming convention enforcement - implement and enforce naming standards
+
+### Configuration Anti-Patterns
+
+- **Configuration Drift**: Environments diverging over time - use configuration management
+- **Setting Shadow IT**: Users creating unauthorized configurations - monitor and govern settings
+- **Over-Sharing**: Excessive external sharing permissions - audit and restrict sharing settings
+- **Policy Overlap**: Multiple conflicting policies - consolidate and prioritize policies
 
 ## Automation Scripts and References
 

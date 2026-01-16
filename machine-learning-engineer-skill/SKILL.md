@@ -1,8 +1,24 @@
 ---
 name: machine-learning-engineer
 description: Use when user needs ML model deployment, production serving infrastructure, optimization strategies, and real-time inference systems. Designs and implements scalable ML systems with focus on reliability and performance.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
+
+# Machine Learning Engineer
+
+## Purpose
+
+Provides ML engineering expertise specializing in model deployment, production serving infrastructure, and real-time inference systems. Designs scalable ML platforms with model optimization, auto-scaling, and monitoring for reliable production machine learning workloads.
+
+## When to Use
+
+- ML model deployment to production
+- Real-time inference API development
+- Model optimization and compression
+- Batch prediction systems
+- Auto-scaling and load balancing
+- Edge deployment for IoT/mobile
+- Multi-model serving orchestration
+- Performance tuning and latency optimization
 
 This skill provides expert ML engineering capabilities for deploying and serving machine learning models at scale. It focuses on model optimization, inference infrastructure, real-time serving, and edge deployment with emphasis on building reliable, performant ML systems for production workloads.
 
@@ -175,6 +191,150 @@ This skill deploys ML models to production with comprehensive infrastructure. It
 - Security: Implement authentication, encryption, and model security
 - Documentation: Document all deployment configurations and operational procedures
 - Cost: Optimize resource usage and implement auto-scaling for cost efficiency
+
+## Examples
+
+### Example 1: Real-Time Inference API for Production
+
+**Scenario:** Deploy a fraud detection model as a real-time API with auto-scaling.
+
+**Deployment Approach:**
+1. **Model Optimization**: Converted model to ONNX (60% size reduction)
+2. **Serving Framework**: Built FastAPI endpoints with async processing
+3. **Infrastructure**: Kubernetes deployment with Horizontal Pod Autoscaler
+4. **Monitoring**: Integrated Prometheus metrics and Grafana dashboards
+
+**Configuration:**
+```python
+# FastAPI serving with optimization
+from fastapi import FastAPI
+import onnxruntime as ort
+
+app = FastAPI()
+session = ort.InferenceSession("model.onnx")
+
+@app.post("/predict")
+async def predict(features: List[float]):
+    input_tensor = np.array([features])
+    outputs = session.run(None, {"input": input_tensor})
+    return {"prediction": outputs[0].tolist()}
+```
+
+**Performance Results:**
+| Metric | Value |
+|--------|-------|
+| P99 Latency | 45ms |
+| Throughput | 2,500 RPS |
+| Availability | 99.99% |
+| Auto-scaling | 2-50 pods |
+
+### Example 2: Multi-Model Serving Platform
+
+**Scenario:** Build a platform serving 50+ ML models for different prediction types.
+
+**Architecture Design:**
+1. **Model Registry**: Central registry with versioning
+2. **Router**: Intelligent routing based on request type
+3. **Resource Manager**: Dynamic resource allocation per model
+4. **Fallback System**: Graceful degradation for unavailable models
+
+**Implementation:**
+- Model loading/unloading based on request patterns
+- A/B testing framework for model comparisons
+- Cost optimization with model prioritization
+- Shadow mode testing for new models
+
+**Results:**
+- 50+ models deployed with 99.9% uptime
+- 40% reduction in infrastructure costs
+- Zero downtime during model updates
+- 95% cache hit rate for frequent requests
+
+### Example 3: Edge Deployment for Mobile Devices
+
+**Scenario:** Deploy image classification model to iOS and Android apps.
+
+**Edge Optimization:**
+1. **Model Compression**: Quantized to INT8 (4x size reduction)
+2. **Runtime Selection**: CoreML for iOS, TFLite for Android
+3. **On-Device Caching**: Intelligent model caching and updates
+4. **Privacy Compliance**: All processing on-device
+
+**Performance Metrics:**
+| Platform | Model Size | Inference Time | Accuracy |
+|----------|------------|----------------|----------|
+| Original | 25 MB | 150ms | 94.2% |
+| Optimized | 6 MB | 35ms | 93.8% |
+
+**Results:**
+- 80% reduction in app download size
+- 4x faster inference on device
+- Offline capability with local inference
+- GDPR compliant (no data leaves device)
+
+## Best Practices
+
+### Model Optimization
+
+- **Quantization**: Start with FP16, move to INT8 for edge
+- **Pruning**: Remove unnecessary weights for efficiency
+- **Distillation**: Transfer knowledge to smaller models
+- **ONNX Export**: Standard format for cross-platform deployment
+- **Benchmarking**: Always test on target hardware
+
+### Production Serving
+
+- **Health Checks**: Implement /health and /ready endpoints
+- **Graceful Degradation**: Fallback to simpler models or heuristics
+- **Circuit Breakers**: Prevent cascade failures
+- **Rate Limiting**: Protect against abuse and overuse
+- **Caching**: Cache predictions for identical inputs
+
+### Monitoring and Observability
+
+- **Latency Tracking**: Monitor P50, P95, P99 latencies
+- **Error Rates**: Track failures and error types
+- **Prediction Distribution**: Alert on distribution shifts
+- **Resource Usage**: CPU, GPU, memory monitoring
+- **Business Metrics**: Track model impact on KPIs
+
+### Security and Compliance
+
+- **Model Security**: Protect model weights and artifacts
+- **Input Validation**: Sanitize all prediction inputs
+- **Output Filtering**: Prevent sensitive data exposure
+- **Audit Logging**: Log all prediction requests
+- **Compliance**: Meet industry regulations (HIPAA, GDPR)
+
+## Anti-Patterns
+
+### Model Deployment Anti-Patterns
+
+- **Manual Deployment**: Deploying models without automation - implement CI/CD for models
+- **No Versioning**: Replacing models without tracking versions - maintain model version history
+- **Hotfix Culture**: Making urgent model changes without testing - require validation before deployment
+- **Black Box Deployment**: Deploying models without explainability - implement model interpretability
+
+### Performance Anti-Patterns
+
+- **No Baselines**: Deploying without performance benchmarks - establish performance baselines
+- **Over-Optimization**: Tuning beyond practical benefit - focus on customer-impacting metrics
+- **Ignore Latency**: Focusing only on accuracy, ignoring latency - optimize for real-world use cases
+- **Resource Waste**: Over-provisioning infrastructure - right-size resources based on actual load
+
+### Monitoring Anti-Patterns
+
+- **Silent Failures**: Models failing without detection - implement comprehensive health checks
+- **Metric Overload**: Monitoring too many metrics - focus on actionable metrics
+- **Data Drift Blindness**: Not detecting model degradation - monitor input data distribution
+- **Alert Fatigue**: Too many alerts causing ignored warnings - tune alert thresholds
+
+### Scalability Anti-Patterns
+
+- **No Load Testing**: Deploying without performance testing - test with production-like traffic
+- **Single Point of Failure**: No redundancy in serving infrastructure - implement failover
+- **No Autoscaling**: Manual capacity management - implement automatic scaling
+- **Stateful Design**: Inference that requires state - design stateless inference
 
 ## Output Format
 

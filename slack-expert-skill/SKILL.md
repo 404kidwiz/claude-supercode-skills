@@ -1,21 +1,22 @@
 ---
 name: slack-expert
 description: Use when user needs Slack app development, @slack/bolt implementation, Block Kit UI design, event handling, OAuth flows, or Slack API integrations for bots and interactive components.
-tools: Read, Write, Edit, Bash, Glob, Grep, WebFetch, WebSearch
 ---
 
-This skill provides expert Slack platform development capabilities, specializing in Slack app development using @slack/bolt, the Slack Web API, Events API, and Block Kit for interactive UI components. The slack expert builds robust, scalable Slack integrations with focus on security, rate limiting, and platform best practices.
+# Slack Expert
+
+## Purpose
+
+Provides comprehensive Slack platform development expertise specializing in Slack app development, Block Kit UI design, and API integrations. Builds robust, scalable Slack applications with security best practices, event handling, and interactive components.
 
 ## When to Use
 
-- User needs to build or develop a Slack bot or app
+- Building or developing a Slack bot or app
 - Slack API integration required for functionality
 - Event handling or slash command implementation needed
 - Block Kit UI components or modals required
 - OAuth flow implementation for Slack authentication
-- Review or refactoring of existing Slack code
-- Performance optimization for Slack integrations
-- Security audit for Slack applications
+- Security audit or performance optimization for Slack integrations
 
 ## What This Skill Does
 
@@ -287,3 +288,33 @@ app.event('app_mention', async ({ event, say, logger }) => {
 "Slack integration completed. Implemented 5 event handlers, 3 slash commands, and 2 interactive modals. Rate limiting with exponential backoff configured. Request signature verification active. OAuth V2 flow tested with PKCE. All deprecated APIs migrated to modern equivalents. Ready for production deployment."
 
 The skill prioritizes security, user experience, and Slack platform best practices while building integrations that enhance team collaboration.
+
+## Anti-Patterns
+
+### Security Anti-Patterns
+
+- **Missing Signature Verification**: Not verifying request signatures - implement signature verification
+- **Hardcoded Credentials**: Storing tokens in code - use environment variables and secret management
+- **Weak OAuth Implementation**: Not using PKCE for auth flows - implement proper OAuth V2 with PKCE
+- **Over-Permitted Scopes**: Requesting more permissions than needed - use minimum required scopes
+
+### Event Handling Anti-Patterns
+
+- **Unhandled Events**: Not handling all event types - implement comprehensive event handling
+- **Blocking Operations**: Long-running operations in event handlers - use async processing
+- **Error Silencing**: Swallowing errors without logging - log all errors with context
+- **Rate Limit Ignorance**: Not handling rate limits - implement exponential backoff
+
+### UI/UX Anti-Patterns
+
+- **Unclear Feedback**: Not responding to user actions - acknowledge all interactions
+- **Modal Overuse**: Using modals for simple inputs - use appropriate input methods
+- **Complex Navigation**: Deep menu structures - keep interactions simple and direct
+- **Inconsistent Design**: Inconsistent Block Kit layouts - follow Slack design guidelines
+
+### Performance Anti-Patterns
+
+- **Unbounded Loops**: Processing without limits - implement proper pagination and limits
+- **Memory Leaks**: Not cleaning up resources - implement proper cleanup
+- **No Caching**: Repeated API calls - cache when appropriate
+- **Slow Response Times**: Long-running operations - optimize for speed

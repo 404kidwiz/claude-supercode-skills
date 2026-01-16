@@ -1,228 +1,381 @@
 ---
 name: mobile-developer
-description: Use when user needs cross-platform mobile app development with React Native or Flutter. Builds performant native-quality mobile experiences with platform-specific optimization and battery efficiency.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in pure native development (Swift/Kotlin) for iOS and Android, maximizing platform capabilities and performance.
 ---
 
-This skill provides expert cross-platform mobile development capabilities specializing in React Native 0.82+. It delivers native-quality mobile experiences while maximizing code reuse and optimizing for performance and battery life, with focus on platform-specific excellence and modern development practices.
+# Native Mobile Developer
+
+## Purpose
+
+Provides native mobile development expertise specializing in Swift (iOS) and Kotlin (Android). Builds platform-native applications maximizing device capabilities, performance, and OS features like Dynamic Island, Widgets, and Foldables.
 
 ## When to Use
 
-User needs:
-- Cross-platform mobile app development (React Native, Flutter)
-- Native module integration and platform channels
-- Mobile app performance optimization
-- Offline-first architecture and sync
-- Push notification implementation (FCM, APNS)
-- Deep linking and Universal Links
-- Mobile CI/CD and automated deployments
-- Battery optimization and efficiency
+- Building high-fidelity apps requiring 100% native performance
+- Implementing complex background services (Location tracking, Audio processing)
+- Developing SDKs or native modules for React Native/Flutter
+- Integrating heavily with system APIs (Siri, Shortcuts, HealthKit, Wallet)
+- Requiring zero-dependency architectures (Banking, Medical apps)
+- Adopting bleeding-edge OS features day-one (iOS 18 APIs)
 
-## What This Skill Does
+---
+---
 
-This skill builds cross-platform mobile applications that feel native on each platform. It maximizes code sharing through shared business logic while implementing platform-specific UI and features, optimizes for performance and battery life, integrates native modules, and sets up comprehensive CI/CD pipelines for automated builds and deployments.
+## 2. Decision Framework
 
-### Cross-Platform Development Focus
+### Native vs. KMP vs. Cross-Platform
 
-- Cross-platform code sharing (>80% target)
-- Platform-specific UI following native guidelines (iOS 18+, Android 15+)
-- Offline-first data architecture with sync
-- Push notifications (FCM, APNS)
-- Deep linking and Universal Links
-- Performance profiling and optimization
-- App size optimization (<40MB target)
-- Crash rate reduction (<0.1% target)
+```
+Architecture Choice?
+│
+├─ **Pure Native (Swift/Kotlin)**
+│  ├─ Needs deep system integration? → **Yes** (Best access)
+│  ├─ Zero compromise UX? → **Yes** (Standard platform behavior)
+│  └─ Team size? → **Large** (Requires separate iOS/Android teams)
+│
+├─ **Kotlin Multiplatform (KMP)**
+│  ├─ Share business logic only? → **Yes** (Shared Domain/Data layer)
+│  ├─ Native UI required? → **Yes** (SwiftUI on iOS, Compose on Android)
+│  └─ Existing native app? → **Yes** (Good for migration)
+│
+└─ **Cross-Platform (RN/Flutter)**
+   ├─ UI consistency priority? → **Yes** (Same UI on both)
+   └─ Single codebase priority? → **Yes**
+```
 
-## Core Capabilities
+### UI Framework Selection
 
-### Platform Optimization Standards
-- Cold start time <1.5 seconds
-- Memory usage <120MB baseline
-- Battery consumption <4% per hour
-- 120 FPS support for ProMotion displays (60 FPS minimum)
-- Responsive touch interactions (<16ms)
-- Efficient image caching (WebP, AVIF formats)
-- Background task optimization
-- HTTP/3 and network request batching
+| Platform | Framework | State of Tech (2026) | Recommendation |
+|----------|-----------|----------------------|----------------|
+| **iOS** | **SwiftUI** | Mature, Default choice | **Use for 95% of new apps.** Fallback to UIKit only for complex custom gestures/legacy. |
+| **iOS** | **UIKit** | Legacy, Stable | Maintenance only, or wrapping old libs. |
+| **Android** | **Jetpack Compose** | Standard, Default | **Use for 100% of new apps.** XML is legacy. |
+| **Android** | **XML / View** | Legacy | Maintenance only. |
 
-### Native Module Integration
-- Camera and photo library access (with privacy manifests)
-- GPS and location services with background updates
-- Biometric authentication (Face ID, Touch ID, Fingerprint)
-- Device sensors (accelerometer, gyroscope, proximity)
-- Bluetooth Low Energy (BLE) connectivity
-- Local storage encryption (Keychain, EncryptedSharedPreferences)
-- Background services and WorkManager
-- Platform-specific APIs (HealthKit, Google Fit)
+### Concurrency Model
 
-### Offline Synchronization
-- Local database (SQLite, Realm, WatermelonDB)
-- Queue management for offline actions
-- Conflict resolution (last-write-wins, vector clocks)
-- Delta sync mechanisms
-- Retry logic with exponential backoff and jitter
-- Data compression (gzip, brotli)
-- Cache invalidation (TTL, LRU policies)
-- Progressive data loading and pagination
+| Platform | Model | Best Practice |
+|----------|-------|---------------|
+| **iOS** | **Swift Concurrency** | `async/await`, `Actors` for thread safety. Avoid GCD/closures. |
+| **Android** | **Kotlin Coroutines** | `suspend` functions, `Flow` for streams. `Dispatchers.IO` for work. |
 
-### UI/UX Platform Patterns
-- iOS Human Interface Guidelines (iOS 17+)
-- Material Design 3 for Android 14+
-- Platform-specific navigation patterns
-- Native gesture handling and haptic feedback
-- Adaptive layouts and responsive design
-- Dynamic type and scaling support
-- Dark mode and system theme support
-- Accessibility (VoiceOver, TalkBack, Dynamic Type)
+**Red Flags → Escalate to `mobile-app-developer` (Cross-platform):**
+- Client has budget for only 1 developer but wants 2 apps
+- App is a simple form-based utility with no device hardware usage
+- Timeline is < 4 weeks for dual-platform launch
 
-### Testing Methodology
-- Unit tests for business logic (Jest, Flutter test)
-- Integration tests for native modules
-- E2E tests (Detox, Maestro, Patrol)
-- Platform-specific test suites
-- Performance profiling (Flipper, DevTools)
-- Memory leak detection (LeakCanary, Instruments)
-- Battery usage analysis
-- Crash testing and chaos engineering
+---
+---
 
-### Build Configuration
-- iOS code signing with automatic provisioning
-- Android keystore with Play App Signing
-- Build flavors and schemes (dev, staging, production)
-- Environment-specific configs (.env support)
-- ProGuard/R8 optimization
-- App thinning strategies (asset catalogs, on-demand resources)
-- Bundle splitting and dynamic feature modules
-- Asset optimization (compression, vector graphics)
+## 3. Core Workflows
 
-### Deployment Pipeline
-- Automated builds (Fastlane, Codemagic, Bitrise)
-- Beta testing (TestFlight, Firebase App Distribution)
-- App store submission automation
-- Crash reporting (Sentry, Firebase Crashlytics)
-- Analytics (Amplitude, Mixpanel, Firebase)
-- A/B testing frameworks (Remote Config, Optimizely)
-- Feature flags (LaunchDarkly, Firebase)
-- Rollback procedures and staged rollouts
+### Workflow 1: Modern iOS Architecture (SwiftUI + MVVM)
 
-## Tool Restrictions
+**Goal:** Build a scalable iOS app using Swift 6 concurrency and SwiftUI.
 
-- Read: Access cross-platform code, native modules, and configurations
-- Write/Edit: Create React Native/Flutter code, native modules, and build configs
-- Bash: Execute build commands, run tests, and deploy to app stores
-- Glob/Grep: Search codebases for cross-platform patterns and native integrations
+**Steps:**
 
-## Integration with Other Skills
+1.  **Project Setup**
+    -   Target: iOS 17.0+ (Aggressive adoption for modern APIs).
+    -   Swift Strict Concurrency Checking: `Complete`.
 
-- backend-developer: API optimization and GraphQL/REST design
-- ui-designer: Platform-specific designs following HIG/Material Design 3
-- qa-expert: Device testing matrix and automation
-- devops-engineer: Build automation and CI/CD pipelines
-- security-auditor: Mobile vulnerabilities and OWASP compliance
-- performance-engineer: Optimization and profiling
-- api-designer: Mobile-specific endpoints and real-time features
-- fullstack-developer: Data sync strategies and offline support
+2.  **ViewModel Definition (Observable)**
+    ```swift
+    import SwiftUI
+    import Observation
 
-## Example Interactions
+    @Observable
+    class ProductListViewModel {
+        var products: [Product] = []
+        var isLoading = false
+        var error: Error?
 
-### Scenario 1: React Native Social App
+        private let service: ProductService
 
-**User:** "Build a React Native social app with offline support and real-time chat"
+        init(service: ProductService = .live) {
+            self.service = service
+        }
 
-**Interaction:**
-1. Skill designs architecture with 87% code sharing:
-   - Shared business logic in TypeScript
-   - Redux Toolkit for state management
-   - Platform-specific UI with conditional rendering
-   - WatermelonDB for offline storage
-2. Implements features:
-   - Real-time chat with WebSocket
-   - Feed with pagination and caching
-   - Push notifications (FCM/APNS)
-   - Offline sync with conflict resolution
-   - Biometric authentication
-   - Deep linking and Universal Links
-3. Optimizes performance:
-   - Hermes engine with RAM bundles
-   - FlashList for virtualization
-   - Image prefetching and caching
-   - Background sync with WorkManager
-4. Achieves: 1.3s cold start, 38MB app size, 95MB memory baseline
+        func loadProducts() async {
+            isLoading = true
+            defer { isLoading = false }
+            
+            do {
+                products = try await service.fetchProducts()
+            } catch {
+                self.error = error
+            }
+        }
+    }
+    ```
 
-### Scenario 2: Cross-platform E-commerce App
+3.  **View Implementation**
+    ```swift
+    struct ProductListView: View {
+        @State private var viewModel = ProductListViewModel()
 
-**User:** "Create a Flutter e-commerce app with payment integration"
+        var body: some View {
+            NavigationStack {
+                List(viewModel.products) { product in
+                    ProductRow(product: product)
+                }
+                .overlay {
+                    if viewModel.isLoading { ProgressView() }
+                }
+                .task {
+                    await viewModel.loadProducts()
+                }
+                .navigationTitle("Products")
+            }
+        }
+    }
+    ```
 
-**Interaction:**
-1. Skill designs Flutter architecture:
-   - Clean Architecture with Riverpod
-   - Platform channels for native features
-   - Hive/Isar for local storage
-2. Implements core features:
-   - Product catalog with offline support
-   - Shopping cart with local persistence
-   - Payment integration (Stripe/Apple Pay/Google Pay)
-   - Order tracking with push notifications
-   - AR product preview (ARKit/ARCore)
-3. Optimizes for performance:
-   - Impeller rendering engine
-   - Lazy loading and code splitting
-   - Image compression and WebP format
-   - <50ms interaction response time
-4. Sets up CI/CD:
-   - Codemagic for automated builds
-   - Firebase App Distribution for beta testing
-   - Automated app store submission
+---
+---
 
-### Scenario 3: React Native Health & Fitness App
+### Workflow 3: Kotlin Multiplatform (KMP) Setup
 
-**User:** "Build a health tracking app with HealthKit and Google Fit integration"
+**Goal:** Share networking and database logic between iOS and Android.
 
-**Interaction:**
-1. Skill designs platform-specific architecture:
-   - React Native with TurboModules
-   - Platform-specific UI for iOS (SwiftUI) and Android (Compose)
-   - Native modules for health APIs
-2. Implements features:
-   - Activity tracking (HealthKit, Google Fit)
-   - Workout recording with GPS
-   - Progress charts and analytics
-   - Apple Watch and Wear OS companion apps
-   - Background sync and notifications
-3. Ensures compliance:
-   - Privacy manifests for iOS
-   - Health data permissions
-   - Data encryption at rest
-   - GDPR compliance documentation
-4. Deploys with 99.9% crash-free users
+**Steps:**
+
+1.  **Shared Module Structure**
+    ```
+    shared/
+      src/commonMain/kotlin/  # Shared logic
+      src/androidMain/kotlin/ # Android specific
+      src/iosMain/kotlin/     # iOS specific
+    ```
+
+2.  **Networking (Ktor)**
+    ```kotlin
+    // commonMain
+    class ApiClient {
+        private val client = HttpClient {
+            install(ContentNegotiation) {
+                json(Json { ignoreUnknownKeys = true })
+            }
+        }
+
+        suspend fun getData(): Data = client.get("...").body()
+    }
+    ```
+
+3.  **Consumption**
+    -   **Android:** Call `ApiClient().getData()` directly in ViewModel.
+    -   **iOS:** Call `ApiClient().getData()` via Swift interop (wrapper may be needed for `async/await` bridging if older Kotlin version).
+
+---
+---
+
+## 5. Anti-Patterns & Gotchas
+
+### ❌ Anti-Pattern 1: "Massive View Controller" (MVC)
+
+**What it looks like:**
+-   3,000 line `ViewController.swift` files containing networking, logic, and UI code.
+
+**Why it fails:**
+-   Untestable.
+-   Impossible to maintain.
+
+**Correct approach:**
+-   Use **MVVM** (Model-View-ViewModel) or **TCA** (The Composable Architecture) on iOS.
+-   Use **MVI** (Model-View-Intent) or **MVVM** on Android.
+-   Separate Logic from UI entirely.
+
+### ❌ Anti-Pattern 2: Ignoring Lifecycle Events
+
+**What it looks like:**
+-   Starting a network request in `onAppear` but not cancelling it on `onDisappear`.
+-   Assuming the app always starts from scratch (ignoring process death on Android).
+
+**Why it fails:**
+-   Memory leaks.
+-   Crashes when background tasks try to update UI that no longer exists.
+-   Data loss when Android kills the app to save memory.
+
+**Correct approach:**
+-   Use structured concurrency (`.task` in SwiftUI cancels auto).
+-   Use `SavedStateHandle` in Android ViewModels to persist state across process death.
+
+### ❌ Anti-Pattern 3: Blocking the Main Thread
+
+**What it looks like:**
+-   Decoding JSON or filtering a large list on the Main/UI thread.
+-   Dropped frames (jank).
+
+**Why it fails:**
+-   App becomes unresponsive (ANR on Android).
+-   Watchdog kills the app.
+
+**Correct approach:**
+-   **Always** move heavy work to background dispatchers (`Dispatchers.Default` / `Task.detached`).
+
+---
+---
+
+## Examples
+
+### Example 1: Enterprise Banking App Development
+
+**Scenario:** Build a secure, compliant banking app for iOS and Android with biometric authentication.
+
+**Development Approach:**
+1. **Architecture**: Clean Architecture with MVVM
+2. **Authentication**: Face ID/Touch ID integration with secure enclave
+3. **Networking**: Certificate pinning with retry logic
+4. **Offline Support**: Local encryption with periodic sync
+
+**Implementation Highlights:**
+```swift
+// iOS Biometric Authentication
+func authenticateWithBiometrics() async throws {
+    let context = LAContext()
+    var error: NSError?
+    
+    guard context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) else {
+        throw AuthenticationError.biometricsNotAvailable
+    }
+    
+    do {
+        let success = try await context.evaluatePolicy(
+            .deviceOwnerAuthenticationWithBiometrics,
+            reason: "Authenticate to access your account"
+        )
+        guard success else { throw AuthenticationError.authenticationFailed }
+    } catch {
+        throw AuthenticationError.authenticationFailed
+    }
+}
+```
+
+**Results:**
+- Released on both App Store and Play Store
+- 500,000+ downloads in first month
+- 4.9-star rating on both platforms
+- Zero security incidents in 2 years
+
+### Example 2: Healthcare App with HIPAA Compliance
+
+**Scenario:** Develop a patient management app with strict HIPAA compliance requirements.
+
+**Compliance Implementation:**
+1. **Data Encryption**: AES-256 encryption at rest
+2. **Audit Logging**: Complete audit trail of all data access
+3. **Session Management**: Auto-logout with configurable timeout
+4. **Network Security**: TLS 1.3 with certificate pinning
+
+**Android Implementation:**
+```kotlin
+// Encrypted SharedPreferences
+val masterKey = MasterKey.Builder(context)
+    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+    .build()
+
+val encryptedPrefs = EncryptedSharedPreferences.create(
+    context,
+    "patient_data",
+    masterKey,
+    EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+)
+
+// Usage
+encryptedPrefs.edit().putString("patient_id", "12345").apply()
+```
+
+**Results:**
+- HIPAA audit passed with zero critical findings
+- Integrated with 15+ healthcare systems
+- 99.9% uptime SLA achieved
+- FDA-compliant for medical device classification
+
+### Example 3: IoT Control App with BLE Integration
+
+**Scenario:** Build a smart home control app integrating with IoT devices via Bluetooth Low Energy.
+
+**BLE Implementation:**
+1. **Device Discovery**: Background scanning with filters
+2. **Connection Management**: Automatic reconnection with backoff
+3. **Data Parsing**: Protocol buffer deserialization
+4. **Offline Control**: Local command queue with sync
+
+**Architecture:**
+- SwiftUI for iOS, Jetpack Compose for Android
+- Reactive state management with Combine/Flow
+- Background processing for BLE operations
+- Battery optimization with proper lifecycle handling
+
+**Results:**
+- Supports 50+ device types
+- 50ms average response time
+- 40% better battery life than competitors
+- Featured in Apple Watch integration
 
 ## Best Practices
 
-- Code Sharing: Target >80% code sharing with platform-specific abstraction
-- Platform Guidelines: Follow iOS HIG and Material Design 3 strictly
-- Performance: Optimize for cold start, memory, battery, and frame rate
-- Offline: Implement offline-first architecture with robust sync
-- Security: Use secure storage, certificate pinning, and encryption
-- Testing: Test on real devices including foldables and tablets
-- Monitoring: Track crashes, performance, ANRs, and user behavior
-- CI/CD: Automate builds, tests, and deployments
+### Platform-Specific Development
 
-## Output Format
+- **iOS**: Leverage SwiftUI for modern apps, use UIKit for complex animations
+- **Android**: Default to Compose, migrate from XML gradually
+- **Navigation**: Use NavigationPath (iOS) and NavHost (Android)
+- **State Management**: Observable (iOS), StateFlow (Android)
 
-This skill delivers:
-- Complete React Native/Flutter application code
-- Native modules and platform channels
-- Platform-specific UI implementations
-- Performance-optimized builds and configurations
-- CI/CD pipeline configurations (Fastlane, Codemagic)
-- Push notification configurations (FCM, APNS)
-- Offline sync implementations with conflict resolution
-- App store submission packages and metadata
+### Performance Optimization
 
-All outputs include:
-- Platform-specific documentation for iOS and Android
-- Performance benchmarks and optimization reports
-- Testing strategies and device compatibility matrices
-- Security best practices and OWASP MASVS compliance
-- Troubleshooting guides and common platform issues
-- App store submission materials and ASO strategies
+- **Lazy Loading**: Defer image/resource loading until needed
+- **Image Caching**: Implement with memory and disk cache
+- **Memory Management**: Monitor memory pressure, use profiling tools
+- **Battery Life**: Minimize background operations, use batched updates
+
+### Security Implementation
+
+- **Secure Storage**: Keychain (iOS), EncryptedSharedPreferences (Android)
+- **Network Security**: Certificate pinning, TLS configuration
+- **Input Validation**: Sanitize all user inputs
+- **Code Obfuscation**: Enable ProGuard/R8 for release builds
+
+### Testing Strategy
+
+- **Unit Tests**: ViewModels, repositories, business logic
+- **UI Tests**: Critical user flows and interactions
+- **Integration Tests**: API calls, database operations
+- **Performance Tests**: Startup time, memory usage, scrolling performance
+
+### Distribution and Deployment
+
+- **App Store**: Follow Apple review guidelines, prepare metadata
+- **Play Store**: Optimize for Play Console features, testing tracks
+- **Enterprise**: Implement enterprise distribution certificates
+- **Updates**: Plan backward compatibility for major versions
+
+## Quality Checklist
+
+**Platform Standards:**
+-   [ ] **iOS:** Supports Dynamic Type (text scaling).
+-   [ ] **iOS:** Supports Dark Mode seamlessly.
+-   [ ] **Android:** Handles configuration changes (rotation) without data loss.
+-   [ ] **Android:** Back navigation stack works correctly.
+-   [ ] **iOS:** Supports iPad with adaptive layouts.
+-   [ ] **Android:** Supports different screen sizes and densities.
+
+**Performance:**
+-   [ ] **Scroll:** Lists scroll at 60fps/120fps.
+-   [ ] **Memory:** No retain cycles (iOS) or leaked Activities (Android).
+-   [ ] **Startup:** App is usable within 2 seconds.
+-   [ ] **Network:** Efficient batching and caching.
+
+**Architecture:**
+-   [ ] **Separation:** UI code contains NO business logic.
+-   [ ] **Dependency Injection:** Dependencies (API, DB) are injected, not instantiated directly.
+-   [ ] **Testing:** Unit tests exist for all ViewModels/Interactors.
+-   [ ] **Navigation:** Deep linking support implemented.
+
+**Security:**
+-   [ ] **Sensitive Data:** Stored in Keychain/Keystore, NOT UserDefaults/SharedPreferences.
+-   [ ] **Networking:** SSL Pinning enabled for sensitive endpoints.
+-   [ ] **Logs:** No PII printed to console in release builds.
+-   [ ] **Authentication:** Biometric or secure authentication implemented.
+-   [ ] **Compliance:** Meets platform guidelines (App Store/Play Store).

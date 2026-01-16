@@ -1,160 +1,192 @@
 ---
 name: database-optimizer
 description: Use when user needs database query optimization, performance tuning, index strategies, execution plan analysis, or scalability across PostgreSQL, MySQL, MongoDB, Redis, and other database systems.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-The database-optimizer skill specializes in performance tuning across multiple database systems, focusing on query optimization, index design, execution plan analysis, and system configuration. This skill achieves sub-second query performance and optimal resource utilization through systematic optimization approaches.
+# Database Optimizer
+
+## Purpose
+
+Provides expert database performance tuning and optimization across major database systems (PostgreSQL, MySQL, MongoDB, Redis) specializing in query optimization, index design, execution plan analysis, and system configuration. Achieves sub-second query performance and optimal resource utilization through systematic optimization approaches.
 
 ## When to Use
 
-- Slow query performance or database latency issues
-- Database scalability or capacity planning needed
-- Query execution plan analysis required
-- Index strategy or design decisions needed
-- Database connection or resource exhaustion
-- Replication lag or data synchronization issues
-- Database migration or version upgrade optimization
-- High availability and failover configuration needed
+- Query execution time exceeds performance targets (>100ms for OLTP, >5s for analytics)
+- Database CPU/memory/I/O utilization consistently above 70%
+- Application experiencing database connection exhaustion or timeouts
+- Slow query log shows problematic patterns or missing indexes
+- Database struggling to handle expected load or traffic spikes
+- Replication lag exceeding acceptable thresholds (>1s for critical systems)
+- Need to optimize database configuration for specific workload (OLTP vs OLAP)
+- Planning database capacity or horizontal scaling strategy
 
-## What This Skill Does
+## Quick Start
 
-The database-optimizer skill delivers comprehensive database performance improvements through systematic phases of performance analysis, strategic optimization, and continuous monitoring. It ensures query performance targets (sub-100ms queries), optimal resource utilization, and system stability.
+**Invoke this skill when:**
+- Slow queries need optimization (EXPLAIN ANALYZE shows issues)
+- Index strategy needs design or review
+- Database configuration tuning required
+- Capacity planning or scaling decisions needed
 
-### Query Optimization
-
-Analyzes execution plans, rewrites inefficient queries, optimizes join strategies, eliminates subqueries, optimizes CTEs and window functions, implements aggregation strategies, and enables parallel execution for complex queries.
-
-### Index Strategy Design
-
-Selects optimal index types (B-tree, hash, GiST, GIN, BRIN), creates covering indexes, implements partial indexes, designs expression indexes, optimizes multi-column ordering, manages index maintenance, prevents bloat, and updates statistics for optimal query planning.
-
-### Performance Analysis
-
-Identifies slow queries through query log analysis, reviews execution plans, analyzes wait events and lock contention, examines I/O patterns, monitors memory and CPU utilization, and identifies network latency bottlenecks.
-
-### Schema Optimization
-
-Designs optimal table structures, balances normalization with performance requirements, implements partitioning strategies, selects appropriate compression options, optimizes data types, implements efficient constraints, materializes views, and designs archive strategies.
-
-### System Configuration
-
-Optimizes memory allocation (buffer pool, cache, sort memory, hash memory), configures connection pools, tunes checkpoint and vacuum settings, adjusts statistics targets, optimizes planner settings, configures parallel workers, and tunes I/O settings.
+**Do NOT invoke when:**
+- Simple CRUD operations with no performance issues
+- Schema design without optimization focus (use database-administrator)
+- Application-level caching only (use backend-developer)
 
 ## Core Capabilities
 
-### Database Systems Expertise
+### Query Optimization
+- Analyzing execution plans and identifying bottlenecks
+- Rewriting queries for optimal performance
+- Optimizing joins, subqueries, and aggregations
+- Implementing query result caching strategies
 
-- PostgreSQL tuning (configuration, vacuum strategies, parallel queries)
-- MySQL optimization (InnoDB tuning, query cache, replication)
-- MongoDB indexing strategies and aggregation optimization
-- Redis optimization (memory management, data structures)
-- Cassandra tuning (compaction, consistency levels)
-- ClickHouse query optimization for analytics
-- Elasticsearch tuning (mapping, shard strategy)
-- Oracle optimization (hints, materialized views)
+### Index Design
+- Designing appropriate index types (B-tree, GIN, BRIN, hash)
+- Creating composite indexes for multi-column queries
+- Implementing partial indexes for specific query patterns
+- Managing index maintenance and avoiding bloat
 
-### Memory Optimization
+### Database Configuration
+- Tuning database parameters for specific workloads
+- Optimizing memory allocation (buffer pool, cache sizes)
+- Configuring connection pooling and concurrency settings
+- Implementing partitioning strategies for large tables
 
-- Buffer pool sizing and cache configuration
-- Sort memory and hash memory tuning
-- Connection memory management
-- Query memory allocation
-- Temporary table memory optimization
-- OS cache tuning for database files
+### Performance Monitoring
+- Setting up query performance monitoring and alerting
+- Analyzing slow query logs and identifying patterns
+- Implementing database metrics collection (EXPLAIN ANALYZE)
+- Creating performance baselines and capacity planning
 
-### I/O Optimization
+## Decision Framework
 
-- Storage layout and tablespace design
-- Read-ahead tuning and write combining
-- Checkpoint optimization for minimal impact
-- Transaction log optimization
-- File distribution and SSD optimization
+### Optimization Priority Matrix
 
-### Replication Tuning
+| Symptom | First Action | Tool |
+|---------|--------------|------|
+| Query >100ms | EXPLAIN ANALYZE | Execution plan review |
+| High CPU | pg_stat_statements | Find top queries |
+| High I/O | Index review | Missing index detection |
+| Connection exhaustion | Pool tuning | PgBouncer/connection limits |
+| Replication lag | Write optimization | Batch operations |
 
-- Synchronous vs asynchronous replication
-- Replication lag minimization
-- Parallel worker configuration
-- Network optimization for replicas
-- Conflict resolution strategies
-- Read replica routing
-- Failover speed optimization
+### Index Decision Tree
 
-### Advanced Techniques
+```
+Query Performance Issue
+│
+├─ WHERE clause filtering?
+│  └─ Create B-tree index on filter columns
+│
+├─ JOIN operations slow?
+│  └─ Index foreign key columns
+│
+├─ ORDER BY/GROUP BY expensive?
+│  └─ Include sort columns in index
+│
+├─ Covering index possible?
+│  └─ Add INCLUDE columns to avoid heap fetches
+│
+└─ Selective queries (status='active')?
+   └─ Use partial index with WHERE clause
+```
 
-- Materialized view design and refresh strategies
-- Query hint usage for plan control
-- Columnar storage for analytical workloads
-- Compression strategies for space savings
-- Sharding patterns for horizontal scaling
-- Read replica distribution
-- Write optimization techniques
-- OLAP vs OLTP workload separation
+## Core Workflow: Slow Query Optimization
 
-## Tool Restrictions
+**Scenario**: Production query taking 3.2s, needs to be <100ms
 
-The database-optimizer skill uses standard file operations for configuration file management and script generation. It requires database CLI tools (psql, mysql, mongosh, redis-cli) and monitoring utilities. Does not perform schema migrations or data transformation—coordinate with database-administrator for DDL/DML operations.
+**Step 1: Capture baseline with EXPLAIN ANALYZE**
 
-## Integration with Other Skills
+```sql
+EXPLAIN (ANALYZE, BUFFERS, VERBOSE) 
+SELECT u.id, u.email, COUNT(o.id) as order_count, SUM(o.total) as total_spent
+FROM users u
+LEFT JOIN orders o ON u.id = o.user_id
+WHERE u.created_at >= '2024-01-01'
+  AND u.status = 'active'
+GROUP BY u.id, u.email
+ORDER BY total_spent DESC
+LIMIT 100;
+```
 
-- Collaborates with backend-developer for query pattern optimization
-- Supports data-engineer for ETL query optimization
-- Works with postgres-pro for PostgreSQL-specific tuning
-- Guides devops-engineer for infrastructure and monitoring setup
-- Helps sre-engineer for reliability and failover configuration
-- Assists data-scientist for analytical query optimization
-- Partners with cloud-architect for cloud database architecture
+**Step 2: Identify issues from execution plan**
+- Sequential scans instead of index scans
+- High shared reads (cache misses)
+- Missing indexes on filter/join columns
 
-## Example Interactions
+**Step 3: Create strategic indexes**
 
-### Scenario 1: Slow Query Optimization
+```sql
+-- Covering index for users with partial index
+CREATE INDEX CONCURRENTLY idx_users_status_created_active 
+  ON users (status, created_at) 
+  INCLUDE (id, email)
+  WHERE status = 'active';
 
-User: "This query takes 5 seconds and needs to be faster"
+-- Covering index for orders JOIN
+CREATE INDEX CONCURRENTLY idx_orders_user_id_total 
+  ON orders (user_id) 
+  INCLUDE (id, total);
 
-Response:
-1. Analyze execution plan identifying sequential scans and inefficient joins
-2. Review query structure for optimization opportunities
-3. Design and implement appropriate indexes for filter predicates
-4. Rewrite query using optimal join order and pushdown techniques
-5. Validate optimization achieving 87% average improvement
-6. Document changes and set up performance monitoring
+-- Update statistics
+ANALYZE users;
+ANALYZE orders;
+```
 
-### Scenario 2: Database Scaling
+**Step 4: Verify optimization**
 
-User: "Our database is struggling under load"
+```sql
+EXPLAIN (ANALYZE, BUFFERS, VERBOSE) 
+-- Same query - should now show:
+-- - Index Only Scan instead of Seq Scan
+-- - Heap Fetches: 0
+-- - Execution Time: <100ms
+```
 
-Response:
-1. Analyze system metrics, slow queries, and resource utilization
-2. Identify bottlenecks in CPU, memory, I/O, or connection pool
-3. Implement strategic indexes (23 new, 15 redundant removed)
-4. Tune memory configuration for optimal resource usage
-5. Configure read replicas for load distribution
-6. Achieve 3x traffic handling with 50% fewer resources
+**Expected outcome**:
+- Execution time reduced by 95%+ (3205ms -> 87ms)
+- Buffer reads eliminated (all hits from cache)
+- Sequential scans replaced with index scans
+- Query plan stable and predictable
 
-### Scenario 3: Index Strategy
+## Quick Reference: Performance Targets
 
-User: "Design indexes for this query workload"
+| Metric | OLTP Target | Analytics Target |
+|--------|-------------|------------------|
+| P50 latency | <50ms | <2s |
+| P95 latency | <100ms | <5s |
+| P99 latency | <200ms | <10s |
+| Cache hit ratio | >95% | >90% |
+| Index usage | >95% | >80% |
 
-Response:
-1. Analyze query patterns and workload characteristics
-2. Identify high-frequency queries and filter predicates
-3. Design multi-column indexes for optimal coverage
-4. Implement partial indexes for selective queries
-5. Configure expression indexes for computed predicates
-6. Set up index maintenance and statistics updates
+## Quick Reference: Configuration Guidelines
 
-## Best Practices
+| Parameter | Formula | Example (32GB RAM) |
+|-----------|---------|-------------------|
+| shared_buffers | 25% of RAM | 8GB |
+| effective_cache_size | 75% of RAM | 24GB |
+| work_mem | RAM / max_connections / 4 | 40MB |
+| maintenance_work_mem | 10% of RAM | 2GB |
+| random_page_cost | 1.1 (SSD) / 4.0 (HDD) | 1.1 |
 
-- Always measure baseline performance before optimization
-- Change configuration incrementally with rollback plans
-- Test thoroughly in staging before production deployment
-- Monitor impact continuously after changes
-- Document all optimization decisions and rationale
-- Consider trade-offs between read and write performance
-- Maintain optimal cache hit rates (>90%) and index usage (>95%)
-- Balance normalization with performance requirements
+## Red Flags - When to Escalate
 
-## Output Format
+| Observation | Action |
+|-------------|--------|
+| Query complexity explosion | Escalate to architect for schema redesign |
+| Replication lag >10s | Escalate to DBA for infrastructure review |
+| Connection pool exhaustion | Review application connection handling |
+| Disk I/O saturation | Consider read replicas or caching layer |
 
-Delivers optimized queries, index design documentation, configuration changes, performance metrics, monitoring dashboards, and comprehensive optimization reports. Provides before/after comparisons with measurable improvements and rollback procedures for all changes.
+## Additional Resources
+
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+  - Database configuration tuning workflows
+  - Partitioning strategies for time-series data
+  - Advanced monitoring queries
+  
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)
+  - Anti-patterns (over-indexing, premature denormalization)
+  - Quality checklist for optimization projects
+  - Index monitoring and maintenance queries

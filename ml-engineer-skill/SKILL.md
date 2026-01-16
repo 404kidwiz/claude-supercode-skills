@@ -1,207 +1,346 @@
 ---
 name: ml-engineer
-description: Use when user needs ML system development, model lifecycle management, production deployment, and ML optimization. Builds complete ML pipelines from training to serving with focus on reliability and scalability.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in building scalable ML systems, from data pipelines and model training to production deployment and monitoring.
 ---
 
-This skill provides comprehensive ML engineering capabilities for the complete machine learning lifecycle. It develops ML pipelines, trains models, validates performance, deploys to production, and implements monitoring with emphasis on building reliable, scalable ML systems that deliver consistent value.
+# Machine Learning Engineer
+
+## Purpose
+
+Provides MLOps and production ML engineering expertise specializing in end-to-end ML pipelines, model deployment, and infrastructure automation. Bridges data science and production engineering with robust, scalable machine learning systems.
 
 ## When to Use
 
-User needs:
-- Complete ML pipeline development
-- Model training and hyperparameter optimization
-- Feature engineering and feature store implementation
-- Model deployment and serving
-- A/B testing and experimentation
-- Model monitoring and drift detection
-- Retraining automation and lifecycle management
-- ML infrastructure and tooling setup
+- Building end-to-end ML pipelines (Data → Train → Validate → Deploy)
+- Deploying models to production (Real-time API, Batch, or Edge)
+- Implementing MLOps practices (CI/CD for ML, Experiment Tracking)
+- Optimizing model performance (Latency, Throughput, Resource usage)
+- Setting up feature stores and model registries
+- Implementing model monitoring (Drift detection, Performance tracking)
+- Scaling training workloads (Distributed training)
 
-## What This Skill Does
+---
+---
 
-This skill builds end-to-end ML systems from data to production. It develops feature pipelines, trains models, optimizes performance, deploys with best practices, implements monitoring and retraining automation, and ensures ML systems meet production standards for reliability, scalability, and maintainability.
+## 2. Decision Framework
 
-### ML System Components
+### Model Serving Strategy
 
-- Feature engineering and feature stores
-- Model training and hyperparameter optimization
-- Validation and evaluation frameworks
-- Deployment pipelines and serving infrastructure
-- Monitoring, alerting, and drift detection
-- A/B testing and experimentation
-- Retraining automation and lifecycle management
+```
+Need to serve predictions?
+│
+├─ Real-time (Low Latency)?
+│  │
+│  ├─ High Throughput? → **Kubernetes (KServe/Seldon)**
+│  ├─ Low/Medium Traffic? → **Serverless (Lambda/Cloud Run)**
+│  └─ Ultra-low latency (<10ms)? → **C++/Rust Inference Server (Triton)**
+│
+├─ Batch Processing?
+│  │
+│  ├─ Large Scale? → **Spark / Ray**
+│  └─ Scheduled Jobs? → **Airflow / Prefect**
+│
+└─ Edge / Client-side?
+   │
+   ├─ Mobile? → **TFLite / CoreML**
+   └─ Browser? → **TensorFlow.js / ONNX Runtime Web**
+```
 
-## Core Capabilities
+### Training Infrastructure
 
-### ML Pipeline Development
-- Data validation and quality checks
-- Feature extraction and transformation pipelines
-- Training orchestration and distributed training
-- Model validation and performance benchmarking
-- Deployment automation and rollback procedures
-- Monitoring setup and alerting
-- Retraining triggers and automation
+```
+Training Environment?
+│
+├─ Single Node?
+│  │
+│  ├─ Interactive? → **JupyterHub / SageMaker Notebooks**
+│  └─ Automated? → **Docker Container on VM**
+│
+└─ Distributed?
+   │
+   ├─ Data Parallelism? → **Ray Train / PyTorch DDP**
+   └─ Pipeline orchestration? → **Kubeflow / Airflow / Vertex AI**
+```
 
-### Feature Engineering
-- Feature extraction from raw data
-- Transformation pipelines and preprocessing
-- Feature store integration (online/offline)
-- Feature versioning and schema management
-- Consistency checks and quality monitoring
-- Online feature serving and low-latency access
+### Feature Store Decision
 
-### Model Training
-- Algorithm selection and experimentation
-- Hyperparameter search (Bayesian, grid, random)
-- Distributed training and resource optimization
-- Checkpointing and early stopping
-- Ensemble strategies and model averaging
-- Transfer learning and fine-tuning
+| Need | Recommendation | Rationale |
+|------|----------------|-----------|
+| **Simple / MVP** | **No Feature Store** | Use SQL/Parquet files. Overhead of FS is too high. |
+| **Team Consistency** | **Feast** | Open source, manages online/offline consistency. |
+| **Enterprise / Managed** | **Tecton / Hopsworks** | Full governance, lineage, managed SLA. |
+| **Cloud Native** | **Vertex/SageMaker FS** | Tight integration if already in that cloud ecosystem. |
 
-### Model Validation
-- Performance metrics and business metrics alignment
-- Statistical testing and significance analysis
-- A/B testing framework and experiment design
-- Bias detection and fairness evaluation
-- Explainability and interpretability
-- Robustness testing and edge cases
+**Red Flags → Escalate to `oracle`:**
+- "Real-time" training requirements (online learning) without massive infrastructure budget
+- Deploying LLMs (7B+ params) on CPU-only infrastructure
+- Training on PII/PHI data without privacy-preserving techniques (Federated Learning, Differential Privacy)
+- No validation set or "ground truth" feedback loop mechanism
 
-### Production Deployment
-- REST/gRPC API endpoints
-- Batch processing pipelines
-- Stream processing for real-time ML
-- Edge deployment strategies
-- Serverless functions for ML inference
-- Container orchestration (Kubernetes, ECS)
+---
+---
 
-### Model Monitoring
-- Prediction drift detection
-- Feature drift analysis
-- Performance decay tracking
-- Data quality monitoring
-- Latency and resource usage tracking
-- Error analysis and alert configuration
-- Business metrics correlation
+## 3. Core Workflows
 
-### A/B Testing
-- Experiment design and hypothesis formulation
-- Traffic splitting and assignment
-- Metric definition and statistical significance
-- Result analysis and decision frameworks
-- Rollout strategies and rollback procedures
-- Long-term impact tracking
+### Workflow 1: End-to-End Training Pipeline
 
-### Tooling Ecosystem
-- MLflow for experiment tracking and model registry
-- Kubeflow pipelines for ML orchestration
-- Ray for distributed computing
-- Optuna for hyperparameter optimization
-- DVC for data and model versioning
-- BentoML/Seldon for model serving
+**Goal:** Automate model training, validation, and registration using MLflow.
 
-## Tool Restrictions
+**Steps:**
 
-- Read: Access ML code, data, configs, and model artifacts
-- Write/Edit: Create ML pipelines, training scripts, and deployment configs
-- Bash: Execute training jobs, run experiments, and deploy models
-- Glob/Grep: Search codebases for ML integration points and patterns
+1.  **Setup Tracking**
+    ```python
+    import mlflow
+    import mlflow.sklearn
+    from sklearn.ensemble import RandomForestClassifier
+    from sklearn.metrics import accuracy_score, precision_score
 
-## Integration with Other Skills
+    mlflow.set_tracking_uri("http://localhost:5000")
+    mlflow.set_experiment("churn-prediction-prod")
+    ```
 
-- data-scientist: Model development and experimentation
-- data-engineer: Data pipelines and feature stores
-- mlops-engineer: Infrastructure and platform setup
-- backend-developer: ML API design and integration
-- devops-engineer: CI/CD and deployment automation
-- cloud-architect: Cloud infrastructure and architecture
-- performance-engineer: Performance optimization
-- qa-expert: Testing and validation
+2.  **Training Script (`train.py`)**
+    ```python
+    def train(max_depth, n_estimators):
+        with mlflow.start_run():
+            # Log params
+            mlflow.log_param("max_depth", max_depth)
+            mlflow.log_param("n_estimators", n_estimators)
+            
+            # Train
+            model = RandomForestClassifier(
+                max_depth=max_depth, 
+                n_estimators=n_estimators,
+                random_state=42
+            )
+            model.fit(X_train, y_train)
+            
+            # Evaluate
+            preds = model.predict(X_test)
+            acc = accuracy_score(y_test, preds)
+            prec = precision_score(y_test, preds)
+            
+            # Log metrics
+            mlflow.log_metric("accuracy", acc)
+            mlflow.log_metric("precision", prec)
+            
+            # Log model artifact with signature
+            from mlflow.models.signature import infer_signature
+            signature = infer_signature(X_train, preds)
+            
+            mlflow.sklearn.log_model(
+                model, 
+                "model",
+                signature=signature,
+                registered_model_name="churn-model"
+            )
+            
+            print(f"Run ID: {mlflow.active_run().info.run_id}")
+    
+    if __name__ == "__main__":
+        train(max_depth=5, n_estimators=100)
+    ```
 
-## Example Interactions
+3.  **Pipeline Orchestration (Bash/Airflow)**
+    ```bash
+    #!/bin/bash
+    # Run training
+    python train.py
+    
+    # Check if model passed threshold (e.g. via MLflow API)
+    # If yes, transition to Staging
+    ```
 
-### Scenario 1: Recommendation System Pipeline
+---
+---
 
-**User:** "Build a complete recommendation system from training to production"
+### Workflow 3: Drift Detection (Monitoring)
 
-**Interaction:**
-1. Skill designs architecture and data pipeline
-2. Implements feature engineering:
-   - User behavior features (clicks, views, purchases)
-   - Item features (category, metadata, embeddings)
-   - Context features (time, device, location)
-   - Real-time feature serving with Redis
-3. Trains and tunes model:
-   - Collaborative filtering with matrix factorization
-   - Deep learning model for cold-start
-   - Hyperparameter optimization with Optuna
-   - A/B testing framework design
-4. Deploys to production:
-   - Online inference API with 50ms latency
-   - Batch predictions for offline scoring
-   - Monitoring for drift and performance
-   - Automated retraining on new data
+**Goal:** Detect if production data distribution has shifted from training data.
 
-### Scenario 2: Churn Prediction Model
+**Steps:**
 
-**User:** "Develop and deploy a churn prediction model with monitoring"
+1.  **Baseline Generation (During Training)**
+    ```python
+    import evidently
+    from evidently.report import Report
+    from evidently.metric_preset import DataDriftPreset
 
-**Interaction:**
-1. Skill analyzes customer data and business requirements
-2. Builds ML pipeline:
-   - Feature engineering (usage patterns, engagement, support tickets)
-   - Training with XGBoost and hyperparameter tuning
-   - Validation with temporal split and business metrics
-   - A/B test design for rollout
-3. Deploys with monitoring:
-   - REST API for real-time predictions
-   - Drift detection on feature distributions
-   - Performance tracking and alerting
-   - Automated retraining pipeline
-4. Achieves 92% accuracy with 18% improvement in retention
+    # Calculate baseline profile on training data
+    report = Report(metrics=[DataDriftPreset()])
+    report.run(reference_data=train_df, current_data=test_df)
+    report.save_json("baseline_drift.json")
+    ```
 
-### Scenario 3: Anomaly Detection System
+2.  **Production Monitoring Job**
+    ```python
+    # Scheduled daily job
+    def check_drift():
+        # Load production logs (last 24h)
+        current_data = load_production_logs()
+        reference_data = load_training_data()
+        
+        report = Report(metrics=[DataDriftPreset()])
+        report.run(reference_data=reference_data, current_data=current_data)
+        
+        result = report.as_dict()
+        dataset_drift = result['metrics'][0]['result']['dataset_drift']
+        
+        if dataset_drift:
+            trigger_alert("Data Drift Detected!")
+            trigger_retraining()
+    ```
 
-**User:** "Create an anomaly detection system for transaction monitoring"
+---
+---
 
-**Interaction:**
-1. Skill designs unsupervised learning approach
-2. Implements pipeline:
-   - Feature extraction from transaction data
-   - Isolation Forest and autoencoder models
-   - Threshold optimization and calibration
-   - Real-time inference with stream processing
-3. Adds production components:
-   - Alerting for high-confidence anomalies
-   - Human review workflow for validation
-   - Feedback loop for model improvement
-   - Performance monitoring and drift detection
+### Workflow 5: RAG Pipeline with Vector Database
 
-## Best Practices
+**Goal:** Build a production retrieval pipeline using Pinecone/Weaviate and LangChain.
 
-- Quality: Validate data, features, and models thoroughly before production
-- Monitoring: Track predictions, features, performance, and business metrics
-- Reproducibility: Version data, features, models, and all configurations
-- Testing: Conduct comprehensive testing including unit, integration, and A/B tests
-- Documentation: Document model behavior, limitations, and operational procedures
-- Automation: Automate pipelines, retraining, and monitoring where possible
-- Reliability: Implement fallbacks, graceful degradation, and quick rollbacks
+**Steps:**
 
-## Output Format
+1.  **Ingestion (Chunking & Embedding)**
+    ```python
+    from langchain.text_splitter import RecursiveCharacterTextSplitter
+    from langchain_openai import OpenAIEmbeddings
+    from langchain_pinecone import PineconeVectorStore
+    
+    # Chunking
+    text_splitter = RecursiveCharacterTextSplitter(chunk_size=1000, chunk_overlap=200)
+    docs = text_splitter.split_documents(raw_documents)
+    
+    # Embedding & Indexing
+    embeddings = OpenAIEmbeddings()
+    vectorstore = PineconeVectorStore.from_documents(
+        docs, 
+        embeddings, 
+        index_name="knowledge-base"
+    )
+    ```
 
-This skill delivers:
-- Complete ML pipeline code and configurations
-- Trained model artifacts and hyperparameters
-- Feature store implementations and feature schemas
-- Deployment infrastructure (APIs, batch jobs, containers)
-- Monitoring dashboards and alert configurations
-- A/B testing frameworks and experiment reports
-- Retraining pipelines and automation scripts
+2.  **Retrieval & Generation**
+    ```python
+    from langchain.chains import RetrievalQA
+    from langchain_openai import ChatOpenAI
+    
+    llm = ChatOpenAI(model="gpt-4o", temperature=0)
+    
+    qa_chain = RetrievalQA.from_chain_type(
+        llm=llm,
+        chain_type="stuff",
+        retriever=vectorstore.as_retriever(search_kwargs={"k": 5})
+    )
+    
+    response = qa_chain.invoke("How do I reset my password?")
+    print(response['result'])
+    ```
 
-All outputs include:
-- Comprehensive documentation and code comments
-- Performance metrics and benchmark results
-- Model explainability and behavior descriptions
-- Deployment instructions and runbooks
-- Troubleshooting guides and common issues
-- Security and compliance considerations
+3.  **Optimization (Hybrid Search)**
+    -   Combine **Dense Retrieval** (Vectors) with **Sparse Retrieval** (BM25/Keywords).
+    -   Use **Reranking** (Cohere/Cross-Encoder) on the top 20 results to select best 5.
+
+---
+---
+
+## 5. Anti-Patterns & Gotchas
+
+### ❌ Anti-Pattern 1: Training-Serving Skew
+
+**What it looks like:**
+-   Feature logic implemented in SQL for training, but re-implemented in Java/Python for serving.
+-   "Mean imputation" value calculated on training set but not saved; serving uses a different default.
+
+**Why it fails:**
+-   Model behaves unpredictably in production.
+-   Debugging is extremely difficult.
+
+**Correct approach:**
+-   Use a **Feature Store** or shared library for transformations.
+-   Wrap preprocessing logic **inside** the model artifact (e.g., Scikit-Learn Pipeline, TensorFlow Transform).
+
+### ❌ Anti-Pattern 2: Manual Deployments
+
+**What it looks like:**
+-   Data Scientist emails a `.pkl` file to an engineer.
+-   Engineer manually copies it to a server and restarts the flask app.
+
+**Why it fails:**
+-   No version control.
+-   No reproducibility.
+-   High risk of human error.
+
+**Correct approach:**
+-   **CI/CD Pipeline:** Git push triggers build → test → deploy.
+-   **Model Registry:** Deploy specific version hash from registry.
+
+### ❌ Anti-Pattern 3: Silent Failures
+
+**What it looks like:**
+-   Model API returns `200 OK` but prediction is garbage because input data was corrupted (e.g., all Nulls).
+-   Model returns default class `0` for everything.
+
+**Why it fails:**
+-   Application keeps running, but business value is lost.
+-   Incident detected weeks later by business stakeholders.
+
+**Correct approach:**
+-   **Input Schema Validation:** Reject bad requests (Pydantic/TFX).
+-   **Output Monitoring:** Alert if prediction distribution shifts (e.g., if model predicts "Fraud" 0% of time for 1 hour).
+
+---
+---
+
+## 7. Quality Checklist
+
+**Reliability:**
+-   [ ] **Health Checks:** `/health` endpoint implemented (liveness/readiness).
+-   [ ] **Retries:** Client has retry logic with exponential backoff.
+-   [ ] **Fallback:** Default heuristic exists if model fails or times out.
+-   [ ] **Validation:** Inputs validated against schema before inference.
+
+**Performance:**
+-   [ ] **Latency:** P99 latency meets SLA (e.g., < 100ms).
+-   [ ] **Throughput:** System autoscales with load.
+-   [ ] **Batching:** Inference requests batched if using GPU.
+-   [ ] **Image Size:** Docker image optimized (slim base, multi-stage build).
+
+**Reproducibility:**
+-   [ ] **Versioning:** Code, Data, and Model versions linked.
+-   [ ] **Artifacts:** Saved in object storage (S3/GCS), not local disk.
+-   [ ] **Environment:** Dependencies pinned (`requirements.txt` / `conda.yaml`).
+
+**Monitoring:**
+-   [ ] **Technical:** Latency, Error Rate, CPU/Memory/GPU usage.
+-   [ ] **Functional:** Prediction distribution, Input data drift.
+-   [ ] **Business:** (If possible) Attribution of prediction to outcome.
+
+## Anti-Patterns
+
+### Training-Serving Skew
+
+- **Problem**: Feature logic differs between training and serving environments
+- **Symptoms**: Model performs well in testing but poorly in production
+- **Solution**: Use feature stores or embed preprocessing in model artifacts
+- **Warning Signs**: Different code paths for feature computation, hardcoded constants
+
+### Manual Deployment
+
+- **Problem**: Deploying models without automation or version control
+- **Symptoms**: No traceability, human errors, deployment failures
+- **Solution**: Implement CI/CD pipelines with model registry integration
+- **Warning Signs**: Email/file transfers of model files, manual server restarts
+
+### Silent Failures
+
+- **Problem**: Model failures go undetected
+- **Symptoms**: Bad predictions returned without error indication
+- **Solution**: Implement input validation, output monitoring, and alerting
+- **Warning Signs**: 200 OK responses with garbage data, no anomaly detection
+
+### Data Leakage
+
+- **Problem**: Training data contains information not available at prediction time
+- **Symptoms**: Unrealistically high training accuracy, poor generalization
+- **Solution**: Careful feature engineering and validation split review
+- **Warning Signs**: Features that would only be known after prediction

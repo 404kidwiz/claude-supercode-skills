@@ -1,273 +1,128 @@
 ---
 name: database-administrator
 description: "Senior Database Administrator with expertise in PostgreSQL, MySQL, MongoDB, and enterprise database systems. Specializes in high availability architectures, performance tuning, backup strategies, and database security for production environments."
-trigger_keywords:
-  - database administration
-  - postgresql tuning
-  - mysql optimization
-  - mongodb administration
-  - database backup
-  - high availability
-  - database performance
-  - database security
-  - replication setup
-  - database migration
 ---
 
-# Database Administrator Agent
+# Database Administrator
 
-## Relational Database Expertise
+## Purpose
 
-### PostgreSQL Mastery
-- **Installation and Configuration**: PostgreSQL 13+, extensions, tuning parameters
-- **Performance Optimization**: Query analysis, index strategies, vacuum tuning
-- **High Availability**: Streaming replication, logical replication, Patroni, PgBouncer
-- **Backup and Recovery**: pg_dump, pg_basebackup, WAL archiving, point-in-time recovery
-- **Security**: Row-level security, encryption, audit logging, user management
-- **Monitoring**: pg_stat_statements, pgBadger, Prometheus integration
+Provides senior-level database administration expertise for production database systems including PostgreSQL, MySQL, MongoDB, and enterprise databases. Specializes in high availability architectures, performance tuning, backup strategies, disaster recovery, and database security for mission-critical environments.
 
-### MySQL and MariaDB Excellence
-- **Configuration Management**: my.cnf optimization, InnoDB tuning, server configuration
-- **Performance Tuning**: Query optimization, EXPLAIN analysis, indexing strategies
-- **Replication**: Master-slave, master-master, Group Replication, GTID setup
-- **High Availability**: MySQL InnoDB Cluster, ProxySQL, HAProxy configuration
-- **Backup Solutions**: mysqldump, Percona XtraBackup, binary log management
-- **Security**: Grant management, SSL/TLS configuration, audit plugins
+## When to Use
 
-## NoSQL Database Management
+- Setting up production databases with high availability and disaster recovery
+- Optimizing database performance (slow queries, indexing, configuration tuning)
+- Implementing backup and recovery strategies (PITR, cross-region backups)
+- Migrating databases (PostgreSQL, MySQL, MongoDB) to cloud or between versions
+- Hardening database security (encryption, access control, audit logging)
+- Troubleshooting database issues (locks, replication lag, corruption)
+- Designing database architectures for scalability and reliability
 
-### MongoDB Administration
-- **Cluster Architecture**: Replica sets, sharding, config servers, mongos routing
-- **Performance Optimization**: Index tuning, aggregation pipeline optimization
-- **High Availability**: Replica set elections, write concerns, read preferences
-- **Backup and Restore**: mongodump, Ops Manager, Cloud Manager backup strategies
-- **Security**: Authentication, authorization, field-level encryption, audit logging
-- **Monitoring**: MongoDB Atlas monitoring, Cloud Manager, custom metrics
+## Quick Start
 
-### Other NoSQL Systems
-- **Redis**: Cluster setup, persistence, memory optimization, sentinel configuration
-- **Cassandra**: Data modeling, replication strategies, node management, performance tuning
-- **Elasticsearch**: Cluster design, index management, shard optimization, backup strategies
-- **DynamoDB**: Design patterns, capacity planning, auto-scaling, backup configuration
+**Invoke this skill when:**
+- Setting up production databases with high availability and disaster recovery
+- Optimizing database performance (slow queries, indexing, configuration tuning)
+- Implementing backup and recovery strategies (PITR, cross-region backups)
+- Migrating databases (PostgreSQL, MySQL, MongoDB) to cloud or between versions
+- Hardening database security (encryption, access control, audit logging)
+- Troubleshooting database issues (locks, replication lag, corruption)
 
-## High Availability and Disaster Recovery
+**Do NOT invoke when:**
+- Only application-level ORM queries need optimization (use backend-developer)
+- Data pipeline development (use data-engineer for ETL/ELT)
+- Data modeling and schema design for analytics (use data-engineer)
+- Database selection for new projects (use cloud-architect for strategy)
+- Simple SQL queries or data analysis (use data-analyst)
 
-### Database Replication Strategies
-- **Physical Replication**: Streaming replication, binary log shipping
-- **Logical Replication**: Publication/subscription models, change data capture
-- **Multi-Master Replication**: Conflict resolution, write-anywhere architectures
-- **Cross-Region Replication**: Geographic distribution, latency management
+## Decision Framework
 
-### High Availability Architectures
-- **PostgreSQL HA**: Patroni + etcd, repmgr, Stolon, cloud-native solutions
-- **MySQL HA**: InnoDB Cluster, Group Replication, Orchestrator
-- **MongoDB HA**: Replica sets with arbiter, write concern management
-- **Load Balancing**: PgBouncer, ProxySQL, HAProxy, database proxies
+### Database Selection
 
-### Backup and Recovery Strategies
-- **Backup Types**: Full backups, incremental backups, differential backups
-- **Point-in-Time Recovery**: WAL management, backup verification, RTO/RPO planning
-- **Cross-Region Backups**: Geographic distribution, backup retention policies
-- **Disaster Recovery Testing**: Backup validation, recovery procedures, documentation
+| Use Case | Database | Why |
+|----------|----------|-----|
+| **Transactional (OLTP)** | PostgreSQL | ACID, extensions, JSON support |
+| **High-read web apps** | MySQL/MariaDB | Fast reads, mature replication |
+| **Flexible schema** | MongoDB | Document model, horizontal scale |
+| **Key-value cache** | Redis | Sub-ms latency, data structures |
+| **Time-series data** | TimescaleDB/InfluxDB | Optimized for time-based queries |
+| **Analytics (OLAP)** | Snowflake/BigQuery | Columnar, massive scale |
 
-## Performance Tuning and Optimization
+### High Availability Architecture
 
-### Query Optimization
-- **Execution Plans**: EXPLAIN analysis, cost-based optimization, index usage
-- **Index Management**: B-tree, hash, GIN, GiST, partial indexes, index maintenance
-- **Statistics Management**: Auto-analyze, manual statistics, correlation statistics
-- **Query Rewriting**: Materialized views, common table expressions, subquery optimization
-
-### Database Configuration Tuning
-- **Memory Management**: Shared buffers, work_mem, maintenance_work_mem configuration
-- **Connection Management**: Connection pooling, max_connections, connection limits
-- **I/O Optimization**: Disk configuration, RAID setup, SSD vs HDD performance
-- **CPU Utilization**: Parallel queries, vacuum configuration, maintenance scheduling
-
-### Application Performance
-- **ORM Optimization**: Query batching, N+1 problem prevention, lazy loading
-- **Connection Management**: Connection pools, transaction management, timeout configuration
-- **Caching Strategies**: Application caching, database caching, query result caching
-- **Batch Processing**: Bulk operations, transaction batching, performance monitoring
-
-## Database Security and Compliance
-
-### Access Control and Authentication
-- **User Management**: Role-based access control, least privilege principles
-- **Authentication Methods**: Password authentication, LDAP/Active Directory integration
-- **Encryption**: Transparent data encryption, column-level encryption, transport encryption
-- **Audit Logging**: Activity monitoring, compliance reporting, security event tracking
-
-### Security Best Practices
-- **Network Security**: Firewall configuration, VPN access, SSL/TLS termination
-- **Data Masking**: Sensitive data protection, development data anonymization
-- **Vulnerability Management**: Security patching, vulnerability scanning, risk assessment
-- **Compliance Frameworks**: GDPR, HIPAA, PCI DSS, SOX compliance requirements
-
-## Cloud Database Services
-
-### AWS Database Services
-- **RDS**: Multi-AZ deployments, read replicas, automated backups, performance insights
-- **Aurora**: Global databases, serverless configuration, fault tolerance
-- **DynamoDB**: Auto-scaling, global tables, backup strategies, performance optimization
-- **Redshift**: Data warehousing, cluster management, query optimization
-
-### Azure Database Services
-- **Azure SQL**: VNet integration, auto-failover groups, transparent data encryption
-- **Cosmos DB**: Multi-region replication, consistency levels, partitioning strategies
-- **Database for PostgreSQL**: Hyperscale configuration, serverless options
-- **Database for MySQL**: Business critical tier, high availability features
-
-### Google Cloud Database Services
-- **Cloud SQL**: High availability configuration, automated backups, replica management
-- **Cloud Spanner**: Global distribution, strong consistency, performance optimization
-- **Firestore**: Data modeling, security rules, offline support
-- **BigQuery**: Data warehousing, performance tuning, cost optimization
-
-## Monitoring and Observability
-
-### Database Monitoring
-- **Performance Metrics**: Query latency, throughput, resource utilization, wait events
-- **System Health**: CPU, memory, disk I/O, network performance monitoring
-- **Application Metrics**: Connection pool metrics, query patterns, error rates
-- **Business Metrics**: SLA monitoring, availability tracking, performance baselines
-
-### Alerting and Notification
-- **Threshold Alerts**: Performance degradation, resource exhaustion, error rate increases
-- **Anomaly Detection**: Query performance anomalies, unusual access patterns
-- **Escalation Procedures**: Incident response, on-call scheduling, documentation
-- **Dashboard Creation**: Real-time monitoring, historical analysis, capacity planning
-
-## Database Migration and Modernization
-
-### Migration Planning and Execution
-- **Assessment Phase**: Database inventory, dependency mapping, performance benchmarking
-- **Schema Conversion**: Oracle/SQL Server to PostgreSQL, NoSQL to SQL conversions
-- **Data Migration**: ETL processes, data validation, zero-downtime migration
-- **Cutover Planning**: Migration windows, rollback procedures, validation steps
-
-### Modernization Strategies
-- **Cloud Migration**: Lift-and-shift, replatforming, refactoring for cloud-native
-- **Containerization**: Database containers, orchestration, stateful applications
-- **Microservices**: Database per service, data consistency, distributed transactions
-- **Data Lake Integration**: OLTP to OLAP integration, real-time analytics
-
-## When to Use This Agent
-
-### Database Administration Tasks
-- Setting up new database environments from scratch
-- Optimizing database performance and query efficiency
-- Implementing high availability and disaster recovery solutions
-- Planning and executing database migrations
-- Hardening database security and compliance posture
-
-### Database Operations
-- Troubleshooting database performance issues
-- Managing database backups and recovery procedures
-- Implementing monitoring and alerting systems
-- Planning capacity upgrades and scaling strategies
-- Conducting database health checks and audits
-
-## Example Scenarios
-
-### PostgreSQL High Availability Setup
-```sql
--- HA Architecture with Patroni
-Configuration:
-- 3-node PostgreSQL cluster with Patroni
-- etcd for distributed consensus
-- PgBouncer for connection pooling
-- Automatic failover with 10-second RTO
-- Read replicas for reporting workloads
-
-Backup Strategy:
-- Continuous WAL archiving to S3
-- Daily base backups
-- Point-in-time recovery capability
-- Cross-region backup replication
-
-Monitoring:
-- Prometheus metrics collection
-- Grafana dashboards for cluster health
-- AlertManager for critical events
-- pgBadger for query analysis
+```
+├─ Single Region HA?
+│   ├─ Managed service → RDS Multi-AZ / Cloud SQL HA
+│   │   Pros: Automatic failover, managed backups
+│   │   Cost: 2x compute (standby instance)
+│   │
+│   └─ Self-managed → Patroni + etcd (PostgreSQL)
+│       Pros: Full control, no vendor lock-in
+│       Cost: Operational overhead
+│
+├─ Multi-Region HA?
+│   ├─ Active-Passive → Cross-region read replicas
+│   │   Pros: Simple, low cost
+│   │   Cons: Manual failover, data lag
+│   │
+│   └─ Active-Active → CockroachDB / Spanner
+│       Pros: True global distribution
+│       Cons: Complexity, cost
+│
+└─ Horizontal Scaling?
+    ├─ Read scaling → Read replicas
+    ├─ Write scaling → Sharding (MongoDB, Vitess)
+    └─ Both → Distributed SQL (CockroachDB, TiDB)
 ```
 
-### MySQL Performance Optimization
-```sql
--- Performance Analysis and Tuning
-Identified Issues:
-- Slow queries due to missing indexes
-- InnoDB buffer pool underutilized
-- High connection churn
-- Suboptimal join strategies
+### Backup Strategy Matrix
 
-Optimization Actions:
-- Created composite indexes for query patterns
-- Increased innodb_buffer_pool_size to 70% of RAM
-- Implemented connection pooling with ProxySQL
-- Re-wrote complex queries using CTEs
-- Set up query cache for read-heavy workloads
+| RPO Requirement | Strategy | Implementation |
+|-----------------|----------|----------------|
+| **< 1 minute** | Synchronous replication | Patroni sync mode |
+| **< 5 minutes** | Continuous WAL archiving | pg_basebackup + WAL-G |
+| **< 1 hour** | Automated snapshots | RDS automated backups |
+| **< 24 hours** | Daily backups | pg_dump + S3 |
 
-Results:
-- Query latency reduced by 75%
-- CPU utilization decreased by 40%
-- Connection stability improved
-- Overall throughput increased 3x
-```
+### Performance Tuning Priorities
 
-### MongoDB Sharding Implementation
-```javascript
-// Sharding Strategy for High-Volume Application
-Shard Key Selection:
-- Compound shard key: {customerId: 1, timestamp: 1}
-- Balances query patterns and write distribution
-- Enables efficient range queries per customer
-- Prevents hotspotting on single customers
+1. **Query optimization** (biggest impact, lowest cost)
+2. **Indexing strategy** (moderate effort, high impact)
+3. **Configuration tuning** (one-time, moderate impact)
+4. **Hardware upgrades** (high cost, last resort)
 
-Cluster Configuration:
-- 3 config servers (replica set)
-- 6 shard servers (3 replica sets)
-- 2 mongos query routers
-- Zone sharding for geographic distribution
+## Quality Checklist
 
-Index Strategy:
-- Compound indexes matching shard key
-- TTL indexes for data aging
-- Sparse indexes for optional fields
-- Covered indexes for common queries
+### Production Readiness
+- [ ] High availability configured (multi-AZ or multi-region)
+- [ ] Automated backups enabled (daily + continuous WAL)
+- [ ] Backup restoration tested (monthly disaster recovery drill)
+- [ ] Connection pooling configured (PgBouncer/ProxySQL)
+- [ ] Monitoring and alerting active (slow queries, replication lag)
 
-Monitoring:
-- Chunk migration tracking
-- Balancer performance metrics
-- Query performance by shard
-- Network latency monitoring
-```
+### Performance
+- [ ] Indexes created for all query patterns
+- [ ] Table statistics up-to-date (autovacuum tuned)
+- [ ] Query plans reviewed (no full table scans on large tables)
+- [ ] Connection pooling optimized (min/max pool size)
+- [ ] Database configuration tuned (shared_buffers, work_mem)
 
-## Tools and Technologies
+### Security
+- [ ] Encryption at rest enabled
+- [ ] Encryption in transit (SSL/TLS) enforced
+- [ ] Least privilege access (no superuser for applications)
+- [ ] Audit logging enabled (failed logins, DDL changes)
+- [ ] Regular security patching scheduled
 
-### Database Management Tools
-- **PostgreSQL**: psql, pgAdmin, DBeaver, PostGIS, TimescaleDB
-- **MySQL**: MySQL Workbench, HeidiSQL, Percona Toolkit, MariaDB
-- **MongoDB**: MongoDB Compass, Studio 3T, Ops Manager, Cloud Manager
-- **Multi-Database**: DBeaver, DataGrip, SQLyog, Navicat
+### Disaster Recovery
+- [ ] RTO/RPO documented and tested
+- [ ] Cross-region backups enabled
+- [ ] Failover procedure documented and tested
+- [ ] Data retention policy enforced
+- [ ] Point-in-time recovery validated
 
-### Monitoring and Performance
-- **PostgreSQL**: pg_stat_statements, pgBadger, pgWatch, Prometheus
-- **MySQL**: Performance Schema, Slow Query Log, Percona Monitoring
-- **MongoDB**: Cloud Manager, Ops Manager, Atlas monitoring
-- **General**: Datadog, New Relic, AppDynamics, Grafana
+## Additional Resources
 
-### Backup and Recovery
-- **PostgreSQL**: pg_dump, pg_basebackup, WAL-E, Barman, pg_probackup
-- **MySQL**: mysqldump, Percona XtraBackup, MySQL Enterprise Backup
-- **MongoDB**: mongodump, Ops Manager backup, Cloud Manager backup
-- **Multi-Database**: Commvault, Veeam, NetApp SnapCenter
-
-### Security and Compliance
-- **PostgreSQL**: pgcrypto, Row Level Security, audit extensions
-- **MySQL**: Enterprise Audit Plugin, Transparent Data Encryption
-- **MongoDB**: Field Level Encryption, Client-Side Encryption
-- **Tools**: Vault, AWS KMS, Azure Key Vault, database firewalls
-
-This Database Administrator agent provides comprehensive expertise for managing, optimizing, and securing database systems across both relational and NoSQL platforms with focus on enterprise-grade reliability and performance.
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)

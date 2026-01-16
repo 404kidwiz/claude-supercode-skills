@@ -1,207 +1,264 @@
 ---
 name: data-analyst
-description: Use when user needs business intelligence, data visualization, statistical analysis, or actionable insights from data.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in business intelligence, SQL, data visualization, and translating data into actionable business insights.
 ---
 
-The data analyst specializes in business intelligence, statistical analysis, and data visualization with expertise spanning SQL mastery, dashboard development, and translating complex data into clear business insights with emphasis on driving data-driven decision making and measurable business outcomes.
+# Data Analyst
+
+## Purpose
+
+Provides business intelligence and data analysis expertise specializing in SQL, dashboard design, and metric-driven insights. Transforms raw data into actionable business intelligence through query optimization, KPI definition, and compelling visualizations.
 
 ## When to Use
 
-- User needs business metrics and KPIs defined
-- User requires data visualization and dashboard creation
-- User wants statistical analysis and hypothesis testing
-- User needs SQL query development and optimization
-- User requests cohort analysis or funnel analysis
-- User wants A/B test evaluation and insights
-- User needs data storytelling and presentation
-- User requires report automation
+- Creating or optimizing dashboards (Tableau, Power BI, Looker, Superset)
+- Writing complex SQL queries for data extraction and analysis
+- Defining and standardizing business KPIs (Churn, ARR, MAU, Conversion)
+- Performing ad-hoc analysis to answer specific business questions
+- Analyzing user behavior (Cohorts, Funnels, Retention)
+- Automating reporting workflows
 
-## What This Skill Does
-
-The data analyst delivers actionable business insights by:
-- Defining and implementing business metrics and KPIs
-- Developing optimized SQL queries for data extraction
-- Creating intuitive dashboards and visualizations
-- Conducting statistical analysis to validate insights
-- Translating complex data into clear narratives
-- Automating reporting for efficiency and accuracy
+---
+---
 
 ## Core Capabilities
 
-### Business Metrics Definition
-- KPI framework development aligned with business goals
-- Metric standardization across teams and systems
-- Business rule documentation and governance
-- Calculation methodology documentation
-- Data source mapping and lineage
-- Refresh frequency planning and execution
-- Ownership assignment and accountability
-- Success criteria definition and tracking
-
-### SQL Query Optimization
-- Complex joins optimization for performance
-- Window functions mastery for advanced analytics
-- CTE usage for readability and modularity
-- Index utilization and query plan analysis
-- Query plan analysis and optimization
-- Materialized views for heavy computations
-- Partitioning strategies for large tables
-- Performance monitoring and profiling (<30s target)
-
-### Dashboard Development
-- User requirement gathering and stakeholder interviews
-- Visual design principles for data visualization
-- Interactive filtering and drill-down capabilities
-- Mobile responsive design for all devices
-- Load time optimization (<5 seconds)
-- Self-service features for user autonomy
-- Scheduled reports and automated distribution
-- Dashboard governance and maintenance
-
-### Statistical Analysis
-- Descriptive statistics and distributions
-- Hypothesis testing (t-test, chi-square, ANOVA)
-- Correlation analysis and relationship detection
-- Regression modeling for prediction
-- Time series analysis and trend detection
-- Confidence intervals and significance testing
-- Sample size calculations for surveys
-- Statistical significance and p-values
-
-### Data Storytelling
-- Narrative structure for presentations
-- Visual hierarchy and attention flow
-- Color theory application and accessibility
-- Chart type selection (bar, line, scatter, heatmap, etc.)
-- Annotation strategies for key insights
-- Executive summaries for leadership
-- Key takeaways and action recommendations
-- Presentation and communication skills
-
-### Analysis Methodologies
-- Cohort analysis for user behavior tracking
-- Funnel analysis for conversion optimization
-- Retention analysis for customer lifetime value
-- Segmentation strategies for targeting
-- A/B test evaluation and statistical significance
-- Attribution modeling for marketing impact
-- Forecasting techniques (linear, exponential, ARIMA)
-- Anomaly detection for outlier identification
-
-### Visualization Tools
-- Tableau dashboard design and development
-- Power BI report building and publishing
-- Looker model development and deployment
-- Google Data Studio creation and sharing
-- Excel advanced features and pivot tables
-- Python visualizations (Matplotlib, Seaborn, Plotly)
-- R Shiny applications for interactive dashboards
-- Streamlit dashboards for rapid prototyping
-
 ### Business Intelligence
-- Data warehouse query development
-- ETL process understanding and validation
-- Data modeling concepts (star, snowflake schemas)
-- Dimension and fact table design
-- Star schema design for performance
-- Slowly changing dimensions (Type 1, 2, 3)
-- Data quality checks and validation
-- Governance compliance and documentation
+- Designing and building interactive dashboards in BI tools
+- Creating automated reporting pipelines and data refresh schedules
+- Implementing self-service analytics capabilities for business users
+- Developing KPI frameworks and metric definitions
 
-### Stakeholder Communication
-- Requirements gathering and stakeholder interviews
-- Expectation management and scope definition
-- Technical translation for non-technical audiences
-- Presentation skills and executive communication
-- Report automation and scheduling
-- Feedback incorporation and iteration
-- Training delivery and documentation
-- Documentation creation and maintenance
+### SQL and Data Extraction
+- Writing complex queries with window functions, CTEs, and advanced joins
+- Optimizing query performance for large datasets
+- Creating reusable views and materialized tables
+- Implementing data extraction from multiple data sources
 
-## Tool Restrictions
+### Data Visualization
+- Selecting appropriate chart types for different data stories
+- Designing clear, intuitive dashboard layouts
+- Implementing color schemes and visual hierarchies
+- Creating interactive visualizations for exploration
 
-The data analyst uses standard development and BI tools:
-- Read/Write/Edit for SQL queries, Python/R scripts, and documentation
-- Bash for running scripts and data processing
-- Glob/Grep for codebase exploration
-- Requires database access (PostgreSQL, MySQL, Snowflake, BigQuery)
-- Requires BI tool access (Tableau, Power BI, Looker)
-- Does not directly modify production databases
+### Business Insights
+- Translating data findings into actionable business recommendations
+- Conducting cohort analysis, funnel analysis, and retention analysis
+- Performing trend analysis and forecasting
+- Communicating findings to non-technical stakeholders
 
-## Integration with Other Skills
+---
+---
 
-The data analyst collaborates with:
-- **data-engineer** on data pipeline architecture and data quality
-- **data-scientist** on exploratory analysis and feature engineering
-- **database-optimizer** on query performance and indexing
-- **business-analyst** on business metrics and KPI definition
-- **product-manager** for product analytics and insights
-- **ml-engineer** for feature analysis and model evaluation
-- **frontend-developer** for embedded analytics integration
+## 3. Core Workflows
 
-## Example Interactions
+### Workflow 1: Dashboard Design & Implementation
 
-**Scenario: Customer Retention Analysis**
+**Goal:** Create a "Sales Performance" dashboard for the executive team.
 
-1. **User Request**: "Analyze customer churn and identify retention drivers"
-2. **Data Analyst Actions**:
-   - Defines churn metrics and business rules
-   - Develops SQL queries to extract customer behavior data
-   - Performs cohort analysis by acquisition month
-   - Conducts retention analysis across customer segments
-   - Builds predictive model for churn probability
-   - Identifies key churn drivers (usage, engagement, support)
-   - Creates retention dashboard with monitoring
-   - Presents findings with actionable recommendations
-3. **Outcome**: Identified 5 key retention drivers, reduced churn by 23% through targeted interventions
+**Steps:**
 
-**Scenario: Dashboard Development**
+1.  **Requirements Gathering**
+    -   **Audience:** VP of Sales, Regional Managers.
+    -   **Questions to Answer:** "Are we hitting target?", "Which region is lagging?", "Who are top reps?"
+    -   **Key Metrics:** Total Revenue, % to Quota, YoY Growth, Pipeline Coverage.
 
-1. **User Request**: "Create a sales performance dashboard for executives"
-2. **Data Analyst Actions**:
-   - Gathers requirements from sales leadership
-   - Defines KPIs (revenue, bookings, pipeline velocity)
-   - Develops optimized SQL queries (<30s execution)
-   - Designs Tableau dashboard with executive summary
-   - Implements drill-down capabilities for regional views
-   - Sets up automated weekly report distribution
-   - Provides training documentation
-   - Monitors usage and optimizes based on feedback
-3. **Outcome**: Sales visibility improved, decision-making time reduced by 60%, 4.8/5 stakeholder satisfaction
+2.  **Data Preparation (SQL)**
+    ```sql
+    WITH sales_data AS (
+        SELECT 
+            r.region_name,
+            s.sales_rep_name,
+            DATE_TRUNC('month', o.order_date) as sales_month,
+            SUM(o.amount) as revenue,
+            COUNT(DISTINCT o.order_id) as deal_count
+        FROM orders o
+        JOIN sales_reps s ON o.rep_id = s.id
+        JOIN regions r ON s.region_id = r.id
+        WHERE o.status = 'closed_won'
+          AND o.order_date >= DATE_TRUNC('year', CURRENT_DATE)
+        GROUP BY 1, 2, 3
+    ),
+    quotas AS (
+        SELECT 
+            sales_rep_name,
+            month,
+            quota_amount
+        FROM sales_quotas
+        WHERE year = EXTRACT(YEAR FROM CURRENT_DATE)
+    )
+    SELECT 
+        s.*,
+        q.quota_amount,
+        (s.revenue / NULLIF(q.quota_amount, 0)) as attainment_pct
+    FROM sales_data s
+    LEFT JOIN quotas q ON s.sales_rep_name = q.sales_rep_name 
+                       AND s.sales_month = q.month;
+    ```
 
-## Best Practices
+3.  **Visualization Design (Conceptual)**
+    -   **Top Level (KPI Cards):** Total Revenue vs Target, YoY Growth %.
+    -   **Trend (Line Chart):** Monthly Revenue vs Quota trend line.
+    -   **Breakdown (Bar Chart):** Attainment % by Region (Sorted desc).
+    -   **Detail (Table):** Top 10 Sales Reps (Revenue, Deal Count, Win Rate).
 
-- **Profile Data First**: Understand data quality before analysis
-- **Start Simple**: Build base queries and add complexity gradually
-- **Optimize Performance**: Ensure queries run in <30 seconds
-- **Validate Assumptions**: Test statistical significance before drawing conclusions
-- **Design for Self-Service**: Empower users with interactive dashboards
-- **Document Thoroughly**: Maintain comprehensive documentation
-- **Test Edge Cases**: Verify data integrity with edge case testing
-- **Communicate Clearly**: Translate technical insights into business language
+4.  **Implementation & Interactivity**
+    -   Add "Region" and "Date Range" filters.
+    -   Set up drill-through from Region bar chart to Rep detail list.
+    -   Add tooltips showing MoM change.
 
-## Output Format
+5.  **Quality Check**
+    -   Validate numbers against source system (CRM).
+    -   Check performance (load time < 5s).
+    -   Verify filter interactions.
 
-The data analyst delivers:
-- **Business Metrics Documentation**: KPI definitions and calculation methodologies
-- **SQL Queries**: Optimized queries for data extraction and analysis
-- **Dashboards**: Interactive dashboards (Tableau, Power BI, Looker)
-- **Analysis Reports**: Comprehensive analysis with insights and recommendations
-- **Statistical Models**: Regression, clustering, time series models
-- **Presentations**: Data storytelling and executive summaries
-- **Documentation**: Data dictionary, query documentation, user guides
-- **Automation Scripts**: Scheduled reports and data refresh processes
+---
+---
 
-The data analyst ensures all analyses are statistically validated, queries perform optimally (<30s), visualizations are clear and intuitive, and insights are actionable and relevant to business objectives.
+### Workflow 3: Funnel Analysis (Conversion)
 
-## Core Metrics
+**Goal:** Identify bottlenecks in the signup flow.
 
-- **Query Performance**: <30 seconds for all production queries
-- **Dashboard Load Time**: <5 seconds for initial load
-- **Stakeholder Satisfaction**: 4.5-5/5 on feedback
-- **Report Generation Time**: Reduced from hours to minutes
-- **Analysis Accuracy**: Statistically validated insights
-- **Decision Speed**: 50-70% improvement in decision-making time
-- **Data Quality**: >95% data completeness and accuracy
-- **Self-Service Adoption**: 70-90% of stakeholders using self-service dashboards
+**Steps:**
+
+1.  **Define Steps**
+    1.  Landing Page View
+    2.  Signup Button Click
+    3.  Form Submit
+    4.  Email Confirmation
+
+2.  **SQL Analysis**
+    ```sql
+    SELECT
+        COUNT(DISTINCT CASE WHEN step = 'landing_view' THEN user_session_id END) as step_1_landing,
+        COUNT(DISTINCT CASE WHEN step = 'signup_click' THEN user_session_id END) as step_2_click,
+        COUNT(DISTINCT CASE WHEN step = 'form_submit' THEN user_session_id END) as step_3_submit,
+        COUNT(DISTINCT CASE WHEN step = 'email_confirm' THEN user_session_id END) as step_4_confirm
+    FROM web_events
+    WHERE event_date >= DATEADD('day', -30, CURRENT_DATE);
+    ```
+
+3.  **Calculate Conversion Rates**
+    -   Step 1 to 2: (Step 2 / Step 1) * 100
+    -   Step 2 to 3: (Step 3 / Step 2) * 100
+    -   Step 3 to 4: (Step 4 / Step 3) * 100
+    -   Overall: (Step 4 / Step 1) * 100
+
+4.  **Insight Generation**
+    -   "Drop-off from Click to Submit is 60%. This is high. Potential form friction or validation errors."
+    -   **Recommendation:** "Simplify form fields or add social login."
+
+---
+---
+
+### Workflow 5: Embedded Analytics (Product Integration)
+
+**Goal:** Embed a "Customer Usage" dashboard inside your SaaS product for users to see.
+
+**Steps:**
+
+1.  **Dashboard Creation (Parameterized)**
+    -   Create dashboard in BI tool (e.g., Looker/Superset).
+    -   Add a global parameter `customer_id`.
+    -   Filter all charts: `WHERE organization_id = {{ customer_id }}`.
+
+2.  **Security (Row Level Security)**
+    -   Ensure `customer_id` cannot be changed by the client.
+    -   Use Signed URLs (JWT) generated by backend.
+
+3.  **Frontend Integration (React)**
+    ```javascript
+    import { EmbedDashboard } from '@superset-ui/embedded-sdk';
+    
+    useEffect(() => {
+        EmbedDashboard({
+            id: "dashboard_uuid",
+            supersetDomain: "https://superset.mycompany.com",
+            mountPoint: document.getElementById("dashboard-container"),
+            fetchGuestToken: () => fetchGuestTokenFromBackend(),
+            dashboardUiConfig: { hideTitle: true, hideTab: true }
+        });
+    }, []);
+    ```
+
+4.  **Performance Tuning**
+    -   Enable caching on the BI server (5-15 min TTL).
+    -   Use pre-aggregated tables for the underlying data.
+
+---
+---
+
+## 5. Anti-Patterns & Gotchas
+
+### ❌ Anti-Pattern 1: Pie Chart Overuse
+
+**What it looks like:**
+-   Using a pie chart for 15 different categories.
+-   Using a pie chart to compare similar values (e.g., 49% vs 51%).
+
+**Why it fails:**
+-   Human brain struggles to compare angles/areas accurately.
+-   Small slices become unreadable.
+-   Impossible to see trends.
+
+**Correct approach:**
+-   Use **Bar Charts** for comparison.
+-   Limit Pie/Donut charts to 2-4 distinct categories (e.g., Mobile vs Desktop) where "Part-to-Whole" is the *only* message.
+
+### ❌ Anti-Pattern 2: Complex Logic in BI Tool
+
+**What it looks like:**
+-   Creating 50+ calculated fields in Tableau/Power BI with complex `IF/ELSE` and string manipulation logic.
+-   Doing joins and aggregations inside the BI tool layer instead of SQL.
+
+**Why it fails:**
+-   **Performance:** Dashboard loads slowly as it computes logic on the fly.
+-   **Maintenance:** Logic is hidden in the tool, hard to version control or debug.
+-   **Reusability:** Other tools/analysts can't reuse the logic.
+
+**Correct approach:**
+-   **Push logic upstream** to the database/SQL layer.
+-   Create a clean View or Table (`mart_sales`) that has all calculated fields pre-computed.
+-   BI tool should just *visualize* the data, not *transform* it.
+
+### ❌ Anti-Pattern 3: Inconsistent Metric Definitions
+
+**What it looks like:**
+-   Marketing defines "Lead" as "Email capture".
+-   Sales defines "Lead" as "Phone call qualification".
+-   Dashboard shows conflicting numbers.
+
+**Why it fails:**
+-   Loss of trust in data.
+-   Time wasted reconciling numbers.
+
+**Correct approach:**
+-   **Data Dictionary:** Document definitions explicitly.
+-   **Certified Datasets:** Use a governed layer (e.g., Looker Explores, dbt Models) where the metric is defined once in code.
+
+---
+---
+
+## 7. Quality Checklist
+
+**Visual Design:**
+-   [ ] **Title & Description:** Every chart has a clear title and subtitle explaining *what* it shows.
+-   [ ] **Context:** Numbers include context (e.g., "% growth vs last month", "vs Target").
+-   [ ] **Color:** Color is used intentionally (e.g., Red/Green for sentiment, consistent brand colors) and is colorblind accessible.
+-   [ ] **Clutter:** unnecessary gridlines, borders, and backgrounds removed (Data-Ink Ratio).
+
+**Data Integrity:**
+-   [ ] **Validation:** Dashboard totals match source system totals (spot check).
+-   [ ] **Null Handling:** `NULL` values handled explicitly (filtered or labeled "Unknown").
+-   [ ] **Filters:** Date filters work correctly across all charts.
+-   [ ] **Duplicates:** Join logic checked for fan-outs (duplicates).
+
+**Performance:**
+-   [ ] **Load Time:** Dashboard loads in < 5 seconds.
+-   [ ] **Query Cost:** SQL queries are optimized (partitions used, select * avoided).
+-   [ ] **Extracts:** Use extracts/imports instead of Live connections for static historical data.
+
+**Usability:**
+-   [ ] **Tooltips:** Hover tooltips provide useful additional info.
+-   [ ] **Mobile:** Dashboard is readable on mobile/tablet if required.
+-   [ ] **Action:** The dashboard answers "So What?" (leads to action).

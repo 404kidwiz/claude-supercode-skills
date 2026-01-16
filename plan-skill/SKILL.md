@@ -30,6 +30,89 @@ Use when you need to:
 - Prepare for complex debugging or troubleshooting efforts
 - Design systematic testing strategies
 
+## Examples
+
+### Example 1: Breaking Down a New Feature
+
+**Scenario:** A SaaS company wants to add multi-tenant RBAC (Role-Based Access Control) to their platform.
+
+**Planning Approach:**
+1. Identified 5 main components (data model, API, UI, permissions engine, migrations)
+2. Created 47 atomic tasks with clear dependencies
+3. Estimated effort using t-shirt sizing (S/M/L/XL)
+4. Identified critical path (permissions engine first)
+5. Built in 2-week buffer for integration testing
+
+**Deliverables:**
+- Hierarchical task breakdown with 47 items
+- Gantt chart showing critical path
+- Risk register with 8 identified risks
+- Resource allocation plan (2 backend, 1 frontend, 1 DevOps)
+
+### Example 2: Planning a Migration
+
+**Scenario:** Migrating a legacy monolith to microservices over 6 months.
+
+**Planning Approach:**
+1. Analyzed monolith dependencies and identified 12 service boundaries
+2. Prioritized services by business value and migration complexity
+3. Created strangler pattern strategy for gradual migration
+4. Planned database per service with eventual consistency approach
+5. Defined rollback procedures for each migration phase
+
+**Deliverables:**
+- 6-phase migration roadmap
+- Service dependency matrix
+- Data migration strategy document
+- Go/No-Go criteria for each phase
+
+### Example 3: Scaling a Team
+
+**Scenario:** Growing engineering team from 10 to 25 while maintaining productivity.
+
+**Planning Approach:**
+1. Mapped current workflows and identified bottlenecks
+2. Designed team structure (3 squads with dedicated roles)
+3. Created onboarding timeline (2 weeks per new hire)
+4. Planned knowledge transfer sessions and documentation
+5. Identified hiring priorities and skill gaps
+
+**Deliverables:**
+- Org chart with role definitions
+- Hiring timeline (12 months)
+- Onboarding curriculum (20 sessions)
+- Productivity tracking metrics
+
+## Best Practices
+
+### Task Decomposition
+
+- **Atomic Tasks**: Each task should be completable by one person in 1-3 days
+- **Clear Dependencies**: Explicitly link dependent tasks
+- **Testable Outcomes**: Each task should have clear completion criteria
+- **Prioritized Backlog**: Order tasks by value and dependency
+
+### Estimation
+
+- **Historical Data**: Use past velocity to inform estimates
+- **T-Shirt Sizing**: Quick rough estimates before detailed planning
+- **Confidence Ranges**: Provide ranges, not single numbers
+- **Buffer Inclusion**: Add contingency for uncertainty
+
+### Risk Management
+
+- **Early Identification**: Identify risks during planning, not during execution
+- **Mitigation Planning**: For each risk, define mitigation or contingency
+- **Regular Review**: Update risk register as project progresses
+- **Escalation Paths**: Define when and how to escalate risks
+
+### Dependency Management
+
+- **Critical Path**: Identify and protect the critical path
+- **Parallelization**: Maximize work that can be done in parallel
+- **Integration Points**: Plan for integration testing between components
+- **Buffer Time**: Build in buffer for integration and coordination
+
 ## Core Philosophy
 
 Strategic planning is about creating clarity from complexity. Your role is to:
@@ -267,3 +350,33 @@ For detailed planning methodologies and templates, see:
 - **Risk Assessment Framework**: [reference/risk-assessment.md](reference/risk-assessment.md)
 - **Dependency Management**: [reference/dependency-mapping.md](reference/dependency-mapping.md)
 - **Estimation Techniques**: [reference/estimation-methods.md](reference/estimation-methods.md)
+
+## Anti-Patterns
+
+### Planning Anti-Patterns
+
+- **Perfect Plan Fallacy**: Believing detailed upfront planning eliminates surprises - plan for change
+- **Task Granularity Extremes**: Either too coarse (months) or too fine (hours) - right-size tasks
+- **No Buffer Planning**: Estimates without contingency - include risk buffers
+- **Iceberg Planning**: Only visible tasks planned, dependencies hidden - surface all assumptions
+
+### Estimation Anti-Patterns
+
+- **Hofstadter's Law**: Always taking longer than expected - use historical data for calibration
+- **Optimism Bias**: Estimates based on best-case scenarios - consider risk-adjusted estimates
+- **Novelty Effect**: Underestimating unfamiliar work - factor in learning time
+- **Pink Elephant**: Ignoring obvious risks - proactively identify failure modes
+
+### Dependency Anti-Patterns
+
+- **Implicit Dependencies**: Assuming knowledge everyone doesn't have - make dependencies explicit
+- **Linear Thinking**: Assuming work can be perfectly parallelized - account for integration overhead
+- **Latest Start Date**: Waiting until last moment for dependencies - plan for early integration
+- **Dependency Chains**: Long chains of dependent tasks - break or parallelize where possible
+
+### Scope Anti-Patterns
+
+- **Featuritis**: Continuous scope expansion without adjustment - protect boundaries
+- **Vague Requirements**: "Should" and "could" treated as "must" - clarify MoSCoW prioritization
+- **Creep By Subtraction**: Adding scope by removing explicit exclusions - explicit inclusion boundaries
+- **Gold Plating**: Adding features beyond requirements - deliver minimal viable scope first

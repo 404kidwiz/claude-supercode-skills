@@ -299,10 +299,3 @@ When delivering results, provide:
 - "How can we improve the reliability of our distributed system?"
 
 ---
-
-## Progressive Disclosure
-
-For detailed reference materials, see:
-- **Research Methodologies**: [reference/research-methods.md](reference/research-methods.md)
-- **Multi-Step Execution**: [reference/execution-patterns.md](reference/execution-patterns.md)
-- **Tool Coordination**: [reference/tool-strategies.md](reference/tool-strategies.md)

@@ -1,16 +1,105 @@
 ---
 name: performance-testing
 description: Performance testing specialist for load testing, stress testing, and performance optimization across applications and infrastructure
-tools:
-  - read
-  - grep
-  - glob
-version: 1.0.0
-author: OpenCode Agent Skills
-category: performance-testing
 ---
 
 # Performance Testing Skill
+
+## Purpose
+
+Provides comprehensive performance testing expertise specializing in load testing, stress testing, and endurance testing for applications, APIs, and infrastructure systems. Validates system behavior under various load conditions and identifies capacity limits.
+
+## When to Use
+
+- Conducting load testing to simulate concurrent users
+- Performing stress testing to find breaking points
+- Running endurance tests to detect memory leaks
+- Validating system scalability under increased load
+- Measuring response times and throughput metrics
+- Analyzing resource utilization patterns
+
+## Examples
+
+### Example 1: E-commerce Platform Load Testing
+
+**Scenario:** An e-commerce platform preparing for Black Friday needs to validate performance under 10x expected traffic.
+
+**Implementation:**
+1. Analyzed historical traffic patterns to model realistic load
+2. Created JMeter test scenarios for critical paths (browse, cart, checkout)
+3. Simulated 10,000 concurrent users with ramp-up period
+4. Tested database queries under load, identified N+1 issues
+5. Validated auto-scaling triggers and thresholds
+
+**Results:**
+- Identified 3 critical bottlenecks (2 DB, 1 API)
+- Reduced average response time from 2.3s to 450ms
+- Validated system handles 50,000 concurrent users
+- Confirmed auto-scaling activates within 45 seconds
+
+### Example 2: API Performance Benchmarking
+
+**Scenario:** A financial services API needs performance validation against SLA requirements (<200ms P99).
+
+**Implementation:**
+1. Created k6 test scripts for all API endpoints
+2. Tested with various concurrency levels (100, 500, 1000)
+3. Analyzed response time distributions (P50, P90, P95, P99)
+4. Profiled database queries causing slow responses
+5. Implemented query optimizations and caching
+
+**Results:**
+- P99 latency reduced from 850ms to 145ms
+- Throughput increased from 500 to 2,500 RPS
+- All endpoints meet SLA requirements
+- Created performance regression test suite
+
+### Example 3: Microservices Chaos Testing
+
+**Scenario:** A microservices architecture needs validation under partial service failures.
+
+**Implementation:**
+1. Designed chaos test scenarios for service failures
+2. Implemented latency injection and error responses
+3. Tested circuit breaker functionality and recovery
+4. Validated graceful degradation behaviors
+5. Measured end-to-end request flows under chaos
+
+**Results:**
+- Identified 2 services without proper circuit breakers
+- Validated recovery times under various failure scenarios
+- Confirmed system degrades gracefully (not catastrophically)
+- Documented recovery procedures for each failure mode
+
+## Best Practices
+
+### Test Design
+
+- **Realistic Workload Modeling**: Base load patterns on production traffic analysis
+- **Think Time Inclusion**: Include realistic user pause times between requests
+- **Data Parameterization**: Use varied test data to avoid caching artifacts
+- **Comprehensive Coverage**: Test all critical user journeys, not just happy paths
+
+### Execution
+
+- **Production-Like Environments**: Test in environments matching production configuration
+- **Proper Warm-up**: Include ramp-up periods before measurement
+- **Extended Duration**: Run stress tests long enough to discover issues
+- **Error Rate Monitoring**: Track both response times and error rates
+
+### Analysis
+
+- **Percentile Analysis**: Report P50, P90, P95, P99, not just averages
+- **Baseline Comparison**: Always compare against established baselines
+- **Trend Tracking**: Monitor performance over time, not just snapshots
+- **Focused Metrics**: Track SLA-relevant metrics, avoid metric overload
+
+### Tooling
+
+- **Test Maintenance**: Treat tests as production code, maintain and update
+- **CI/CD Integration**: Automate performance tests in deployment pipelines
+- **Adequate Resources**: Ensure load generators can generate required load
+- **Result Analysis**: Implement automated analysis and alerting
 
 ## Overview
 Performance testing expert specializing in load testing, stress testing, and performance optimization for applications, APIs, and infrastructure systems.
@@ -328,3 +417,33 @@ grep -r "concurrent\|connections\|requests" load_tests/ --include="*.js" --inclu
 - Monitoring setup configurations
 - Alerting system setup
 - Documentation and training materials
+
+## Anti-Patterns
+
+### Test Design Anti-Patterns
+
+- **Unrealistic Workloads**: Tests that don't reflect real usage patterns - profile production traffic first
+- **Missing Think Time**: Continuous requests without user pause times - include realistic user delays
+- **Static Data Only**: Tests with no data variation - use parameterized and varied test data
+- **Single Scenario Focus**: Testing one path only - cover all critical user journeys
+
+### Execution Anti-Patterns
+
+- **Test Environment Gap**: Testing in non-representative environments - match production configuration
+- **No Warm-up**: Starting tests without system warm-up - include ramp-up periods
+- **Stopping Too Early**: Ending tests before finding limits - continue until failure
+- **Ignoring Error Rates**: Focusing only on response times - monitor error rates too
+
+### Analysis Anti-Patterns
+
+- **Averages Only**: Relying only on averages - analyze percentiles and distributions
+- **No Baselines**: Testing without baseline comparisons - establish performance baselines
+- **Snapshot Testing**: One-time tests without trend tracking - monitor over time
+- **Metric Overload**: Tracking too many irrelevant metrics - focus on SLA-relevant metrics
+
+### Tooling Anti-Patterns
+
+- **Scripted Once**: Tests not maintained or updated - treat tests as production code
+- **Manual Test Creation**: No automation of test generation - generate tests from specs
+- **No CI Integration**: Performance tests run manually - integrate into CI/CD pipeline
+- **Resource Contention**: Load generators underpowered - ensure adequate load generation capacity

@@ -5,67 +5,9 @@ description: BMAD master coordinator who orchestrates the entire AI-powered agil
 
 # BMAD Master Coordinator
 
-## Overview
+## Purpose
 
-The BMAD Master is the central coordinator for the entire BMAD (Business Model and Architecture Development) methodology. This agent ensures seamless collaboration between all specialized agents, maintains workflow integrity, and guides projects through the four-phase development process while ensuring quality gates and process compliance.
-
-## Core Responsibilities
-
-### Workflow Orchestration
-- Coordinate all agent handoffs and transitions
-- Maintain project status across the four phases: Analysis → Planning → Solutioning → Implementation
-- Ensure proper sequence of activities and dependencies
-- Manage sprint planning and story execution workflows
-
-### Agent Management
-- Select appropriate agents based on project complexity and phase
-- Resolve agent conflicts and ensure consistent implementation
-- Facilitate party mode for multi-agent collaboration
-- Monitor agent performance and quality standards
-
-### Process Governance
-- Enforce BMAD methodology principles and best practices
-- Validate readiness between phases with quality gates
-- Track progress through workflow status files
-- Ensure documentation completeness and accuracy
-
-## Methodology Principles
-
-### Four-Phase Development Framework
-
-**Phase 1: Analysis (Optional)**
-- Brainstorming and market research
-- Problem validation and solution exploration
-- Product brief creation for strategic alignment
-
-**Phase 2: Planning (Required)**
-- Requirements specification (PRD or tech-spec)
-- User persona development
-- Success metrics and acceptance criteria definition
-
-**Phase 3: Solutioning (Track-Dependent)**
-- Technical architecture and system design
-- Implementation readiness assessment
-- Epic and story breakdown from architecture
-
-**Phase 4: Implementation (Required)**
-- Sprint-based iterative development
-- Story-centric workflow execution
-- Code review and quality validation
-
-### Scale-Adaptive Planning
-
-**Quick Flow Track** - Simple features, clear scope
-- Tech-spec only documentation
-- Direct implementation with Barry (Quick Flow Solo Dev)
-
-**BMad Method Track** - Complex products and platforms
-- Full PRD + Architecture + UX design
-- Multi-agent collaboration throughout
-
-**Enterprise Track** - Compliance and enterprise requirements
-- Extended documentation (Security, DevOps, Compliance)
-- Formal quality gates and review processes
+Provides comprehensive project orchestration expertise for the BMAD methodology, coordinating all specialized agents and phases from analysis through implementation. Ensures workflow integrity, quality gates, and successful delivery of AI-powered agile development projects.
 
 ## When to Use
 
@@ -102,6 +44,32 @@ The BMAD Master is the central coordinator for the entire BMAD (Business Model a
 - Conflict resolution and consensus building
 - Communication and documentation standards
 - Continuous improvement and retrospectives
+
+## Core Capabilities
+
+### Workflow Orchestration
+- Coordinating all agent handoffs and transitions
+- Maintaining project status across the four phases
+- Ensuring proper sequence of activities and dependencies
+- Managing sprint planning and story execution workflows
+
+### Agent Management
+- Selecting appropriate agents based on project complexity and phase
+- Resolving agent conflicts and ensuring consistent implementation
+- Facilitating party mode for multi-agent collaboration
+- Monitoring agent performance and quality standards
+
+### Process Governance
+- Enforcing BMAD methodology principles and best practices
+- Validating readiness between phases with quality gates
+- Tracking progress through workflow status files
+- Ensuring documentation completeness and accuracy
+
+### Multi-Phase Coordination
+- Leading Phase 1 Analysis (Brainstorm, Research, Product Brief)
+- Managing Phase 2 Planning (PRD, User Personas, Success Metrics)
+- Directing Phase 3 Solutioning (Architecture, Epic Breakdown)
+- Overseeing Phase 4 Implementation (Story Execution, Code Review)
 
 ## Key Workflows
 

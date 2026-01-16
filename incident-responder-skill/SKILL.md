@@ -1,10 +1,13 @@
 ---
 name: incident-responder
 description: Use when user needs security incident response, operational incident management, evidence collection, forensic analysis, or coordinated response for outages and breaches.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-The incident-responder skill specializes in managing both security breaches and operational incidents. This skill masters rapid response, evidence preservation, impact analysis, and recovery coordination with emphasis on thorough investigation, clear communication, and continuous improvement of incident response capabilities.
+# Incident Responder
+
+## Purpose
+
+Provides comprehensive incident management expertise for security breaches and operational failures. Specializes in rapid response coordination, evidence preservation, forensic analysis, and recovery operations. Ensures thorough investigation, clear communication, and continuous improvement of incident response capabilities.
 
 ## When to Use
 
@@ -213,3 +216,132 @@ The incident-responder skill includes comprehensive automation scripts located i
 ### Reference Documentation (`references/` directory)
 - **troubleshooting.md**: Comprehensive troubleshooting guide for incident scenarios, common issues, and resolution procedures
 - **best_practices.md**: Best practices for incident response including communication, documentation, continuous improvement, and team coordination
+
+## Examples
+
+### Example 1: Data Breach Incident Response
+
+**Scenario:** Detected unauthorized access to customer database containing PII.
+
+**Response Timeline:**
+- **Minute 0**: Alert from security monitoring system
+- **Minute 5**: Initial assessment, incident declared SEV-1
+- **Minute 15**: Containment team isolated affected systems
+- **Hour 1**: Forensic evidence preserved, law enforcement notified
+- **Hour 4**: Affected users notified, remediation in progress
+- **Week 1**: Full postmortem, regulatory reporting completed
+
+**Key Actions:**
+1. Isolate affected systems while preserving evidence
+2. Identify scope of breach (records accessed)
+3. Preserve logs and forensic data
+4. Notify legal and compliance teams
+5. Communicate with affected customers
+6. Implement additional security controls
+
+### Example 2: DDoS Attack Mitigation
+
+**Scenario:** Distributed denial of service attack targeting API endpoints.
+
+**Mitigation Steps:**
+1. **Detection**: Automated alerts from CDN/WAF monitoring
+2. **Analysis**: Identify attack vectors (HTTP flood, UDP flood)
+3. **Filtering**: Apply rate limiting and IP blocklists
+4. **Scaling**: Autoscaling to absorb attack traffic
+5. **Communication**: Status page updates for customers
+
+**Technical Response:**
+- Enable WAF rules for attack pattern blocking
+- Activate CDN DDoS protection
+- Implement CAPTCHA for affected endpoints
+- Scale infrastructure horizontally
+- Geo-blocking for attack source regions
+
+### Example 3: Service Outage Recovery
+
+**Scenario:** Critical payment processing service experiencing cascading failures.
+
+**Recovery Process:**
+1. **Incident Command**: IC assigned, war room established
+2. **Impact Assessment**: 30% of transactions failing
+3. **Triage**: Identified database connection pool exhaustion
+4. **Immediate Fix**: Restarted service with increased pool size
+5. **Verification**: Monitored recovery metrics
+6. **Communication**: Customer notifications during outage
+
+**Post-Incident:**
+- Root cause: Connection leak in recent deployment
+- Fix: Patched leak, added monitoring
+- Prevention: Added connection pool monitoring alerts
+
+## Best Practices
+
+### Incident Response
+
+- **Preparation**: Maintain updated playbooks and contact lists
+- **Rapid Response**: Initial assessment within 5 minutes
+- **Clear Communication**: Regular status updates to stakeholders
+- **Evidence Preservation**: Maintain chain of custody
+- **Thorough Documentation**: Log all actions and decisions
+
+### Team Coordination
+
+- **Role Clarity**: IC, communications, technical lead roles
+- **Escalation Paths**: Clear procedures for escalation
+- **War Room**: Dedicated space for major incidents
+- **Handovers**: Detailed handoffs between shifts
+- **Blameless Culture**: Focus on system improvement
+
+### Technical Response
+
+- **Containment First**: Isolate before investigating
+- **Gradual Recovery**: Bring systems back incrementally
+- **Monitoring**: Watch for cascading effects
+- **Verification**: Confirm full recovery before closing
+- **Documentation**: Capture forensic data before cleanup
+
+### Communication
+
+- **Stakeholder Updates**: Regular intervals, clear language
+- **Internal Channels**: Dedicated incident Slack channels
+- **Customer Communication**: Transparent, empathetic messaging
+- **Executive Briefings**: High-level status and impact
+- **Post-Incident**: Share learnings broadly
+
+### Continuous Improvement
+
+- **Postmortem Culture**: Blameless, focused on improvement
+- **Action Items**: Track to completion
+- **Testing**: Regular incident response exercises
+- **Tooling**: Automate detection and response where possible
+- **Knowledge Base**: Document patterns and solutions
+
+## Anti-Patterns
+
+### Response Anti-Patterns
+
+- **Panic Response**: Acting without assessment in all situations - follow triage procedures, escalate appropriately
+- **Over-Containment**: Shutting down more than necessary during containment - minimize business impact
+- **Premature Closure**: Declaring incident resolved before full validation - verify complete recovery
+- **Documentation Debt**: Failing to document during incident - maintain real-time incident log
+
+### Communication Anti-Patterns
+
+- **Information Hoarding**: Limiting information to select groups - share appropriately with all stakeholders
+- **Vague Updates**: Providing unclear status updates - use clear, specific language with actionable information
+- **Oversharing**: Sharing sensitive details inappropriately - maintain information classification
+- **Silence**: Not communicating during ongoing incidents - provide regular updates even when no new information
+
+### Investigation Anti-Patterns
+
+- **Tunnel Vision**: Focusing only on obvious attack vectors - consider all possibilities
+- **Assumption-Based Investigation**: Assuming attack methodology without evidence - let evidence guide investigation
+- **Evidence Destruction**: Cleaning systems before evidence collection - preserve evidence first
+- **Scope Creep**: Expanding investigation beyond incident scope - maintain focus on incident boundaries
+
+### Recovery Anti-Patterns
+
+- **Rush to Restore**: Restoring service before understanding root cause - fix cause before restore
+- **Partial Recovery**: Declaring recovery complete when partial - verify complete functionality
+- **Configuration Drift**: Restoring to previous broken state - restore to known good baseline
+- **Monitoring Neglect**: Not monitoring post-recovery - maintain heightened vigilance after incidents

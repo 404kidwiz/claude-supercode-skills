@@ -5,6 +5,109 @@ description: End-to-end feature expert specializing in frontend-backend integrat
 
 # Fullstack Developer Skill
 
+## Purpose
+
+Provides end-to-end full-stack development expertise spanning frontend and backend technologies with focus on seamless integration, complete feature ownership, and system-level architecture. Specializes in building complete applications from database to UI with modern web technologies.
+
+## When to Use
+
+- Building complete features end-to-end (database → API → frontend)
+- Integrating frontend and backend systems (REST/GraphQL APIs, WebSockets)
+- Implementing authentication and authorization across the stack
+- Designing and implementing full-stack architectures (monoliths, microservices)
+- Optimizing performance across frontend-backend boundaries
+- Debugging complex issues spanning multiple layers of the stack
+- Building full-stack applications with React/Vue + Node.js/Python/Go
+
+## Core Capabilities
+
+### Frontend Development
+- Building React, Vue, or other modern frontend applications
+- Implementing component architectures and design patterns
+- Managing state with Redux, Context, or other solutions
+- Creating responsive and accessible user interfaces
+
+### Backend Development
+- Developing APIs with Node.js, Python, Go, or other backends
+- Managing database design and ORM usage
+- Implementing authentication and authorization systems
+- Handling file uploads, streaming, and server-side processing
+
+### Full-Stack Integration
+- Connecting frontend and backend systems seamlessly
+- Managing API contracts and version compatibility
+- Implementing real-time features (WebSockets, Server-Sent Events)
+- Optimizing performance across the full stack
+
+### DevOps and Deployment
+- Setting up CI/CD pipelines for full-stack applications
+- Managing containerization with Docker and Kubernetes
+- Configuring cloud infrastructure and deployment strategies
+- Monitoring and troubleshooting production issues
+
+## Quick Start
+
+### Invoke When
+- User needs complete feature implementation from database to UI
+- Task involves frontend-backend communication or integration
+- Building or debugging full-stack applications
+- Need architecture decisions spanning multiple layers
+
+### Don't Invoke When
+- Task is purely frontend (use react-specialist or vue-expert)
+- Task is purely backend API (use backend-developer)
+- Task is infrastructure-focused (use devops-engineer)
+- Task is database-specific (use database-optimizer)
+
+## Decision Framework
+
+### Architecture Patterns
+
+```
+Building new application?
+│
+├─ Team size < 5 developers?
+│  │
+│  ├─ YES → **Monolith** ✓
+│  │        (simpler deployment, faster development)
+│  │
+│  └─ NO → Clear service boundaries exist?
+│           │
+│           ├─ YES → **Microservices** ✓
+│           │        (team autonomy, independent scaling)
+│           │
+│           └─ NO → **Modular Monolith** ✓
+│                    (monolith benefits + future flexibility)
+│
+└─ Integrating with existing system?
+    │
+    └─ Use **API Gateway Pattern** for consistent interface
+```
+
+### Frontend-Backend Communication
+
+| Pattern | Use When | Avoid When |
+|---------|----------|------------|
+| **REST API** | CRUD operations, simple data fetching | Complex nested data, real-time needs |
+| **GraphQL** | Complex data requirements, mobile apps | Simple APIs, caching is critical |
+| **WebSockets** | Real-time updates, chat, live feeds | One-time data fetches |
+| **Server-Sent Events** | Server-to-client streaming only | Bidirectional communication needed |
+
+### State Management Decision
+
+```
+Application complexity?
+│
+├─ Simple (< 5 components sharing state)
+│  └─ **React Context / Vue provide/inject** ✓
+│
+├─ Medium (multiple feature modules)
+│  └─ **Zustand / Pinia** ✓
+│
+└─ Complex (large team, strict requirements)
+   └─ **Redux Toolkit / Vuex** ✓
+```
+
 ## Architecture Patterns and Methodologies
 
 ### Fullstack Integration Patterns
@@ -28,521 +131,49 @@ description: End-to-end feature expert specializing in frontend-backend integrat
 - **Data Validation**: Request validation and sanitization
 - **Error Handling**: Consistent error responses and logging
 
-## Integration Patterns
+## Best Practices
 
-### Frontend-Backend Communication
-```javascript
-// API Client Configuration
-const apiClient = axios.create({
-  baseURL: process.env.REACT_APP_API_URL,
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
-});
+### Fullstack Development
 
-// Request/Response Interceptors
-apiClient.interceptors.request.use((config) => {
-  const token = localStorage.getItem('authToken');
-  if (token) {
-    config.headers.Authorization = `Bearer ${token}`;
-  }
-  return config;
-});
+- **API Design**: RESTful conventions with OpenAPI documentation
+- **State Management**: Centralized state with proper data flow
+- **Error Handling**: Consistent error responses, proper HTTP status codes
+- **Security**: Input validation, SQL injection prevention, XSS protection
+- **Performance**: Caching strategies, query optimization, code splitting
 
-// Error Handling Middleware
-apiClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
-    if (error.response?.status === 401) {
-      // Handle authentication errors
-      redirectToLogin();
-    }
-    return Promise.reject(error);
-  }
-);
-```
+### Frontend Excellence
 
-### Component Integration
-```javascript
-// React Component with Backend Integration
-const UserProfile = () => {
-  const [user, setUser] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+- **Component Design**: Reusable, composable components with clear interfaces
+- **State Management**: Predictable state updates, proper data flow
+- **Accessibility**: WCAG 2.1 compliance, keyboard navigation, screen reader support
+- **Testing**: Unit tests, integration tests, E2E tests with good coverage
+- **Performance**: Optimized bundle size, lazy loading, image optimization
 
-  useEffect(() => {
-    const fetchUser = async () => {
-      try {
-        const response = await apiClient.get('/api/users/profile');
-        setUser(response.data);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    };
+### Backend Excellence
 
-    fetchUser();
-  }, []);
+- **API Design**: Consistent patterns, proper versioning, deprecation strategies
+- **Database**: Proper indexing, query optimization, connection pooling
+- **Security**: Authentication, authorization, input validation, rate limiting
+- **Monitoring**: Logging, metrics, tracing, alerting
+- **Scalability**: Horizontal scaling, load balancing, caching strategies
 
-  if (loading) return <Spinner />;
-  if (error) return <ErrorMessage error={error} />;
-  
-  return <UserProfileCard user={user} />;
-};
-```
+### DevOps Integration
 
-### Backend Route Handler
-```javascript
-// Express.js Route Handler
-router.get('/api/users/profile', authenticate, async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const user = await User.findById(userId)
-      .select('-password')
-      .populate('profile');
+- **CI/CD**: Automated testing, building, and deployment pipelines
+- **Infrastructure as Code**: Terraform or CloudFormation for infrastructure
+- **Containerization**: Docker for consistent environments
+- **Monitoring**: Prometheus, Grafana for metrics and alerting
+- **Documentation**: API docs, runbooks, architecture diagrams
 
-    if (!user) {
-      return res.status(404).json({ error: 'User not found' });
-    }
+### Collaboration and Workflow
 
-    // Cache user profile
-    await cache.set(`user:${userId}`, user, 300); // 5 minutes
+- **Code Review**: Meaningful reviews, constructive feedback
+- **Documentation**: Clear README, contributing guide, code comments
+- **Version Control**: Meaningful commits, branch strategy, PR workflow
+- **Testing Strategy**: Test pyramid with appropriate coverage
+- **Communication**: Clear requirements, regular syncs, async updates
 
-    res.json({
-      success: true,
-      data: {
-        id: user.id,
-        email: user.email,
-        profile: user.profile,
-        createdAt: user.createdAt
-      }
-    });
-  } catch (error) {
-    logger.error('Error fetching user profile:', error);
-    res.status(500).json({ error: 'Internal server error' });
-  }
-});
-```
+## Additional Resources
 
-## End-to-End Feature Development
-
-### Database Schema Design
-```javascript
-// User Model (Mongoose)
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    lowercase: true,
-    validate: [validator.isEmail, 'Invalid email']
-  },
-  password: {
-    type: String,
-    required: true,
-    minlength: 8
-  },
-  profile: {
-    firstName: String,
-    lastName: String,
-    avatar: String,
-    bio: String
-  },
-  preferences: {
-    theme: { type: String, enum: ['light', 'dark'], default: 'light' },
-    notifications: { type: Boolean, default: true }
-  }
-}, { timestamps: true });
-
-// Indexes for performance
-userSchema.index({ email: 1 });
-userSchema.index({ 'profile.firstName': 1, 'profile.lastName': 1 });
-```
-
-### Frontend Form Handling
-```javascript
-// Form Component with Validation
-const UserSettingsForm = () => {
-  const { register, handleSubmit, formState: { errors } } = useForm();
-  const [updateUser, { isLoading }] = useUpdateUserMutation();
-
-  const onSubmit = async (data) => {
-    try {
-      await updateUser(data).unwrap();
-      toast.success('Settings updated successfully');
-    } catch (error) {
-      toast.error('Failed to update settings');
-    }
-  };
-
-  return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <div className="form-group">
-        <label>First Name</label>
-        <input
-          {...register('firstName', { required: 'First name is required' })}
-        />
-        {errors.firstName && (
-          <span className="error">{errors.firstName.message}</span>
-        )}
-      </div>
-      
-      <div className="form-group">
-        <label>Last Name</label>
-        <input
-          {...register('lastName', { required: 'Last name is required' })}
-        />
-        {errors.lastName && (
-          <span className="error">{errors.lastName.message}</span>
-        )}
-      </div>
-      
-      <button type="submit" disabled={isLoading}>
-        {isLoading ? 'Saving...' : 'Save Changes'}
-      </button>
-    </form>
-  );
-};
-```
-
-## State Management Integration
-
-### Global State Setup
-```javascript
-// Redux Store Configuration
-const store = configureStore({
-  reducer: {
-    auth: authSlice,
-    user: userSlice,
-    products: productsSlice,
-    ui: uiSlice
-  },
-  middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER]
-      }
-    }).concat(apiSlice.middleware)
-});
-
-// Auth Slice
-const authSlice = createSlice({
-  name: 'auth',
-  initialState: {
-    user: null,
-    token: null,
-    isAuthenticated: false,
-    loading: false
-  },
-  reducers: {
-    loginStart: (state) => {
-      state.loading = true;
-    },
-    loginSuccess: (state, action) => {
-      state.user = action.payload.user;
-      state.token = action.payload.token;
-      state.isAuthenticated = true;
-      state.loading = false;
-    },
-    loginFailure: (state) => {
-      state.loading = false;
-    },
-    logout: (state) => {
-      state.user = null;
-      state.token = null;
-      state.isAuthenticated = false;
-    }
-  }
-});
-```
-
-### Backend Authentication Middleware
-```javascript
-// JWT Authentication Middleware
-const authenticate = async (req, res, next) => {
-  try {
-    const token = req.header('Authorization')?.replace('Bearer ', '');
-    
-    if (!token) {
-      return res.status(401).json({ error: 'Access denied. No token provided.' });
-    }
-
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id).select('-password');
-    
-    if (!user) {
-      return res.status(401).json({ error: 'Invalid token.' });
-    }
-
-    req.user = user;
-    next();
-  } catch (error) {
-    res.status(401).json({ error: 'Invalid token.' });
-  }
-};
-```
-
-## Real-time Features
-
-### WebSocket Integration
-```javascript
-// Frontend WebSocket Hook
-const useWebSocket = (url) => {
-  const [socket, setSocket] = useState(null);
-  const [connected, setConnected] = useState(false);
-
-  useEffect(() => {
-    const ws = new WebSocket(url);
-
-    ws.onopen = () => {
-      setConnected(true);
-      console.log('WebSocket connected');
-    };
-
-    ws.onclose = () => {
-      setConnected(false);
-      console.log('WebSocket disconnected');
-    };
-
-    ws.onerror = (error) => {
-      console.error('WebSocket error:', error);
-    };
-
-    setSocket(ws);
-
-    return () => {
-      ws.close();
-    };
-  }, [url]);
-
-  const sendMessage = (message) => {
-    if (socket && connected) {
-      socket.send(JSON.stringify(message));
-    }
-  };
-
-  return { socket, connected, sendMessage };
-};
-
-// Backend WebSocket Handler
-const setupWebSocket = (server) => {
-  const wss = new WebSocketServer({ server });
-
-  wss.on('connection', (ws, req) => {
-    // Authenticate WebSocket connection
-    const token = req.url.split('token=')[1];
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    
-    ws.userId = user.id;
-    ws.send(JSON.stringify({ type: 'connection', success: true }));
-
-    ws.on('message', async (data) => {
-      const message = JSON.parse(data);
-      
-      switch (message.type) {
-        case 'join_room':
-          await handleJoinRoom(ws, message.roomId);
-          break;
-        case 'send_message':
-          await handleSendMessage(ws, message);
-          break;
-      }
-    });
-  });
-};
-```
-
-## Performance Optimization
-
-### Frontend Optimization
-```javascript
-// Code Splitting and Lazy Loading
-const LazyComponent = React.lazy(() => import('./LazyComponent'));
-
-// Image Optimization
-const OptimizedImage = ({ src, alt, ...props }) => {
-  const [loaded, setLoaded] = useState(false);
-
-  return (
-    <div className="image-container">
-      <img
-        src={src}
-        alt={alt}
-        loading="lazy"
-        onLoad={() => setLoaded(true)}
-        className={`image ${loaded ? 'loaded' : 'loading'}`}
-        {...props}
-      />
-    </div>
-  );
-};
-
-// API Response Caching
-const useApiCache = (key, fetcher, options = {}) => {
-  const { data, error, isLoading } = useSWR(key, fetcher, {
-    revalidateOnFocus: false,
-    dedupingInterval: 60000, // 1 minute
-    ...options
-  });
-
-  return { data, error, isLoading };
-};
-```
-
-### Backend Optimization
-```javascript
-// Database Query Optimization
-const getProducts = async (filters = {}, pagination = {}) => {
-  const { limit = 20, offset = 0 } = pagination;
-  const { category, minPrice, maxPrice, search } = filters;
-
-  // Build efficient query
-  const query = {};
-  
-  if (category) query.category = category;
-  if (minPrice || maxPrice) {
-    query.price = {};
-    if (minPrice) query.price.$gte = minPrice;
-    if (maxPrice) query.price.$lte = maxPrice;
-  }
-  if (search) {
-    query.$text = { $search: search };
-  }
-
-  // Parallel execution with aggregation pipeline
-  const [products, totalCount] = await Promise.all([
-    Product.find(query)
-      .select('name price category images')
-      .limit(limit)
-      .skip(offset)
-      .sort({ createdAt: -1 }),
-    Product.countDocuments(query)
-  ]);
-
-  return { products, totalCount };
-};
-
-// Response Compression
-app.use(compression());
-app.use(express.json({ limit: '10mb' }));
-
-// Rate Limiting
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-  message: 'Too many requests from this IP'
-});
-app.use('/api/', limiter);
-```
-
-## Testing Strategies
-
-### Frontend Testing
-```javascript
-// Component Testing
-describe('UserProfile', () => {
-  test('renders user profile correctly', async () => {
-    const mockUser = { id: 1, name: 'John Doe', email: 'john@example.com' };
-    
-    render(<UserProfile user={mockUser} />);
-    
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-    expect(screen.getByText('john@example.com')).toBeInTheDocument();
-  });
-
-  test('handles loading state', () => {
-    render(<UserProfile loading={true} />);
-    expect(screen.getByTestId('spinner')).toBeInTheDocument();
-  });
-});
-
-// API Testing
-import { renderHook, act } from '@testing-library/react-hooks';
-import { useUserApi } from './api';
-
-test('fetches user data successfully', async () => {
-  const mockUser = { id: 1, name: 'John Doe' };
-  axios.get.mockResolvedValue({ data: mockUser });
-
-  const { result, waitForNextUpdate } = renderHook(() => useUserApi());
-
-  expect(result.current.loading).toBe(true);
-
-  await waitForNextUpdate();
-
-  expect(result.current.user).toEqual(mockUser);
-  expect(result.current.loading).toBe(false);
-});
-```
-
-### Backend Testing
-```javascript
-// Integration Testing
-describe('User API', () => {
-  beforeEach(async () => {
-    await User.deleteMany({});
-  });
-
-  test('POST /api/users creates new user', async () => {
-    const userData = {
-      email: 'test@example.com',
-      password: 'password123',
-      firstName: 'John',
-      lastName: 'Doe'
-    };
-
-    const response = await request(app)
-      .post('/api/users')
-      .send(userData)
-      .expect(201);
-
-    expect(response.body.success).toBe(true);
-    expect(response.body.data.email).toBe(userData.email);
-  });
-
-  test('GET /api/users/:id returns user data', async () => {
-    const user = await User.create(userData);
-    
-    const response = await request(app)
-      .get(`/api/users/${user.id}`)
-      .expect(200);
-
-    expect(response.body.data.id).toBe(user.id);
-  });
-});
-```
-
-## Deployment and DevOps
-
-### Container Configuration
-```dockerfile
-# Frontend Dockerfile
-FROM node:16-alpine as builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-
-FROM nginx:alpine
-COPY --from=builder /app/build /usr/share/nginx/html
-COPY nginx.conf /etc/nginx/nginx.conf
-EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
-```
-
-```dockerfile
-# Backend Dockerfile
-FROM node:16-alpine
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
-EXPOSE 3000
-CMD ["npm", "start"]
-```
-
-This skill provides comprehensive fullstack development capabilities, combining frontend expertise with backend integration to build complete, scalable applications.
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)

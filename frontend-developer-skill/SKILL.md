@@ -1,337 +1,83 @@
+---
+name: frontend-developer-skill
+description: Comprehensive frontend development specialist for building modern web applications with React, Vue, Angular, and modern tooling including state management, testing, and performance optimization
+---
+
 # Frontend Developer Skill
 
-## Overview
+## Purpose
 
-The Frontend Developer skill provides comprehensive tools and references for building modern, performant web applications with React and other frameworks.
+Provides complete frontend development expertise for building production-ready web applications with modern frameworks (React, Vue, Next.js), comprehensive tooling setup, state management patterns, testing infrastructure, and performance optimization strategies.
 
-## Scripts
+## When to Use
 
-### React Component Scaffolding
-```bash
-ts-node scripts/scaffold_component.tsx <ComponentName> [OPTIONS]
-
-# Options:
-# --hooks=<hooks>: Include hooks (useState,useEffect,useCallback)
-# --props=<json>: Component props as JSON
-# --styles=<type>: CSS type (css, styled-components, emotion, module)
-# --no-test: Skip test file generation
-
-# Example: Create component with hooks
-ts-node scripts/scaffold_component.tsx UserProfile --hooks=useState,useEffect
-
-# Example: Create component with props
-ts-node scripts/scaffold_component.tsx Button --props='[{"name":"label","type":"string","required":true}]'
-
-# Example: Create component with styled-components
-ts-node scripts/scaffold_component.tsx Card --styles=styled-components
-```
-
-### State Management Setup
-```bash
-ts-node scripts/setup_state.ts <stateName> <type>
-
-# Types: redux, zustand, context, jotai, recoil
-
-# Example: Setup Redux store
-ts-node scripts/setup_state.ts User redux
-
-# Example: Setup Zustand store
-ts-node scripts/setup_state.ts Cart zustand
-
-# Example: Setup Context API
-ts-node scripts/setup_state.ts Auth context
-```
-
-### API Client Generation
-```bash
-ts-node scripts/create_api_client.ts <clientType>
-
-# Client types: axios, fetch
-
-# Example: Generate Axios client
-ts-node scripts/create_api_client.ts axios
-
-# Example: Generate Fetch client
-ts-node scripts/create_api_client.ts fetch
-```
-
-### Utility Functions Generation
-```bash
-ts-node scripts/create_utils.ts
-
-# Generates:
-# - Validators (email, password, URL, phone)
-# - Storage helpers (localStorage, sessionStorage)
-# - Date utilities
-# - Number utilities
-# - String utilities
-# - Formatters
-
-# Example: Generate all utilities
-ts-node scripts/create_utils.ts
-```
-
-### Linting Setup
-```bash
-ts-node scripts/setup_linting.ts
-
-# Generates:
-# - ESLint configuration
-# - Prettier configuration
-# - Ignore files
-# - Package.json scripts
-
-# Example: Setup linting
-ts-node scripts/setup_linting.ts
-```
-
-### Testing Setup
-```bash
-ts-node scripts/setup_testing.ts <framework>
-
-# Frameworks: jest, vitest, playwright
-
-# Example: Setup Jest
-ts-node scripts/setup_testing.ts jest
-
-# Example: Setup Vitest
-ts-node scripts/setup_testing.ts vitest
-
-# Example: Setup Playwright (E2E)
-ts-node scripts/setup_testing.ts playwright
-```
-
-### Build Optimization
-```bash
-ts-node scripts/optimize_build.ts <bundler>
-
-# Bundlers: vite, webpack
-
-# Example: Optimize Vite build
-ts-node scripts/optimize_build.ts vite
-
-# Example: Optimize Webpack build
-ts-node scripts/optimize_build.ts webpack
-```
-
-### Deployment Script
-```bash
-./scripts/deploy.sh [OPTIONS]
-
-# Options:
-# --skip-tests: Skip test execution
-# --skip-quality: Skip linting/formatting
-# --platform <vercel|netlify|s3|github>: Deployment platform
-
-# Example: Deploy to Vercel
-./scripts/deploy.sh --platform vercel
-
-# Example: Deploy to Netlify
-./scripts/deploy.sh --platform netlify
-
-# Example: Deploy to AWS S3
-./scripts/deploy.sh --platform s3
-```
-
-## References
-
-### React Patterns (`references/react_patterns.md`)
-- Functional components with hooks
-- Container/Presentational pattern
-- Higher-Order Components (HOC)
-- Custom hooks
-- State management patterns
-- Performance optimization
-- Testing patterns
-- Error handling (Error Boundaries)
-- Form handling
-- Accessibility
-
-### State Management (`references/state_management.md`)
-- Redux Toolkit
-- Zustand
-- Context API
-- Jotai
-- Recoil
-- Comparison table
-- When to use what
-- Best practices
-- Code examples
-
-### Performance Guide (`references/performance_guide.md`)
-- Core Web Vitals (LCP, FID, CLS)
-- Code splitting (route-based, component-based)
-- Tree shaking
-- Bundle optimization
-- Memory management
-- Image optimization
-- Font optimization
-- Rendering optimization (virtualization, memoization)
-- Network optimization
-- Performance monitoring
+- Building new React, Vue, or Angular applications from scratch
+- Setting up modern frontend tooling (Vite, ESLint, Prettier, testing frameworks)
+- Implementing state management with Redux Toolkit, Zustand, or Context API
+- Configuring authentication flows with token management and protected routes
+- Optimizing bundle size and performance for production deployments
+- Creating component libraries and design systems
+- Setting up comprehensive testing (unit, integration, E2E)
 
 ## Quick Start
 
-### Create a New Project
+**Invoke this skill when:**
+- Building React, Vue, or Angular applications
+- Setting up frontend tooling (Vite, ESLint, Prettier)
+- Implementing state management (Redux Toolkit, Zustand, Context)
+- Configuring authentication flows
+- Optimizing bundle size and performance
+- Setting up testing (Vitest, Jest, Playwright)
 
-```bash
-# 1. Create component with hooks
-ts-node scripts/scaffold_component.tsx UserProfile --hooks=useState,useEffect --styles=module
+**Do NOT invoke when:**
+- Only backend API needed → Use backend-developer
+- Database optimization → Use database-optimizer
+- DevOps/deployment only → Use devops-engineer
+- UI/UX design without code → Use ui-designer
 
-# 2. Setup state management
-ts-node scripts/setup_state.ts User redux
+## Decision Framework
 
-# 3. Generate API client
-ts-node scripts/create_api_client.ts axios
+### Framework Selection
 
-# 4. Generate utilities
-ts-node scripts/create_utils.ts
-
-# 5. Setup testing
-ts-node scripts/setup_testing.ts vitest
-
-# 6. Setup linting
-ts-node scripts/setup_linting.ts
+```
+Frontend Framework Selection
+├─ New Project (greenfield)
+│   ├─ Needs SEO + server-side rendering
+│   │   ├─ Team knows React → Next.js 14+
+│   │   ├─ Team knows Vue → Nuxt.js 3+
+│   │   └─ Team flexible → Next.js (ecosystem advantage)
+│   │
+│   ├─ SPA without SSR requirements
+│   │   ├─ React experience → React 18+ (Vite)
+│   │   ├─ Vue experience → Vue 3 (Vite)
+│   │   └─ Enterprise/complex forms → Angular 15+
+│   │
+│   └─ Static site (blog, docs)
+│       └─ Astro, Next.js SSG, or Vite + React
+│
+└─ Existing Project
+    └─ Continue with existing framework (consistency)
 ```
 
-### Deploy to Production
+### State Management Selection
 
-```bash
-# Run quality checks
-npm run lint-and-format
+| Scenario | Library | Bundle Size | Use Case |
+|----------|---------|-------------|----------|
+| Simple local state | useState, useReducer | 0 KB | Component-level state |
+| Shared state (2-3 components) | Context API | 0 KB | Theme, auth, simple global |
+| Medium app (<10 slices) | Zustand | ~1 KB | Most apps, good DX |
+| Large app (10+ slices) | Redux Toolkit | ~11 KB | Enterprise, time-travel debug |
+| Server state | TanStack Query | ~12 KB | API data, caching |
 
-# Deploy to platform
-./scripts/deploy.sh --platform vercel
+### Styling Approach
+
 ```
-
-## Component Library
-
-### Available Components
-
-- UserCard
-- UserProfile
-- Button
-- Form
-- Modal
-- Table
-- Chart
-- Map
-- Editor
-
-### Usage
-
-```typescript
-import UserProfile from './UserProfile';
-
-const App = () => {
-  return (
-    <UserProfile userId={1} onUpdate={handleUpdate} />
-  );
-};
-```
-
-## State Management
-
-### Redux Toolkit
-
-```typescript
-// Generate store
-ts-node scripts/setup_state.ts User redux
-
-// Use in component
-import { useAppDispatch, useAppSelector } from './store/hooks';
-import { fetchUsers } from './store/userSlice';
-
-const UserList = () => {
-  const dispatch = useAppDispatch();
-  const users = useAppSelector(state => state.users.users);
-
-  useEffect(() => {
-    dispatch(fetchUsers());
-  }, [dispatch]);
-
-  return <div>{/* ... */}</div>;
-};
-```
-
-### Zustand
-
-```typescript
-// Generate store
-ts-node scripts/setup_state.ts Cart zustand
-
-// Use in component
-import { useCartStore } from './store/cartStore';
-
-const ShoppingCart = () => {
-  const { items, addItem } = useCartStore();
-
-  return <div>{/* ... */}</div>;
-};
-```
-
-## Testing
-
-### Unit Testing
-
-```typescript
-import { render, screen } from '@testing-library/react';
-import { UserProfile } from './UserProfile';
-
-describe('UserProfile', () => {
-  it('renders user information', () => {
-    render(<UserProfile userId={1} />);
-    expect(screen.getByText('John Doe')).toBeInTheDocument();
-  });
-});
-```
-
-### E2E Testing
-
-```typescript
-import { test, expect } from '@playwright/test';
-
-test('user login flow', async ({ page }) => {
-  await page.goto('http://localhost:3000');
-  await page.click('text=Login');
-  await page.fill('input[name="email"]', 'user@example.com');
-  await page.fill('input[name="password"]', 'password');
-  await page.click('button:has-text("Login")');
-  
-  await expect(page).toHaveURL(/dashboard/);
-});
-```
-
-## Performance
-
-### Code Splitting
-
-```typescript
-import { lazy, Suspense } from 'react';
-
-const Dashboard = lazy(() => import('./Dashboard'));
-
-const App = () => {
-  return (
-    <Suspense fallback={<Loading />}>
-      <Dashboard />
-    </Suspense>
-  );
-};
-```
-
-### Memoization
-
-```typescript
-import { memo, useMemo, useCallback } from 'react';
-
-const ExpensiveComponent = memo(({ data }: { data: Data }) => {
-  const processedData = useMemo(() => {
-    return heavyComputation(data);
-  }, [data]);
-
-  return <div>{processedData}</div>;
-});
+Styling Decision
+├─ Rapid prototyping → Tailwind CSS
+├─ Component library → Radix UI + Tailwind
+├─ Dynamic theming → CSS-in-JS (Styled Components, Emotion)
+├─ Large team → CSS Modules or Tailwind + Design Tokens
+└─ Performance-critical → Plain CSS / SCSS
 ```
 
 ## Best Practices
@@ -386,9 +132,7 @@ const UserList = ({ users, onUserClick }: UserListProps) => (
 // Container (smart)
 const UserListContainer = () => {
   const { users, fetchUsers } = useUsers();
-
   useEffect(() => fetchUsers(), [fetchUsers]);
-
   return <UserList users={users} onUserClick={handleClick} />;
 };
 ```
@@ -419,11 +163,56 @@ const UserListContainer = () => {
 - Review async handling
 - Ensure proper cleanup
 
-## Resources
+## Quality Checklist
 
-- [React Documentation](https://react.dev/)
-- [Redux Toolkit](https://redux-toolkit.js.org/)
-- [Vite](https://vitejs.dev/)
-- [Testing Library](https://testing-library.com/)
-- [Playwright](https://playwright.dev/)
-- [Web Vitals](https://web.dev/vitals/)
+### Architecture
+- [ ] Framework choice justified
+- [ ] State management clear (server vs client state separated)
+- [ ] Component structure logical
+- [ ] Code splitting implemented
+
+### Code Quality
+- [ ] TypeScript strict mode enabled
+- [ ] ESLint + Prettier configured
+- [ ] Tests exist for critical paths
+- [ ] No prop drilling (use state management)
+
+### Performance
+- [ ] Bundle size optimized (<200KB gzipped)
+- [ ] Expensive operations memoized
+- [ ] Images optimized (lazy loading, WebP)
+- [ ] Third-party libraries evaluated
+
+### Testing
+- [ ] Testing framework configured
+- [ ] Critical paths tested
+- [ ] E2E tests exist
+
+### Security
+- [ ] Environment variables secured
+- [ ] Input sanitization
+- [ ] Auth tokens secure
+- [ ] Dependencies audited
+
+## Integration Patterns
+
+### react-specialist
+- **Handoff:** frontend-developer sets up tooling → react-specialist implements complex component logic
+- **Tools:** Both use React; frontend-developer handles ecosystem tooling
+
+### nextjs-developer
+- **Handoff:** When SSR/SEO required → hand off for Next.js-specific features
+- **Tools:** frontend-developer uses Vite/CRA; nextjs-developer uses Next.js App Router
+
+### backend-developer
+- **Handoff:** frontend-developer implements API client → backend-developer provides API contracts
+- **Tools:** frontend-developer uses Axios/Fetch, TanStack Query
+
+### frontend-ui-ux-engineer
+- **Handoff:** frontend-developer sets up component structure → frontend-ui-ux-engineer styles
+- **Tools:** Both use React; frontend-ui-ux-engineer adds Framer Motion, Tailwind design tokens
+
+## Additional Resources
+
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)

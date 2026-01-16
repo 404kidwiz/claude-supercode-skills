@@ -1,10 +1,13 @@
 ---
 name: network-engineer
 description: Use when user needs network architecture design, security implementation, performance optimization, and troubleshooting for cloud and hybrid environments. Builds reliable, secure networks with zero-trust principles.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-This skill provides expert network engineering capabilities for designing and managing complex network infrastructures. It specializes in cloud and hybrid network architectures, security implementation, performance optimization, and troubleshooting with emphasis on high availability, low latency, and comprehensive security.
+# Network Engineer
+
+## Purpose
+
+Provides comprehensive network architecture and engineering expertise for cloud and hybrid environments. Specializes in designing secure, high-performance network infrastructures with zero-trust principles, implementing robust security controls, and optimizing network performance across distributed systems.
 
 ## When to Use
 
@@ -226,16 +229,123 @@ This skill designs, deploys, and manages network infrastructures across cloud an
    - Caching and compression
    - 40% cost reduction with improved performance
 
+## Examples
+
+### Example 1: Multi-Region Cloud Network Design
+
+**Scenario:** Design a highly available, multi-region network for enterprise cloud infrastructure.
+
+**Design Approach:**
+1. **Topology Architecture**: Hub-spoke model with transit gateways
+2. **Regional Deployment**: 3 regions with multiple availability zones
+3. **Hybrid Connectivity**: Direct Connect to on-premises data center
+4. **Global Load Balancing**: Geographic routing and health-based failover
+
+**Implementation:**
+```terraform
+# VPC Configuration for Primary Region
+resource "aws_vpc" "primary" {
+  cidr_block = "10.0.0.0/16"
+  enable_dns_hostnames = true
+  enable_dns_support = true
+  
+  tags = {
+    Name = "primary-vpc"
+    Environment = "production"
+  }
+}
+
+# Subnet Configuration
+resource "aws_subnet" "public" {
+  vpc_id                  = aws_vpc.primary.id
+  cidr_block              = "10.0.1.0/24"
+  availability_zone        = "us-east-1a"
+  map_public_ip_on_launch = true
+}
+
+# Transit Gateway
+resource "aws_ec2_transit_gateway" "tgw" {
+  description = "Primary transit gateway"
+  default_route_table_association = "disable"
+  default_route_table_propagation = "disable"
+}
+```
+
+**Performance Results:**
+| Metric | Before | After |
+|--------|--------|-------|
+| Regional Latency | 80ms | 25ms |
+| Availability | 99.5% | 99.99% |
+| Failover Time | 5 min | 30 sec |
+| Throughput | 5 Gbps | 20 Gbps |
+
+### Example 2: Zero-Trust Network Implementation
+
+**Scenario:** Implement zero-trust security across hybrid network infrastructure.
+
+**Security Architecture:**
+1. **Micro-Segmentation**: Isolated security groups by application tier
+2. **Identity-Based Access**: Integration with identity providers
+3. **Encrypted Communication**: mTLS for all service-to-service
+4. **Continuous Verification**: Real-time policy enforcement
+
+**Implementation Components:**
+- East-west firewalls with allow-list policies
+- Identity and access management integration
+- Certificate authority and PKI management
+- Network segmentation and isolation
+
+**Security Results:**
+- 100% reduction in lateral movement attacks
+- Zero unauthorized access incidents
+- 99% reduction in attack surface
+- Passed penetration test with zero critical findings
+
+### Example 3: SD-WAN Enterprise Deployment
+
+**Scenario:** Deploy SD-WAN to replace legacy MPLS network across 50 sites.
+
+**Deployment Approach:**
+1. **Site Assessment**: Evaluated connectivity requirements at each location
+2. **Device Deployment**: Installed SD-WAN edge devices
+3. **Traffic Policy**: Configured application-aware routing
+4. **Optimization**: Implemented QoS and path selection
+
+**Results:**
+- 40% reduction in network costs
+- 60% improvement in application performance
+- 99.9% network availability
+- 50% reduction in troubleshooting time
+
 ## Best Practices
 
-- Reliability: Design for 99.99%+ uptime with redundancy
-- Security: Implement defense-in-depth with zero-trust principles
-- Performance: Target <50ms regional latency, <0.01% packet loss
-- Monitoring: Comprehensive visibility with logs, metrics, and traces
-- Automation: Use IaC and automate repetitive tasks
-- Documentation: Document all changes, topologies, and procedures
-- Testing: Validate changes in non-production, test failover
-- Capacity: Plan for growth and monitor utilization trends
+### Network Architecture
+
+- **Redundancy Design**: Plan for component failures at every level
+- **Segmented Design**: Isolate workloads and security zones
+- **Scalable IPAM**: Use consistent IP addressing scheme
+- **Documentation**: Maintain accurate network diagrams
+
+### Security Implementation
+
+- **Zero-Trust**: Verify every request regardless of source
+- **Defense in Depth**: Multiple security layers
+- **Encryption**: Encrypt data in transit and at rest
+- **Regular Audits**: Periodic security assessments
+
+### Performance Optimization
+
+- **Latency Reduction**: Optimize routing paths and caching
+- **Bandwidth Management**: Implement QoS policies
+- **Load Distribution**: Use load balancing effectively
+- **Monitoring**: Comprehensive visibility into network metrics
+
+### Automation and IaC
+
+- **Infrastructure as Code**: Version control network configs
+- **Automated Testing**: Validate changes before deployment
+- **Deployment Templates**: Standardize configurations
+- **Monitoring Automation**: Alert on anomalies automatically
 
 ## Output Format
 
@@ -257,3 +367,33 @@ All outputs include:
 - Security compliance documentation
 - Operational procedures and runbooks
 - Capacity planning and growth recommendations
+
+## Anti-Patterns
+
+### Architecture Anti-Patterns
+
+- **Single Point of Failure**: Critical components without redundancy - implement HA at all layers
+- **Oversegmentation**: Too many VLANs without clear purpose - consolidate and simplify
+- **Flat Network**: No segmentation for security - implement defense in depth
+- **Spanning Tree Issues**: STP misconfiguration causing loops or blocking - use modern alternatives
+
+### Security Anti-Patterns
+
+- **Open By Default**: Allowing all traffic by default - deny by default, explicitly allow
+- **Rule Creep**: Firewall rules accumulate without cleanup - regular rule review and optimization
+- **VPN Overuse**: VPN for everything instead of proper segmentation - use appropriate access methods
+- **Weak Cryptography**: Using outdated protocols and algorithms - enforce modern encryption standards
+
+### Performance Anti-Patterns
+
+- **Suboptimal Routing**: Traffic taking inefficient paths - optimize routing tables and policies
+- **Lack of Caching**: Not leveraging CDN and caching - reduce latency with caching layers
+- **Oversubscribed Links**: Bandwidth not matching requirements - right-size and monitor utilization
+- **No QoS**: All traffic treated equally - implement traffic prioritization
+
+### Operational Anti-Patterns
+
+- **Documentation Debt**: Network diagrams out of date - maintain documentation as code
+- **Configuration Drift**: Manual changes not tracked - use IaC for all changes
+- **No Monitoring**: Operating blind - implement comprehensive network monitoring
+- **Long Change Lead Times**: Slow change processes - automate and streamline deployments

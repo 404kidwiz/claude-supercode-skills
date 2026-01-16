@@ -1,168 +1,200 @@
 ---
 name: llm-architect
 description: Use when user needs LLM system architecture, model deployment, optimization strategies, and production serving infrastructure. Designs scalable large language model applications with focus on performance, cost efficiency, and safety.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-This skill provides expert LLM architecture and deployment capabilities for building production-ready large language model systems. It designs architectures, optimizes serving infrastructure, implements RAG systems, and ensures performance, cost efficiency, and safety mechanisms for enterprise LLM applications.
+# LLM Architect
+
+## Purpose
+
+Provides expert large language model system architecture for designing, deploying, and optimizing LLM applications at scale. Specializes in model selection, RAG (Retrieval Augmented Generation) pipelines, fine-tuning strategies, serving infrastructure, cost optimization, and safety guardrails for production LLM systems.
 
 ## When to Use
 
-User needs:
-- LLM system architecture design
-- Model deployment and serving infrastructure
-- RAG (Retrieval Augmented Generation) implementation
-- Fine-tuning strategies and optimization
-- LLM cost optimization and scaling
-- Safety filters and guardrail implementation
-- Multi-model orchestration and routing
-- LLM performance optimization and monitoring
+- Designing end-to-end LLM systems from requirements to production
+- Selecting models and serving infrastructure for specific use cases
+- Implementing RAG (Retrieval Augmented Generation) pipelines
+- Optimizing LLM costs while maintaining quality thresholds
+- Building safety guardrails and compliance mechanisms
+- Planning fine-tuning vs RAG vs prompt engineering strategies
+- Scaling LLM inference for high-throughput applications
 
-## What This Skill Does
+## Quick Start
 
-This skill designs and implements comprehensive LLM solutions from architecture to production deployment. It analyzes requirements, selects appropriate models and infrastructure, implements fine-tuning pipelines, deploys serving systems, and ensures optimal performance with comprehensive safety and monitoring.
+**Invoke this skill when:**
+- Designing end-to-end LLM systems from requirements to production
+- Selecting models and serving infrastructure for specific use cases
+- Implementing RAG (Retrieval Augmented Generation) pipelines
+- Optimizing LLM costs while maintaining quality thresholds
+- Building safety guardrails and compliance mechanisms
 
-### LLM System Components
+**Do NOT invoke when:**
+- Simple API integration exists (use backend-developer instead)
+- Only prompt engineering needed without architecture decisions
+- Training foundation models from scratch (almost always wrong approach)
+- Generic ML tasks unrelated to language models (use ml-engineer)
 
-- Model selection and serving infrastructure
-- Fine-tuning and optimization strategies
-- RAG implementation with vector databases
-- Prompt engineering and optimization
-- Safety mechanisms and guardrails
-- Multi-model orchestration and routing
-- Monitoring and observability systems
-- Cost optimization and resource management
+## Decision Framework
 
-## Core Capabilities
+### Model Selection Quick Guide
 
-### System Architecture
-- Model selection and sizing strategies
-- Serving infrastructure design (vLLM, TGI, Triton)
-- Load balancing and caching strategies
-- Fallback mechanisms and multi-model routing
-- Resource allocation and auto-scaling
-- Monitoring and observability design
+| Requirement | Recommended Approach |
+|-------------|---------------------|
+| Latency <100ms | Small fine-tuned model (7B quantized) |
+| Latency <2s, budget unlimited | Claude 3 Opus / GPT-4 |
+| Latency <2s, domain-specific | Claude 3 Sonnet fine-tuned |
+| Latency <2s, cost-sensitive | Claude 3 Haiku |
+| Batch/async acceptable | Batch API, cheapest tier |
 
-### Fine-tuning Strategies
-- Dataset preparation and quality assessment
-- Training configuration and hyperparameter tuning
-- LoRA/QLoRA and parameter-efficient methods
-- Overfitting prevention and validation strategies
-- Model merging and deployment preparation
+### RAG vs Fine-Tuning Decision Tree
 
-### RAG Implementation
-- Document processing and chunking strategies
-- Embedding model selection and optimization
-- Vector store selection and configuration
-- Retrieval optimization and hybrid search
-- Context management and reranking methods
-- Cache strategies and performance tuning
+```
+Need to customize LLM behavior?
+│
+├─ Need domain-specific knowledge?
+│  ├─ Knowledge changes frequently?
+│  │  └─ RAG (Retrieval Augmented Generation)
+│  └─ Knowledge is static?
+│     └─ Fine-tuning OR RAG (test both)
+│
+├─ Need specific output format/style?
+│  ├─ Can describe in prompt?
+│  │  └─ Prompt engineering (try first)
+│  └─ Format too complex for prompt?
+│     └─ Fine-tuning
+│
+└─ Need latency <100ms?
+   └─ Fine-tuned small model (7B-13B)
+```
 
-### Model Optimization
-- Quantization (4-bit, 8-bit) strategies
-- Model pruning and compression
-- Knowledge distillation techniques
-- Tensor parallelism and pipeline parallelism
-- Memory optimization and throughput tuning
-- Continuous batching and speculative decoding
+### Architecture Pattern
 
-### Safety Mechanisms
-- Content filtering and moderation
-- Prompt injection defense
-- Output validation and hallucination detection
-- Bias mitigation and fairness
-- Privacy protection and data handling
-- Compliance checks and audit logging
+```
+[Client] → [API Gateway + Rate Limiting]
+              ↓
+         [Request Router]
+          (Route by intent/complexity)
+              ↓
+    ┌────────┴────────┐
+    ↓                 ↓
+[Fast Model]    [Powerful Model]
+(Haiku/Small)   (Sonnet/Large)
+    ↓                 ↓
+[Cache Layer] ← [Response Aggregator]
+    ↓
+[Logging & Monitoring]
+    ↓
+[Response to Client]
+```
 
-## Tool Restrictions
+## Core Workflow: Design LLM System
 
-- Read: Access model configurations, codebases, and infrastructure
-- Write/Edit: Create deployment configs, fine-tuning scripts, optimization code
-- Bash: Execute model training, deployment, and monitoring commands
-- Glob/Grep: Search codebases for LLM integration points and configurations
+### 1. Requirements Gathering
 
-## Integration with Other Skills
+Ask these questions:
+- **Latency**: What's the P95 response time requirement?
+- **Scale**: Expected requests/day and growth trajectory?
+- **Accuracy**: What's the minimum acceptable quality? (measurable metric)
+- **Cost**: Budget constraints? ($/request or $/month)
+- **Data**: Existing datasets for evaluation? Sensitivity level?
+- **Compliance**: Regulatory requirements? (HIPAA, GDPR, SOC2, etc.)
 
-- ai-engineer: Model integration and custom fine-tuning
-- ml-engineer: ML infrastructure and deployment patterns
-- backend-developer: API design and service integration
-- data-engineer: Data pipelines and preprocessing
-- cloud-architect: Cloud infrastructure and scaling
-- security-auditor: Security compliance and safety validation
+### 2. Model Selection
 
-## Example Interactions
+```python
+def select_model(requirements):
+    if requirements.latency_p95 < 100:  # milliseconds
+        if requirements.task_complexity == "simple":
+            return "llama2-7b-finetune"
+        else:
+            return "mistral-7b-quantized"
+    
+    elif requirements.latency_p95 < 2000:
+        if requirements.budget == "unlimited":
+            return "claude-3-opus"
+        elif requirements.domain_specific:
+            return "claude-3-sonnet-finetuned"
+        else:
+            return "claude-3-haiku"
+    
+    else:  # Batch/async acceptable
+        if requirements.accuracy_critical:
+            return "gpt-4-with-ensemble"
+        else:
+            return "batch-api-cheapest-tier"
+```
 
-### Scenario 1: RAG System Deployment
+### 3. Prototype & Evaluate
 
-**User:** "Deploy a RAG system for our knowledge base with 500k documents"
+```bash
+# Run benchmark on eval dataset
+python scripts/evaluate_model.py \
+  --model claude-3-sonnet \
+  --dataset data/eval_1000_examples.jsonl \
+  --metrics accuracy,latency,cost
 
-**Interaction:**
-1. Skill analyzes document types, retrieval requirements, and traffic patterns
-2. Designs architecture:
-   - Embedding model selection (e.g., OpenAI text-embedding-3-small)
-   - Vector database configuration (e.g., Pinecone or Weaviate)
-   - Chunking strategy and metadata indexing
-   - Retrieval optimization with hybrid search
-3. Implements fine-tuning with domain-specific data
-4. Configures safety filters and rate limiting
-5. Deploys monitoring and observability stack
-6. Provides deployment with sub-second retrieval and 95%+ relevance
+# Expected output:
+# Accuracy: 94.3%
+# P95 Latency: 1,245ms
+# Cost per 1K requests: $2.15
+```
 
-### Scenario 2: LLM Cost Optimization
+### 4. Iteration Checklist
 
-**User:** "Reduce our LLM costs by 50% while maintaining quality"
+- [ ] Latency P95 meets requirement? If no → optimize serving (quantization, caching)
+- [ ] Accuracy meets threshold? If no → improve prompts, fine-tune, or upgrade model
+- [ ] Cost within budget? If no → aggressive caching, smaller model routing, batching
+- [ ] Safety guardrails tested? If no → add content filters, PII detection
+- [ ] Monitoring dashboards live? If no → set up Prometheus + Grafana
+- [ ] Runbook documented? If no → document common failures and fixes
 
-**Interaction:**
-1. Skill analyzes current usage patterns and cost structure
-2. Implements optimization strategies:
-   - 4-bit quantization with vLLM serving
-   - Prompt optimization and context compression
-   - Intelligent caching for repeated queries
-   - Multi-model routing (small models for simple tasks)
-   - Batch processing for offline workloads
-3. Achieves 70%+ cost reduction with <2% accuracy degradation
+## Cost Optimization Strategies
 
-### Scenario 3: LLM Safety Implementation
+| Strategy | Savings | When to Use |
+|----------|---------|-------------|
+| Semantic caching | 40-80% | 60%+ similar queries |
+| Multi-model routing | 30-50% | Mixed complexity queries |
+| Prompt compression | 10-20% | Long context inputs |
+| Batching | 20-40% | Async-tolerant workloads |
+| Smaller model cascade | 40-60% | Simple queries first |
 
-**User:** "Add comprehensive safety guardrails to our customer support LLM"
+## Safety Checklist
 
-**Interaction:**
-1. Skill reviews use cases and potential failure modes
-2. Implements safety layers:
-   - Content filtering for harmful outputs
-   - PII detection and redaction
-   - Prompt injection detection and mitigation
-   - Output validation against business rules
-   - Monitoring and alerting for anomalies
-3. Configures human escalation for edge cases
-4. Provides comprehensive audit logging
+- [ ] Content filtering tested against adversarial examples
+- [ ] PII detection and redaction validated
+- [ ] Prompt injection defenses in place
+- [ ] Output validation rules implemented
+- [ ] Audit logging configured for all requests
+- [ ] Compliance requirements documented and validated
 
-## Best Practices
+## Red Flags - When to Escalate
 
-- Performance: Target <200ms P99 latency and 100+ tokens/second throughput
-- Cost: Implement aggressive caching, quantization, and intelligent routing
-- Safety: Deploy multiple guardrail layers and comprehensive monitoring
-- Testing: Conduct extensive evaluation with relevant datasets and edge cases
-- Monitoring: Track latency, throughput, cost, accuracy, and safety metrics
-- Scalability: Design for horizontal scaling and auto-scaling policies
-- Documentation: Document all decisions, configurations, and operational procedures
+| Observation | Action |
+|-------------|--------|
+| Accuracy <80% after prompt iteration | Consider fine-tuning |
+| Latency 2x requirement | Review infrastructure |
+| Cost >2x budget | Aggressive caching/routing |
+| Hallucination rate >5% | Add RAG or stronger guardrails |
+| Safety bypass detected | Immediate security review |
 
-## Output Format
+## Quick Reference: Performance Targets
 
-This skill delivers:
-- Complete LLM system architecture designs
-- Fine-tuned model artifacts and configurations
-- Production deployment configurations (Docker, Kubernetes, Helm charts)
-- RAG system implementations with vector database setups
-- Safety guardrail implementations
-- Monitoring and observability dashboards
-- Cost analysis and optimization reports
-- Performance benchmarking results
+| Metric | Target | Critical |
+|--------|--------|----------|
+| P95 Latency | <2x requirement | <3x requirement |
+| Accuracy | >90% | >80% |
+| Cache Hit Rate | >60% | >40% |
+| Error Rate | <1% | <5% |
+| Cost/1K requests | Within budget | <150% budget |
 
-All outputs include:
-- Detailed architecture documentation
-- Implementation code and configurations
-- Performance metrics and benchmarks
-- Cost analysis and projections
-- Security and compliance validation
-- Operational runbooks and troubleshooting guides
+## Additional Resources
+
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+  - RAG implementation workflow
+  - Semantic caching patterns
+  - Deployment configurations
+  
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)
+  - Anti-patterns (fine-tuning when prompting suffices, no fallback)
+  - Quality checklist for LLM systems
+  - Resilient LLM call patterns

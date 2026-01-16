@@ -1,522 +1,316 @@
-# Build Engineer Skill
+---
+name: build-engineer
+description: Expert in monorepo tooling (Turborepo, Nx, Bazel), CI/CD pipelines, and bundler optimization (Webpack/Vite/Rspack).
+---
 
-## Overview
+# Build Engineer
 
-The Build Engineer skill provides comprehensive tools and references for configuring, optimizing, and managing build systems for modern web applications. It supports multiple bundlers and optimization strategies.
+## Purpose
 
-## Scripts
+Provides build systems and CI/CD optimization expertise specializing in monorepo tooling (Turborepo, Nx, Bazel), bundler optimization (Webpack/Vite/Rspack), and incremental builds. Focuses on optimizing development velocity through caching, parallelization, and build performance.
 
-### Webpack Configuration
-```bash
-python scripts/config_webpack.py [OPTIONS]
+## When to Use
 
-# Options:
-# --output <dir>: Output directory (default: .)
-# --language <ext>: Entry file extension (default: tsx)
-# --port <number>: Dev server port (default: 3000)
+- Setting up a Monorepo (pnpm workspaces + Turborepo/Nx)
+- Optimizing slow CI builds (Remote Caching, Sharding)
+- Migrating from Webpack to Vite/Rspack for performance
+- Configuring advanced Bazel build rules (Starlark)
+- Debugging complex dependency graphs or circular dependencies
+- Implementing "Affected" builds (only test what changed)
 
-# Example: Generate Webpack config
-python scripts/config_webpack.py --language tsx --port 3000
+---
+---
+
+## 2. Decision Framework
+
+### Monorepo Tool Selection
+
+| Tool | Best For | Pros | Cons |
+|------|----------|------|------|
+| **Turborepo** | JS/TS Ecosystem | Zero config, simple, Vercel native. | JS only (mostly), less granular than Bazel. |
+| **Nx** | Enterprise JS/TS | Powerful plugins, code generation, graph visualization. | heavier configuration, opinionated. |
+| **Bazel** | Polyglot (Go/Java/JS) | Hermetic builds, infinite scale (Google style). | Massive learning curve, complex setup. |
+| **Pnpm Workspaces** | Simple Projects | Native to Node.js, fast installation. | No task orchestration (needs Turbo/Nx). |
+
+### Bundler Selection
+
+```
+What is the priority?
+│
+├─ **Development Speed (HMR)**
+│  ├─ Web App? → **Vite** (ESModules based, instant start)
+│  └─ Legacy App? → **Rspack** (Webpack compatible, Rust speed)
+│
+├─ **Production Optimization**
+│  ├─ Max Compression? → **Webpack** (Mature ecosystem of plugins)
+│  └─ Speed? → **Rspack / Esbuild**
+│
+└─ **Library Authoring**
+   └─ Dual Emit (CJS/ESM)? → **Rollup** (Tree-shaking standard)
 ```
 
-### Vite Configuration
-```bash
-python scripts/config_vite.py [OPTIONS]
+**Red Flags → Escalate to `devops-engineer`:**
+- CI Pipeline takes > 20 minutes
+- `node_modules` size > 1GB (Phantom dependencies)
+- "It works on my machine" but fails in CI (Environment drift)
+- Secret keys found in build artifacts (Source maps)
 
-# Options:
-# --output <dir>: Output directory (default: .)
-# --framework <name>: Framework (default: react)
-# --port <number>: Dev server port (default: 3000)
+---
+---
 
-# Example: Generate Vite config for React
-python scripts/config_vite.py --framework react --port 3000
-```
+## 4. Core Workflows
 
-### Cache Optimization
-```bash
-python scripts/optimize_cache.py [OPTIONS]
+### Workflow 1: Turborepo Setup (Remote Caching)
 
-# Options:
-# --output <dir>: Output directory (default: .)
-# --loader: Generate cache loader
+**Goal:** Reduce CI time by 80% by reusing cache artifacts.
 
-# Example: Setup caching
-python scripts/optimize_cache.py
+**Steps:**
 
-# Example: Setup with loader
-python scripts/optimize_cache.py --loader
-```
-
-### Code Splitting
-```bash
-python scripts/code_splitting.py [OPTIONS]
-
-# Options:
-# --output <dir>: Output directory (default: .)
-# --type <type>: Splitting type (route, component, webpack, vite, all)
-
-# Example: Generate all splitting configs
-python scripts/code_splitting.py --type all
-
-# Example: Generate route splitting
-python scripts/code_splitting.py --type route
-```
-
-### Development Server
-```bash
-python scripts/dev_server.py [OPTIONS]
-
-# Options:
-# --output <dir>: Output directory (default: .)
-# --bundler <name>: Bundler type (vite, webpack)
-# --port <number>: Port number (default: 3000)
-# --proxy <url>: Proxy target URL
-
-# Example: Setup Vite dev server
-python scripts/dev_server.py --bundler vite --port 3000
-
-# Example: Setup Webpack dev server with proxy
-python scripts/dev_server.py --bundler webpack --port 3000 --proxy http://localhost:4000
-```
-
-### Production Optimization
-```bash
-python scripts/optimize_production.py [OPTIONS]
-
-# Options:
-# --output <dir>: Output directory (default: .)
-
-# Example: Generate production configs
-python scripts/optimize_production.py
-```
-
-## References
-
-### Bundler Guide (`references/bundler_guide.md`)
-- Webpack configuration
-- Vite configuration
-- esbuild usage
-- Turbopack setup
-- Loaders and plugins
-- Optimization strategies
-- Bundle analysis
-- Framework comparison
-- When to use which bundler
-- Best practices
-
-### Optimization Strategies (`references/optimization_strategies.md`)
-- Code splitting (route-based, component-based)
-- Tree shaking
-- Minification (JS, CSS, HTML)
-- Bundle analysis
-- Asset optimization (images, fonts, SVG)
-- Caching strategies (file system, Babel, persistent)
-- Performance monitoring
-- Environment-specific optimization
-- Advanced strategies (DLL, Module Federation)
-- Preloading and prefetching
-
-### Framework Selection (`references/framework_selection.md`)
-- Decision matrix
-- Tool comparison (Webpack, Vite, esbuild, Turbopack, Rollup, Parcel)
-- Recommendations by use case
-- Project size considerations
-- Team size factors
-- Technical requirements
-- Performance benchmarks
-- Migration guides
-- Final recommendations
-
-## Quick Start
-
-### Setup Webpack Project
-
-```bash
-# 1. Generate Webpack configuration
-python scripts/config_webpack.py --language tsx --port 3000
-
-# 2. Setup caching
-python scripts/optimize_cache.py --loader
-
-# 3. Configure code splitting
-python scripts/code_splitting.py --type webpack
-
-# 4. Setup dev server
-python scripts/dev_server.py --bundler webpack --port 3000
-
-# 5. Optimize for production
-python scripts/optimize_production.py
-```
-
-### Setup Vite Project
-
-```bash
-# 1. Generate Vite configuration
-python scripts/config_vite.py --framework react --port 3000
-
-# 2. Configure code splitting
-python scripts/code_splitting.py --type vite
-
-# 3. Setup dev server
-python scripts/dev_server.py --bundler vite --port 3000
-
-# 4. Optimize for production
-python scripts/optimize_production.py
-```
-
-## Build Configuration
-
-### Webpack
-
-#### Basic Setup
-```javascript
-const path = require('path');
-
-module.exports = {
-  entry: './src/index.tsx',
-  output: {
-    path: path.resolve(__dirname, 'dist'),
-    filename: '[name].[contenthash].js',
-  },
-  mode: 'production',
-};
-```
-
-#### Loaders
-```javascript
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(ts|tsx)$/,
-        use: 'ts-loader',
-      },
-      {
-        test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
-      },
-    ],
-  },
-};
-```
-
-#### Plugins
-```javascript
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-
-module.exports = {
-  plugins: [
-    new HtmlWebpackPlugin({
-      template: './public/index.html',
-    }),
-  ],
-};
-```
-
-### Vite
-
-#### Basic Setup
-```typescript
-import { defineConfig } from 'vite';
-import react from '@vitejs/plugin-react';
-
-export default defineConfig({
-  plugins: [react()],
-  build: {
-    outDir: 'dist',
-  },
-});
-```
-
-#### Aliases
-```typescript
-export default defineConfig({
-  resolve: {
-    alias: {
-      '@': '/src',
-    },
-  },
-});
-```
-
-## Code Splitting
-
-### Route-based Splitting
-
-```typescript
-import { lazy, Suspense } from 'react';
-
-const Home = lazy(() => import('./pages/Home'));
-const Dashboard = lazy(() => import('./pages/Dashboard'));
-
-export const App = () => (
-  <Suspense fallback={<Loading />}>
-    <Routes>
-      <Route path="/" element={<Home />} />
-      <Route path="/dashboard" element={<Dashboard />} />
-    </Routes>
-  </Suspense>
-);
-```
-
-### Vendor Splitting
-
-```javascript
-module.exports = {
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name: 'vendors',
+1.  **Configuration (`turbo.json`)**
+    ```json
+    {
+      "$schema": "https://turbo.build/schema.json",
+      "pipeline": {
+        "build": {
+          "dependsOn": ["^build"],
+          "outputs": ["dist/**", ".next/**"]
         },
-      },
-    },
-  },
-};
-```
-
-## Caching
-
-### Webpack File System Cache
-
-```javascript
-module.exports = {
-  cache: {
-    type: 'filesystem',
-    cacheDirectory: '.webpack_cache',
-  },
-};
-```
-
-### Vite Dependency Cache
-
-```typescript
-export default defineConfig({
-  optimizeDeps: {
-    cacheDir: './node_modules/.vite',
-  },
-});
-```
-
-## Bundle Analysis
-
-### Webpack Bundle Analyzer
-
-```javascript
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer');
-
-module.exports = {
-  plugins: [
-    new BundleAnalyzerPlugin({
-      analyzerMode: 'static',
-      openAnalyzer: false,
-    }),
-  ],
-};
-```
-
-### Vite Rollup Visualizer
-
-```typescript
-import { defineConfig } from 'vite';
-import { visualizer } from 'rollup-plugin-visualizer';
-
-export default defineConfig({
-  plugins: [
-    visualizer({
-      open: false,
-      gzipSize: true,
-      brotliSize: true,
-    }),
-  ],
-});
-```
-
-## Performance Optimization
-
-### Minification
-
-```javascript
-const TerserPlugin = require('terser-webpack-plugin');
-
-module.exports = {
-  optimization: {
-    minimize: true,
-    minimizer: [
-      new TerserPlugin({
-        terserOptions: {
-          compress: {
-            drop_console: true,
-          },
+        "test": {
+          "dependsOn": ["build"],
+          "inputs": ["src/**/*.tsx", "test/**/*.ts"]
         },
-      }),
+        "lint": {}
+      }
+    }
+    ```
+
+2.  **Remote Cache**
+    -   Link to Vercel Remote Cache: `npx turbo link`.
+    -   In CI (GitHub Actions):
+        ```yaml
+        env:
+          TURBO_TOKEN: ${{ secrets.TURBO_TOKEN }}
+          TURBO_TEAM: ${{ secrets.TURBO_TEAM }}
+        ```
+
+3.  **Execution**
+    -   `turbo run build test lint`
+    -   First run: 5 mins. Second run: 100ms (FULL TURBO).
+
+---
+---
+
+### Workflow 3: Nx Affected Commands
+
+**Goal:** Only run tests for changed projects in a monorepo.
+
+**Steps:**
+
+1.  **Analyze Graph**
+    -   `nx graph` (Visualizes dependencies: App A depends on Lib B).
+
+2.  **CI Pipeline**
+    ```bash
+    # Only test projects affected by PR
+    npx nx affected -t test --base=origin/main --head=HEAD
+    
+    # Only lint affected
+    npx nx affected -t lint --base=origin/main
+    ```
+
+---
+---
+
+### Workflow 5: Bazel Concepts for JS Developers
+
+**Goal:** Understand `BUILD` files vs `package.json`.
+
+**Mapping:**
+
+| NPM Concept | Bazel Concept |
+|-------------|---------------|
+| `package.json` | `WORKSPACE` / `MODULE.bazel` |
+| `script: build` | `js_library(name = "build")` |
+| `dependencies` | `deps = ["//libs/utils"]` |
+| `node_modules` | `npm_link_all_packages` |
+
+**Code Example (`BUILD.bazel`):**
+```starlark
+load("@aspect_rules_js//js:defs.bzl", "js_library")
+
+js_library(
+    name = "pkg",
+    srcs = ["index.js"],
+    deps = [
+        "//:node_modules/lodash",
+        "//libs/utils"
     ],
-  },
-};
+)
 ```
 
-### Asset Optimization
+---
+---
 
-```javascript
-const ImageMinimizerPlugin = require('image-minimizer-webpack-plugin');
+## 5. Anti-Patterns & Gotchas
 
-module.exports = {
-  module: {
-    rules: [
-      {
-        test: /\.(jpe?g|png|gif|svg)$/i,
-        use: [
-          {
-            loader: ImageMinimizerPlugin.loader,
-            options: {
-              minimizer: {
-                implementation: ImageMinimizerPlugin.imageminGenerate,
-                options: {
-                  plugins: [
-                    ['imagemin-mozjpeg', { quality: 75 }],
-                    ['imagemin-pngquant', { quality: [0.65, 0.9] }],
-                  ],
-                },
-              },
-            },
-          },
-        ],
-      },
-    ],
-  },
-};
+### ❌ Anti-Pattern 1: Phantom Dependencies
+
+**What it looks like:**
+-   `import foo from 'foo'` works locally but fails in CI.
+
+**Why it fails:**
+-   'foo' is hoisted by the package manager but not listed in `package.json`.
+
+**Correct approach:**
+-   Use **pnpm** (Strict mode). It prevents accessing undeclared dependencies via symlinks.
+
+### ❌ Anti-Pattern 2: Circular Dependencies
+
+**What it looks like:**
+-   Lib A imports Lib B. Lib B imports Lib A.
+-   Build fails with "Maximum call stack exceeded" or "Undefined symbol".
+
+**Why it fails:**
+-   Logic error in architecture.
+
+**Correct approach:**
+-   **Extract Shared Code:** Move common logic to Lib C.
+-   A → C, B → C.
+-   Use `madge` tool to detect circular deps: `npx madge --circular .`
+
+### ❌ Anti-Pattern 3: Committing `node_modules`
+
+**What it looks like:**
+-   Git repo size is 2GB.
+
+**Why it fails:**
+-   Slow clones. Platform specific binaries break.
+
+**Correct approach:**
+-   `.gitignore` must include `node_modules/`, `dist/`, `.turbo/`, `.next/`.
+
+---
+---
+
+## 7. Quality Checklist
+
+**Performance:**
+-   [ ] **Cache:** Remote caching enabled and verified (Hit rate > 80%).
+-   [ ] **Parallelism:** Tasks run in parallel where possible (Topology aware).
+-   [ ] **Size:** Production artifacts minified and tree-shaken.
+
+**Reliability:**
+-   [ ] **Lockfile:** `pnpm-lock.yaml` / `package-lock.json` is consistent.
+-   [ ] **CI:** Builds pass on clean runner (no cache).
+-   [ ] **Determinism:** Same inputs = Same hash.
+
+**Maintainability:**
+-   [ ] **Scripts:** `package.json` scripts standardized (`dev`, `build`, `test`, `lint`).
+-   [ ] **Graph:** Dependency graph is acyclic (DAG).
+-   [ ] **Scaffolding:** Generators set up for new libraries/apps.
+
+## Examples
+
+### Example 1: Enterprise Monorepo Migration
+
+**Scenario:** A 500-developer company with 4 React applications and 15 shared libraries wants to migrate from separate repos to a monorepo to improve code sharing and CI efficiency.
+
+**Migration Approach:**
+1. **Tool Selection**: Chose Nx for enterprise features and graph visualization
+2. **Dependency Mapping**: Used madge to visualize current dependencies between projects
+3. **Module Boundaries**: Defined clear layers (ui, utils, data-access, features)
+4. **Build Optimization**: Configured remote caching with Nx Cloud
+
+**Migration Results:**
+- CI build time reduced from 45 minutes to 8 minutes (82% improvement)
+- Code duplication reduced by 60% through shared libraries
+- Affected builds only test changed projects (often under 1 minute)
+- Clear architectural boundaries enforced by Nx project inference
+
+### Example 2: Webpack to Rspack Migration
+
+**Scenario:** A large e-commerce platform has slow production builds (12 minutes) due to complex Webpack configuration and wants to improve developer experience.
+
+**Migration Strategy:**
+1. **Incremental Migration**: Started with development builds, kept Webpack for production temporarily
+2. **Config Translation**: Mapped Webpack loaders to Rspack equivalents
+3. **Plugin Compatibility**: Used rspack-plugins for webpack-compatible plugins
+4. **Verification**: Ran parallel builds to verify output equivalence
+
+**Performance Comparison:**
+| Metric | Webpack | Rspack | Improvement |
+|--------|---------|--------|-------------|
+| Dev server start | 45s | 2s | 96% |
+| HMR update | 8s | 0.5s | 94% |
+| Production build | 12m | 2m | 83% |
+| Bundle size | 2.4MB | 2.3MB | 4% |
+
+### Example 3: Distributed CI Pipeline with Sharding
+
+**Scenario:** A gaming company with 5,000 E2E tests needs to reduce CI time from 90 minutes to under 15 minutes for fast feedback.
+
+**Pipeline Design:**
+1. **Test Analysis**: Categorized tests by duration and parallelism potential
+2. **Shard Strategy**: Split tests into 20 shards, each running ~250 tests
+3. **Smart Scheduling**: Used Nx affected to only run tests for changed features
+4. **Resource Optimization**: Configured auto-scaling runners for parallel execution
+
+**CI Pipeline Configuration:**
+```yaml
+# GitHub Actions with Playwright sharding
+- name: Run E2E Tests
+  run: |
+    npx playwright test --shard=${{ matrix.shard }}/${{ matrix.total }} \
+      --config=playwright.config.ts
+  strategy:
+    matrix:
+      shard: [1, 2, ..., 20]
+    max-parallel: 10
 ```
 
-## Development Workflow
-
-### Start Development Server
-
-```bash
-# Webpack
-webpack serve --config webpack.dev.config.js
-
-# Vite
-vite
-
-# With proxy
-vite --proxy http://localhost:3000
-```
-
-### Build for Production
-
-```bash
-# Webpack
-webpack --mode production
-
-# Vite
-vite build
-
-# With analysis
-ANALYZE=true npm run build
-```
-
-### Watch Mode
-
-```bash
-# Webpack
-webpack --watch
-
-# Vite
-vite --watch
-```
+**Results:**
+- E2E test time: 90m → 12m (87% improvement)
+- Developer feedback loop under 15 minutes
+- Reduced cloud CI costs by 30% through better parallelism
 
 ## Best Practices
 
-1. **Choose the right bundler** - Consider project size and team needs
-2. **Implement code splitting** - Reduce initial bundle size
-3. **Enable caching** - Speed up rebuild times
-4. **Minify output** - Reduce bundle size
-5. **Optimize assets** - Compress images and fonts
-6. **Use source maps** - Aid debugging
-7. **Analyze bundles** - Identify large dependencies
-8. **Configure environment variables** - Manage different environments
-9. **Set up proxy** - Avoid CORS issues
-10. **Monitor performance** - Track build times and bundle sizes
+### Monorepo Architecture
 
-## Common Issues
+- **Define Clear Boundaries**: Establish and enforce project boundaries from day one
+- **Use Strict Dependency Rules**: Prevent circular dependencies and enforce directionality
+- **Automate Project Creation**: Use generators for consistent new project setup
+- **Version Packages Together**: Use Changesets or Lerna for coordinated releases
+- **Document Dependencies**: Maintain architecture decision records for changes
 
-### Slow Builds
-- Enable caching
-- Use DLL plugin
-- Check for unnecessary plugins
-- Review bundle size
+### Build Performance
 
-### Large Bundle Size
-- Implement code splitting
-- Remove unused dependencies
-- Use tree shaking
-- Optimize images
-- Minimize code
+- **Profile Before Optimizing**: Use tools like speed-measure-webpack-plugin to identify bottlenecks
+- **Incremental Builds**: Configure build tools to only rebuild what's necessary
+- **Parallel Execution**: Use available CPU cores for parallel task execution
+- **Caching Strategies**: Implement aggressive caching at every layer
+- **Dependency Optimization**: Prune unused dependencies regularly (bundlephobia)
 
-### HMR Not Working
-- Check dev server configuration
-- Verify HMR is enabled
-- Review firewall settings
-- Check for WebSocket issues
+### CI/CD Excellence
 
-### Build Failures
-- Review error messages
-- Check configuration syntax
-- Verify dependencies
-- Clean cache
+- **Fail Fast**: Order tests to run fast tests first, catch failures quickly
+- **Sharding Strategy**: Distribute tests across multiple runners intelligently
+- **Cache Everything**: Dependencies, build outputs, test results
+- **Conditional Execution**: Only run jobs that are affected by the change
+- **Pipeline as Code**: Version control CI configuration alongside code
 
-## Troubleshooting
+### Tool Selection
 
-### Webpack
+- **Match Tool to Ecosystem**: Don't force tools that don't fit your stack
+- **Evaluate Migration Cost**: Consider total cost, not just performance gains
+- **Community Health**: Choose tools with active maintenance and community support
+- **Plugin Ecosystem**: Ensure required integrations are available
+- **Team Familiarity**: Consider learning curve and team adoption
 
-**Common Issues:**
-- Module resolution failures
-- Circular dependencies
-- Memory issues
-- Slow builds
+### Security and Compliance
 
-**Solutions:**
-- Check resolve configuration
-- Use circular-dependency-plugin
-- Increase memory limit
-- Enable caching
-
-### Vite
-
-**Common Issues:**
-- HMR not working
-- Alias not resolving
-- Plugin conflicts
-
-**Solutions:**
-- Check server configuration
-- Verify alias configuration
-- Review plugin compatibility
-
-## Resources
-
-- [Webpack Documentation](https://webpack.js.org/)
-- [Vite Documentation](https://vitejs.dev/)
-- [esbuild Documentation](https://esbuild.github.io/)
-- [Rollup Documentation](https://rollupjs.org/)
-- [Parcel Documentation](https://parceljs.org/)
-- [Turbopack Documentation](https://turbo.build/pack)
-
-## Included Automation Scripts
-
-The build engineer skill includes comprehensive automation scripts located in `scripts/`:
-
-- **config_webpack.py**: Webpack configuration generation with loaders, plugins, optimization, and dev server setup
-- **config_vite.py**: Vite configuration generation for React, Vue, and vanilla JavaScript with plugins and aliases
-- **optimize_cache.py**: Cache optimization setup with file system cache, Babel cache, and persistent cache configuration
-- **code_splitting.py**: Code splitting configuration for route-based, component-based, vendor splitting, and library chunking
-- **dev_server.py**: Development server setup for Webpack and Vite with HMR, proxy configuration, and port customization
-- **optimize_production.py**: Production optimization configuration with minification, asset optimization, and bundle analysis
-
-## References
-
-### Reference Documentation (`references/` directory)
-- **troubleshooting.md**: Troubleshooting guide for build system issues including slow builds, bundle size problems, HMR failures, and deployment issues
-- **best_practices.md**: Best practices for build configuration, optimization strategies, code splitting, and caching
+- **Secret Scanning**: Never commit secrets; use automated scanning
+- **Dependency Auditing**: Regular vulnerability scans with automated fixes
+- **Access Control**: Limit CI credentials to minimum required permissions
+- **Build Reproducibility**: Ensure builds can be reproduced from source
+- **Audit Logging**: Maintain logs of all build and deployment activities

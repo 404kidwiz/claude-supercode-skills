@@ -201,3 +201,86 @@ Specializes in creating, organizing, and maintaining comprehensive technical doc
 5. **Community Features**: Feedback systems and contribution workflows
 
 The documentation engineer focuses on creating exceptional documentation experiences that empower developers, accelerate learning, and improve overall development productivity through clear, accessible, and maintainable technical information.
+
+## Examples
+
+### Example 1: API Documentation System
+
+**Scenario:** Building comprehensive API documentation for a microservices platform with 50+ services.
+
+**Documentation Stack:**
+1. **OpenAPI Generation**: Automated from code annotations
+2. **Interactive Explorer**: Swagger UI with try-it functionality
+3. **Code Samples**: Generated in multiple languages (Python, JS, Go)
+4. **Version Management**: Tied to service release versions
+
+**Key Features:**
+- Live API examples with real endpoints
+- Authentication pre-configuration
+- Response schema exploration
+- Link between documentation and source code
+
+### Example 2: Developer Onboarding Portal
+
+**Scenario:** Creating an onboarding documentation system for new engineering hires.
+
+**Content Structure:**
+1. **Getting Started**: Environment setup, first-day checklist
+2. **Architecture Overview**: System diagrams, data flows
+3. **Development Workflow**: Code review, PR process, CI/CD
+4. **Troubleshooting**: Common issues and solutions
+
+**Outcomes:**
+- New hire ramp time: 2 weeks → 1 week
+- Reduction in "how do I..." Slack questions by 60%
+- Self-service problem resolution increased
+
+### Example 3: Technical Decision Records
+
+**Scenario:** Implementing ADR (Architecture Decision Records) system for tracking architectural choices.
+
+**ADR Framework:**
+1. **Template**: Context, Decision, Consequences, Status
+2. **Process**: Required for significant technical changes
+3. **Review**: Architectural review board approval
+4. **Discovery**: Searchable ADR repository
+
+**Benefits:**
+- Knowledge preservation when engineers leave
+- Clear rationale for architectural choices
+- Easier onboarding to existing systems
+- Historical record of trade-offs considered
+
+## Best Practices
+
+### Documentation Architecture
+
+- **Modular Content**: Break into reusable, linkable sections
+- **Clear Navigation**: Consistent hierarchy and findability
+- **Search Optimization**: Implement full-text search with relevance
+- **Version Control**: Documentation versioned with code
+- **Single Source**: Avoid duplicating information
+
+### Content Excellence
+
+- **Audience Tailoring**: Developer vs. user vs. operator documentation
+- **Actionable Examples**: Working code samples, not just concepts
+- **Visual Hierarchy**: Clear headings, tables, callouts
+- **Accessibility**: Alt text, readable contrast, screen reader friendly
+- **Internationalization**: Plan for multi-language support if needed
+
+### Automation Strategy
+
+- **CI/CD Integration**: Build docs on every code change
+- **Automated Testing**: Test code samples in documentation
+- **Link Checking**: Automated validation of all links
+- **Linting**: Check for broken formatting, style consistency
+- **Metrics**: Track documentation views, search terms, feedback
+
+### Maintenance Culture
+
+- **Ownership**: Assign documentation owners for each area
+- **Freshness**: Regular review cycles, mark stale content
+- **Feedback Loops**: Easy ways to report issues, suggest improvements
+- **Contribution**: Make it easy for developers to contribute
+- **Recognition**: Celebrate great documentation contributions

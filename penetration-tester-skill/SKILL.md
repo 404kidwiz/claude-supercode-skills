@@ -1,244 +1,309 @@
 ---
 name: penetration-tester
-description: Ethical hacking specialist for vulnerability assessment, security testing, and penetration testing methodologies
-tools:
-  - read
-  - grep
-  - glob
-version: 1.0.0
-author: OpenCode Agent Skills
-category: security-testing
+description: Expert in ethical hacking, vulnerability assessment, and offensive security testing (Web/Network/Cloud).
 ---
 
-# Penetration Tester Skill
+# Penetration Tester
 
-## Overview
-Ethical hacking expert specializing in identifying security vulnerabilities through systematic penetration testing and vulnerability assessments.
+## Purpose
 
-## Security Frameworks & Standards
-- **OWASP Top 10** - Web application security risks
-- **OWASP Testing Guide** - Comprehensive testing methodology
-- **PTES** - Penetration Testing Execution Standard
-- **NIST SP 800-115** - Technical guide to information security testing
-- **OSSTMM** - Open Source Security Testing Methodology Manual
+Provides ethical hacking and offensive security expertise specializing in vulnerability assessment and penetration testing across web applications, networks, and cloud infrastructure. Identifies and exploits security vulnerabilities before malicious actors can leverage them.
 
-## Core Testing Areas
+## When to Use
 
-### Web Application Security
-- SQL Injection (SQLi) testing
-- Cross-Site Scripting (XSS) validation
-- Authentication and authorization flaws
-- Session management vulnerabilities
-- Input validation bypasses
-- Business logic flaws
-- API security testing
+- Assessing the security posture of a web application, API, or network
+- Conducting a "Black Box", "Gray Box", or "White Box" penetration test
+- Validating findings from automated scanners (False Positive analysis)
+- Exploiting specific vulnerabilities (SQLi, XSS, SSRF, RCE) to prove impact
+- Performing reconnaissance and OSINT on a target
+- Auditing GraphQL or REST APIs for IDORs and logic flaws
 
-### Network Security Testing
-- Port scanning and service enumeration
-- Firewall rule analysis
-- Network protocol vulnerabilities
-- Wireless network security
-- VPN configuration testing
-- Intrusion detection system evasion
+---
+---
 
-### Infrastructure Security
-- Operating system hardening assessment
-- Configuration management review
-- Patch management verification
-- Container security (Docker, Kubernetes)
-- Cloud security configuration
-- DevSecOps pipeline analysis
+## 2. Decision Framework
 
-## Testing Methodology
+### Testing Methodology Selection
 
-### Reconnaissance Phase
-```bash
-# Example patterns for security assessment
-grep -r "password" src/ --include="*.js" --include="*.py" --include="*.env"
-grep -r "api_key" src/ --include="*.js" --include="*.json" --include="*.env"
-grep -r "secret" src/ --include="*.js" --include="*.py" --include="*.yml"
+```
+What is the target?
+│
+├─ **Web Application**
+│  ├─ API intensive? → **API Test** (Postman/Burp, focus on IDOR/Auth)
+│  ├─ Legacy/Monolith? → **OWASP Top 10** (SQLi, XSS, Deserialization)
+│  └─ Modern/SPA? → **Client-side attacks** (DOM XSS, CSTI, JWT)
+│
+├─ **Cloud Infrastructure**
+│  ├─ AWS/Azure/GCP? → **Cloud Pentest** (Pacu, ScoutSuite, IAM privesc)
+│  └─ Kubernetes? → **Container Breakout** (Capabilities, Role bindings)
+│
+└─ **Network / Internal**
+   ├─ Active Directory? → **AD Assessment** (BloodHound, Kerberoasting)
+   └─ External Perimeter? → **Recon + Service Exploitation** (Nmap, Metasploit)
 ```
 
-### Vulnerability Scanning
-- Automated vulnerability scanners integration
-- Manual vulnerability verification
-- False positive reduction
-- Risk scoring and prioritization
-- CVE (Common Vulnerabilities and Exposures) analysis
+### Tool Selection Matrix
 
-### Exploitation Testing
-- Proof-of-concept exploit development
-- Impact assessment validation
-- Privilege escalation testing
-- Lateral movement simulation
-- Data exfiltration testing
+| Phase | Category | Tool Recommendation |
+|-------|----------|---------------------|
+| **Recon** | Subdomain Enum | `Amass`, `Subfinder` |
+| **Recon** | Content Discovery | `ffuf`, `dirsearch` |
+| **Scanning** | Vulnerability | `Nuclei`, `Nessus`, `Burp Suite Pro` |
+| **Exploitation** | Web | `Burp Suite`, `SQLMap` |
+| **Exploitation** | Network | `Metasploit`, `NetExec` |
+| **Post-Exploitation** | Windows/AD | `Mimikatz`, `BloodHound`, `Impacket` |
 
-## Common Vulnerability Patterns
+### Severity Scoring (CVSS 3.1)
 
-### Authentication Flaws
-- Weak password policies
-- Multi-factor authentication bypass
-- Brute force attack susceptibility
-- Session fixation vulnerabilities
-- Token manipulation
+| Severity | Score | Criteria | Example |
+|----------|-------|----------|---------|
+| **Critical** | 9.0 - 10.0 | RCE, Auth Bypass, SQLi (Data dump) | Remote Code Execution |
+| **High** | 7.0 - 8.9 | Stored XSS, IDOR (Sensitive), SSRF | Admin Account Takeover |
+| **Medium** | 4.0 - 6.9 | Reflected XSS, CSRF, Info Disclosure | Stack Trace leakage |
+| **Low** | 0.1 - 3.9 | Cookie flags, Banner grabbing | Missing HttpOnly flag |
 
-### Data Protection Issues
-- Sensitive data exposure
-- Insecure data storage
-- Insufficient encryption
-- Data transmission security
-- Personally Identifiable Information (PII) leakage
+**Red Flags → Escalate to `legal-advisor`:**
+- Scope creep (Touching systems not in the contract)
+- Testing production during peak hours (DoS risk)
+- Accessing PII/PHI without authorization (Proof of Concept only)
+- Testing third-party SaaS providers without permission
 
-### Infrastructure Weaknesses
-- Unpatched systems
-- Default credentials
-- Open unnecessary ports
-- Insecure configurations
-- Logging and monitoring gaps
+---
+---
 
-## Security Testing Scenarios
+## 3. Core Workflows
 
-### API Security Assessment
-- RESTful API testing
-- GraphQL security testing
-- Authentication token validation
-- Rate limiting verification
-- Input parameter fuzzing
+### Workflow 1: Web Application Assessment (OWASP)
 
-### Mobile Application Security
-- iOS security testing
-- Android security assessment
-- Cross-platform application security
-- Mobile device management
-- App store compliance
+**Goal:** Identify critical vulnerabilities in a web app.
 
-### Cloud Security Review
-- AWS security best practices
-- Azure security configuration
-- Google Cloud Platform security
-- Multi-cloud security posture
-- Container orchestration security
+**Steps:**
 
-## Reporting & Documentation
-- Executive summary with risk analysis
-- Technical vulnerability details
-- Remediation recommendations with priority
-- Compliance mapping (SOX, HIPAA, GDPR)
-- Security posture improvement roadmap
-
-## Tools & Integration
-- Static Application Security Testing (SAST)
-- Dynamic Application Security Testing (DAST)
-- Interactive Application Security Testing (IAST)
-- Software Composition Analysis (SCA)
-- Continuous security monitoring solutions
-
-## Skill-Specific Scripts and References
-
-### Available Penetration Tester Scripts
-Located in `scripts/` directory:
-
-- **recon_scan.py** - Automated reconnaissance (DNS, subdomain enumeration, port scanning)
-- **vuln_scan.py** - Vulnerability scanning (Nessus, OpenVAS, Nmap)
-- **web_app_test.py** - Web application security testing (OWASP ZAP, Burp Suite, XSSer)
-- **sql_injection_test.py** - SQL injection testing (SQLMap)
-- **xss_test.py** - XSS and CSRF detection (XSSer, XSStrike)
-- **auth_test.py** - Authentication and authorization testing (Hydra, default credentials)
-- **generate_report.py** - Penetration test report generation with CVSS scoring
-
-### Available Penetration Tester References
-Located in `references/` directory:
-
-- **attack_vectors.md** - Comprehensive attack vectors and exploitation techniques
-- **cvss_scoring.md** - CVSS v3.1 scoring guide with calculator
-- **testing_methodology.md** - PTES and OSSTMM testing methodologies
-- **tool_setup.md** - Penetration testing tool setup guide (Kali, Ubuntu, macOS, Windows, Cloud)
-
-### Script Usage Examples
-
-```bash
-# Reconnaissance scan
-python3 scripts/recon_scan.py target.com --format json --output recon_data.json
-
-# Vulnerability scanning
-python3 scripts/vuln_scan.py 192.168.1.0/24 --format text
-
-# Web application testing
-python3 scripts/web_app_test.py https://example.com --config config/pentest.yaml
-
-# SQL injection testing
-python3 scripts/sql_injection_test.py http://example.com/login --format json
-
-# XSS testing
-python3 scripts/xss_test.py http://example.com --output xss_report.txt
-
-# Authentication testing
-python3 scripts/auth_test.py http://example.com --brute-force --output auth_test.json
-
-# Generate penetration test report
-python3 scripts/generate_report.py --findings pentest_findings.json --output final_report.md
-```
-
-### Configuration Files
-
-Create `config/pentest.yaml` for script configuration:
-
-```yaml
-penetration_testing:
-  target_domains: []
-  wordlist: /usr/share/wordlists/dirb/common.txt
-  max_threads: 50
-  scan_depth: 3
-  
-  recon:
-    dns_enumeration: true
-    port_scanning: true
-    web_crawling: true
-    technology_detection: true
-    directory_brute_force: true
+1.  **Reconnaissance**
+    ```bash
+    # Subdomain discovery
+    subfinder -d target.com -o subdomains.txt
     
-  vuln_scan:
-    scan_types: ['network', 'web', 'application']
-    severity_threshold: 'medium'
-    aggressive_scan: false
-    
-  web_app_test:
-    target_url: ''
-    auth_url: ''
-    auth_username: ''
-    auth_password: ''
-    scan_depth: 5
-    spider_enabled: true
-    active_scan_enabled: true
-    
-  sql_injection:
-    target_url: ''
-    test_level: 3
-    risk_level: 2
-    batch_mode: true
-    
-  xss_test:
-    target_url: ''
-    xss_payloads: ['<script>alert(1)</script>', '<img src=x onerror=alert(1)>']
-    crawl: true
-    
-  auth_test:
-    target_url: ''
-    username: ''
-    password_list: /usr/share/wordlists/rockyou.txt
-    brute_force_enabled: false
-    
-  report:
-    report_format: 'markdown'
-    include_cvss: true
-    include_poc: true
-    client_name: 'Client'
-    tester_name: 'Security Team'
-```
+    # Live host verification
+    httpx -l subdomains.txt -o live_hosts.txt
+    ```
 
-## Ethical Considerations
-- Scope definition and authorization
-- Data protection and privacy preservation
-- Responsible disclosure practices
-- Legal and regulatory compliance
-- Professional ethical standards adherence
+2.  **Mapping & Discovery**
+    -   Spider the application (Burp Suite).
+    -   Identify all entry points (Inputs, URL parameters, Headers).
+    -   **Fuzzing:**
+        ```bash
+        ffuf -u https://target.com/FUZZ -w wordlist.txt -mc 200,403
+        ```
+
+3.  **Vulnerability Hunting**
+    -   **SQL Injection:** Test `' OR 1=1--` on login forms and IDs.
+    -   **XSS:** Test `<script>alert(1)</script>` in comments/search.
+    -   **IDOR:** Change `user_id=100` to `user_id=101`.
+
+4.  **Exploitation (PoC)**
+    -   Confirm vulnerability.
+    -   Document the request/response.
+    -   Estimate impact (Confidentiality, Integrity, Availability).
+
+---
+---
+
+### Workflow 3: Cloud Security Assessment (AWS)
+
+**Goal:** Identify misconfigurations leading to privilege escalation.
+
+**Steps:**
+
+1.  **Enumeration**
+    -   Obtain credentials (leaked or provided).
+    -   Run **ScoutSuite**:
+        ```bash
+        scout aws
+        ```
+
+2.  **S3 Bucket Analysis**
+    -   Check for public buckets.
+    -   Check for writable buckets (Authenticated Users).
+
+3.  **IAM Privilege Escalation**
+    -   Analyze permissions. Look for `iam:PassRole`, `ec2:CreateInstanceProfile`.
+    -   Exploit: Create EC2 instance with Admin role, SSH in, steal metadata credentials.
+
+---
+---
+
+## 5. Anti-Patterns & Gotchas
+
+### ❌ Anti-Pattern 1: "Scanning is Pentesting"
+
+**What it looks like:**
+-   Running Nessus/Acunetix, exporting the PDF, and calling it a penetration test.
+
+**Why it fails:**
+-   Scanners miss business logic flaws (IDORs, Logic bypasses).
+-   Scanners report false positives.
+-   Clients pay for human expertise, not tool output.
+
+**Correct approach:**
+-   Use scanners for **coverage** (low hanging fruit).
+-   Use manual testing for **depth** (critical flaws).
+
+### ❌ Anti-Pattern 2: Destructive Testing in Production
+
+**What it looks like:**
+-   Running `sqlmap --os-shell` on a production database.
+-   Running a high-thread `dirbuster` scan on a fragile server.
+
+**Why it fails:**
+-   Data corruption.
+-   Denial of Service (DoS) for real users.
+-   Legal liability.
+
+**Correct approach:**
+-   **Read-only** payloads where possible (e.g., `SLEEP(5)` instead of `DROP TABLE`).
+-   Rate limit scanning tools.
+-   Test in Staging whenever possible.
+
+### ❌ Anti-Pattern 3: Ignoring Scope
+
+**What it looks like:**
+-   Testing `admin.target.com` when only `www.target.com` is in scope.
+-   Phishing employees when social engineering was excluded.
+
+**Why it fails:**
+-   Breach of contract.
+-   Potential criminal charges (CFAA).
+
+**Correct approach:**
+-   **Always** verify the Rules of Engagement (RoE).
+-   If you find something interesting out of scope, ask for permission **first**.
+
+---
+---
+
+## Examples
+
+### Example 1: Web Application Security Assessment
+
+**Scenario:** Conduct comprehensive OWASP Top 10 assessment for a financial services web application.
+
+**Testing Approach:**
+1. **Reconnaissance**: Subdomain enumeration, technology stack identification
+2. **Mapping**: Full application spidering, endpoint discovery
+3. **Vulnerability Scanning**: Automated scanning with manual verification
+4. **Exploitation**: Proof-of-concept development for critical findings
+
+**Key Findings:**
+| Vulnerability | CVSS | Impact | Remediation |
+|--------------|------|--------|-------------|
+| SQL Injection (Auth Bypass) | 9.8 | Full database access | Parameterized queries |
+| Stored XSS (Admin Panel) | 8.1 | Session hijacking | Input sanitization |
+| IDOR (Account Takeover) | 7.5 | Unauthorized access | Authorization checks |
+| Missing CSP Headers | 5.3 | XSS vulnerability | Implement CSP |
+
+**Remediation Validation:**
+- Retested all findings after patch deployment
+- Verified no regression in functionality
+- Confirmed zero false positives in final report
+
+### Example 2: Cloud Infrastructure Assessment (AWS)
+
+**Scenario:** Identify security misconfigurations in AWS production environment.
+
+**Assessment Approach:**
+1. **Enumeration**: IAM policies, S3 bucket permissions, EC2 security groups
+2. **Misconfiguration Analysis**: ScoutSuite automated scanning
+3. **Privilege Escalation**: Tested for permission chaining attacks
+4. **Exploitation**: Validated critical findings with PoC
+
+**Critical Findings:**
+- 3 S3 buckets with public read access
+- IAM user with excessive permissions (iam:PassRole → ec2:RunInstances)
+- Security groups allowing unrestricted SSH (0.0.0.0/0)
+- Unencrypted EBS volumes containing sensitive data
+
+**Business Impact:**
+- Potential data breach exposure: 50,000+ customer records
+- Unauthorized compute resource creation risk
+- Compliance violations (PCI-DSS, SOC 2)
+
+**Remediation:**
+- Implemented SCPs to restrict public bucket creation
+- Applied least privilege principles to IAM policies
+- Remediated all overly permissive security groups
+- Enabled encryption at rest for all EBS volumes
+
+### Example 3: API Penetration Testing (GraphQL)
+
+**Scenario:** Security assessment of GraphQL API for healthcare application.
+
+**Testing Methodology:**
+1. **Introspection Analysis**: Schema reconstruction and query analysis
+2. **Authorization Testing**: BOLA/IDOR vulnerabilities
+3. **DoS Testing**: Query complexity and batching attacks
+4. **Bypass Attempts**: Authentication and rate limit bypass
+
+**Findings:**
+| Finding | Severity | Exploitability | Remediation |
+|---------|-----------|----------------|-------------|
+| BOLA (Broken Object Level Authorization) | Critical | Easy | Add ownership verification |
+| Introspection Enabled | Medium | N/A | Disable in production |
+| Query Depth Limit Missing | High | Easy | Implement max depth |
+| No Rate Limiting | High | Easy | Add rate limiting |
+
+**Demonstrated Impact:**
+- Accessed any patient's medical records by manipulating ID parameter
+- Caused temporary DoS with deeply nested queries
+- Extracted sensitive metadata through introspection
+
+## Best Practices
+
+### Reconnaissance and Discovery
+
+- **Thorough Enumeration**: Leave no stone unturned in reconnaissance
+- **Automated Tools**: Use scanners for coverage, manual for depth
+- **OSINT Integration**: Leverage open-source intelligence
+- **Scope Verification**: Confirm targets before testing
+
+### Vulnerability Assessment
+
+- **Manual Verification**: Confirm all automated findings
+- **False Positive Analysis**: Validate true vulnerabilities
+- **Business Logic Testing**: Go beyond OWASP Top 10
+- **Comprehensive Coverage**: Test all user roles and flows
+
+### Exploitation and Validation
+
+- **Safe Exploitation**: Minimize impact during testing
+- **Proof of Concept**: Document exploitability clearly
+- **Evidence Collection**: Screenshots, logs, requests
+- **Scope Boundaries**: Never exceed authorized testing
+
+### Reporting and Communication
+
+- **Clear Documentation**: Detailed findings with evidence
+- **Risk Scoring**: Accurate CVSS calculations
+- **Actionable Remediation**: Specific, implementable advice
+- **Executive Summary**: Accessible for non-technical stakeholders
+
+## Quality Checklist
+
+**Preparation:**
+-   [ ] **Scope:** Signed RoE (Rules of Engagement) and Authorization letter.
+-   [ ] **Access:** Credentials/VPN access verified.
+-   [ ] **Backups:** Confirmed client has backups (if applicable).
+-   [ ] **Legal:** Confirmed testing dates and boundaries in writing.
+
+**Execution:**
+-   [ ] **Coverage:** All user roles tested (Admin, User, Unauth).
+-   [ ] **Validation:** All scanner findings manually verified.
+-   [ ] **Evidence:** Screenshots/Logs collected for every finding.
+-   [ ] **Safety:** Test data cleaned up, no permanent damage.
+
+**Reporting:**
+-   [ ] **Clarity:** Executive summary understandable by non-tech stakeholders.
+-   [ ] **Risk:** CVSS scores calculated accurately.
+-   [ ] **Remediation:** Actionable, specific advice (not just "Fix it").
+-   [ ] **Cleanup:** Test data/accounts removed from target system.
+-   [ ] **Timeline:** Findings delivered within agreed timeframe.

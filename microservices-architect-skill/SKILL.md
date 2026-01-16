@@ -1,172 +1,90 @@
 ---
 name: microservices-architect
-description: Distributed systems expert specializing in service decomposition, orchestration, and microservices architecture patterns
+description: Distributed systems expert specializing in service decomposition, orchestration, and microservices architecture patterns. Use when designing microservices, defining service boundaries, implementing service mesh, or handling distributed system challenges. Triggers include "microservices", "service mesh", "service decomposition", "distributed systems", "API gateway", "event-driven".
 ---
 
-# Microservices Architect Skill
+# Microservices Architect
 
-## Architecture Patterns and Methodologies
+## Purpose
+Provides expertise in designing and implementing microservices architectures. Specializes in service decomposition, inter-service communication patterns, service mesh implementation, and solving distributed systems challenges.
 
-### Service Decomposition Strategies
-- **Domain-Driven Design (DDD)**: Bounded contexts as service boundaries
-- **Single Responsibility Principle**: One business capability per service
-- **Database-per-Service**: Each service owns its data persistence
-- **Strangler Fig Pattern**: Gradual migration from monolith to microservices
+## When to Use
+- Decomposing monoliths into microservices
+- Defining service boundaries and APIs
+- Implementing service mesh (Istio, Linkerd)
+- Designing API gateway patterns
+- Handling distributed transactions (Saga pattern)
+- Implementing event-driven communication
+- Setting up service discovery and load balancing
+- Designing for resilience (circuit breakers, retries)
 
-### Communication Patterns
-- **Synchronous Communication**: REST APIs, gRPC, GraphQL
-- **Asynchronous Communication**: Message queues, event streaming
-- **Event-Driven Architecture**: Domain events for loose coupling
-- **CQRS (Command Query Responsibility Segregation)**: Separate read/write models
+## Quick Start
+**Invoke this skill when:**
+- Designing microservices from scratch
+- Decomposing existing monoliths
+- Implementing service-to-service communication
+- Setting up service mesh or API gateway
+- Solving distributed system challenges
 
-### Service Discovery and Registry
-- **Service Registration**: Eureka, Consul, etcd
-- **DNS-Based Discovery**: Kubernetes services
-- **Client-Side Load Balancing**: Ribbon, Spring Cloud LoadBalancer
-- **Server-Side Load Balancing**: NGINX, HAProxy, Envoy
+**Do NOT invoke when:**
+- Migrating legacy systems incrementally → use `/legacy-modernizer`
+- Event streaming architecture → use `/event-driven-architect`
+- Kubernetes operations → use `/kubernetes-specialist`
+- Single service API design → use `/api-designer`
 
-## Service Boundaries and Communication
-
-### API Gateway Patterns
+## Decision Framework
 ```
-Client → API Gateway → Services
-         ↓
-    Authentication
-    Rate Limiting
-    Request Routing
-    Response Aggregation
-    Circuit Breaking
-```
-
-### Inter-Service Communication
-- **REST**: HTTP-based synchronous communication
-- **gRPC**: High-performance binary protocol
-- **Message Queues**: RabbitMQ, AWS SQS, Apache Kafka
-- **Event Streams**: Kafka, Kinesis, NATS
-
-### Data Management Patterns
-- **Saga Pattern**: Distributed transaction management
-- **Event Sourcing**: Immutable event logs as state source
-- **CQRS**: Separate read/write data stores
-- **Database-per-Service**: Independent data ownership
-
-## Orchestration and Choreography
-
-### Service Orchestration
-- **Centralized Coordinator**: Single service manages workflow
-- **Workflow Engines**: Camunda, Temporal, AWS Step Functions
-- **Business Process Modeling**: BPMN for complex workflows
-- **State Management**: Distributed state machines
-
-### Event Choreography
-- **Decentralized Events**: Each service responds to domain events
-- **Event Bus**: Message brokers for event distribution
-- **Event Sourcing**: Event-driven state changes
-- **Snapshot Management**: Performance optimization for event stores
-
-### Hybrid Approaches
-- **Orchestration for Sagas**: Complex distributed transactions
-- **Choreography for Events**: Simple notifications and updates
-- **Pattern Selection**: Use case-based decision framework
-
-## Behavioral Traits
-
-### When to Use
-- **Large, Complex Applications**: Multiple teams, complex domains
-- **Independent Scalability**: Different scaling requirements per component
-- **Technology Diversity**: Multiple programming languages/frameworks
-- **Organizational Scaling**: Team autonomy and independent deployment
-
-### Decision Framework
-- **Conway's Law**: System design mirrors communication structure
-- **Trade-off Analysis**: Consistency vs. Availability vs. Partition Tolerance
-- **Operational Complexity**: Monitoring, deployment, and debugging overhead
-- **Business Impact**: Time-to-market vs. technical debt
-
-## Example Architectural Scenarios
-
-### E-commerce Microservices
-```
-API Gateway
-├── User Service (Authentication, Profiles)
-├── Product Service (Catalog, Inventory)
-├── Order Service (Order Management, Processing)
-├── Payment Service (Payment Processing, Refunds)
-├── Notification Service (Email, SMS, Push)
-└── Analytics Service (Reporting, Metrics)
+Communication Pattern?
+├── Synchronous
+│   ├── Simple calls → REST/gRPC
+│   └── Complex routing → API Gateway
+├── Asynchronous
+│   ├── Events → Kafka/RabbitMQ
+│   └── Commands → Message queues
+└── Distributed Transaction
+    ├── Strong consistency → Saga (orchestration)
+    └── Eventual consistency → Saga (choreography)
 ```
 
-### Service Communication Flow
-```
-Order Service
-├── Validates inventory (Product Service)
-├── Processes payment (Payment Service)
-├── Creates order (Local Database)
-├── Sends confirmation (Notification Service)
-└── Updates analytics (Analytics Service)
-```
+## Core Workflows
 
-## Resilience and Fault Tolerance
+### 1. Service Decomposition
+1. Identify bounded contexts from domain model
+2. Define service responsibilities (single purpose)
+3. Design APIs for each service
+4. Determine data ownership per service
+5. Plan inter-service communication
+6. Define deployment strategy
 
-### Circuit Breaker Pattern
-```yaml
-circuit-breaker:
-  failure-rate-threshold: 50%
-  wait-duration-in-open-state: 30s
-  sliding-window-size: 20
-  permitted-number-of-calls-in-half-open-state: 5
-```
+### 2. Service Mesh Implementation
+1. Select mesh (Istio, Linkerd, Consul)
+2. Deploy sidecar proxies
+3. Configure traffic management
+4. Implement mTLS for security
+5. Set up observability (tracing, metrics)
+6. Define retry and circuit breaker policies
 
-### Retry Patterns
-- **Exponential Backoff**: Increasing delays between retries
-- **Jitter**: Randomization to prevent thundering herd
-- **Circuit Breaking**: Stop retries after consecutive failures
-- **Timeout Management**: Appropriate timeout values per operation
-
-### Bulkhead Isolation
-- **Thread Pool Isolation**: Separate thread pools per service
-- **Semaphore Isolation**: Limit concurrent requests per service
-- **Process Isolation**: Separate containers/vm per critical service
-- **Resource Quotas**: CPU, memory, and network limits
-
-## DevOps and Observability
-
-### Deployment Strategies
-- **Blue-Green Deployment**: Zero-downtime deployments
-- **Canary Releases**: Gradual traffic shifting
-- **Feature Flags**: Runtime feature toggling
-- **Rolling Updates**: Incremental service updates
-
-### Monitoring and Observability
-- **Distributed Tracing**: Jaeger, Zipkin, AWS X-Ray
-- **Metrics Collection**: Prometheus, CloudWatch, DataDog
-- **Log Aggregation**: ELK Stack, Splunk, Fluentd
-- **Health Checks**: Service availability and dependency health
-
-### Configuration Management
-- **External Configuration**: Spring Cloud Config, Consul KV
-- **Environment Variables**: Container-based configuration
-- **Configuration Secrets**: HashiCorp Vault, AWS Secrets Manager
-- **Dynamic Configuration**: Runtime configuration updates
+### 3. Saga Pattern Implementation
+1. Identify distributed transaction boundaries
+2. Choose orchestration vs choreography
+3. Define compensating transactions
+4. Implement saga coordinator (if orchestrated)
+5. Handle failure scenarios
+6. Add monitoring for saga status
 
 ## Best Practices
+- Design services around business capabilities, not technical layers
+- Own your data—each service manages its own database
+- Use asynchronous communication for loose coupling
+- Implement circuit breakers for fault tolerance
+- Design for failure—everything will fail eventually
+- Use correlation IDs for distributed tracing
 
-### Service Design Principles
-- **High Cohesion**: Related functionality in single service
-- **Low Coupling**: Minimal dependencies between services
-- **Autonomous Development**: Independent teams per service
-- **Failure Isolation**: Service failures don't cascade
-
-### Data Considerations
-- **Eventual Consistency**: Accept temporary data inconsistencies
-- **Data Ownership**: Clear ownership of data entities
-- **Replication Strategies**: Read replicas, multi-region deployment
-- **Backup and Recovery**: Service-specific backup strategies
-
-### Performance Optimization
-- **Connection Pooling**: Database and external service connections
-- **Caching Strategies**: Redis, Memcached, application-level caching
-- **Async Processing**: Non-blocking operations for better throughput
-- **Resource Management**: Efficient CPU and memory usage
-
-This skill combines distributed systems expertise with practical implementation patterns to create scalable, resilient, and maintainable microservices architectures.
+## Anti-Patterns
+| Anti-Pattern | Problem | Correct Approach |
+|--------------|---------|------------------|
+| Distributed monolith | Coupled services, worst of both | True bounded contexts |
+| Shared database | Tight coupling | Database per service |
+| Synchronous chains | Cascading failures | Async where possible |
+| No circuit breakers | Cascading failures | Implement Hystrix/Resilience4j |
+| Nano-services | Operational overhead | Right-sized services |

@@ -1,251 +1,292 @@
 ---
 name: swift-expert
-title: Swift Expert
-description: Comprehensive Swift development expert specializing in iOS/macOS development, SwiftUI, Combine framework, and modern concurrency patterns for building Apple ecosystem applications.
-category: Mobile & Desktop Development
-version: 1.0.0
-author: OpenCode
-tags: [swift, ios, macos, swiftui, combine, concurrency]
+description: Expert in the Swift ecosystem, specializing in iOS/macOS/visionOS development, Swift 6 concurrency, and deep system integration.
 ---
 
 # Swift Expert
 
-An expert Swift developer with deep knowledge of iOS and macOS development, SwiftUI for declarative UI design, Combine for reactive programming, and Swift's modern concurrency model for building responsive applications.
+## Purpose
 
-## Core Competencies
+Provides Apple ecosystem development expertise specializing in native iOS/macOS/visionOS applications using Swift 6, SwiftUI, and modern concurrency patterns. Builds high-performance native applications with deep system integration across Apple platforms.
 
-### Swift Language Features
-- Swift 5.9+ features including async/await and actors
-- Property wrappers and result builders
-- Generics and protocols for type-safe code
-- Memory management with ARC
-- Pattern matching and exhaustive switches
-- Interoperability with Objective-C
+## When to Use
 
-### SwiftUI Framework
-- Declarative UI design with Swift syntax
-- View composition and custom components
-- State management (State, ObservedObject, StateObject)
-- Navigation patterns (NavigationView, NavigationStack)
-- Animation and gesture handling
-- Adaptive layouts for different devices
+- Building native iOS/macOS apps with SwiftUI and SwiftData
+- Migrating legacy Objective-C/UIKit code to modern Swift
+- Implementing advanced concurrency with Actors and structured Tasks
+- Optimizing performance (Instruments, Memory Graph, Launch Time)
+- Integrating system frameworks (HealthKit, HomeKit, WidgetKit)
+- Developing for visionOS (Spatial Computing)
+- Creating Swift server-side applications (Vapor, Hummingbird)
 
-### Combine Framework
-- Publishers and subscribers for reactive programming
-- Operators for data transformation
-- Integration with existing callback-based APIs
-- Error handling and retry strategies
-- Memory management for subscriptions
-- Testing reactive code
+## Examples
 
-### Modern Concurrency
-- async/await for asynchronous operations
-- Actors for data race protection
-- Task and TaskGroup for concurrent operations
-- Continuations for bridging async/await
-- MainActor for UI thread synchronization
-- Structured concurrency patterns
+### Example 1: Modern SwiftUI Architecture
 
-## Development Patterns
+**Scenario:** Rewriting a legacy UIKit app in modern SwiftUI.
 
-### SwiftUI Architecture
-```swift
-import SwiftUI
-import Combine
+**Implementation:**
+1. Adopted MVVM architecture with Combine
+2. Created reusable ViewComponents for consistency
+3. Implemented proper state management
+4. Added comprehensive accessibility support
+5. Built preview-driven development workflow
 
-@MainActor
-class ViewModel: ObservableObject {
-    @Published var items: [Item] = []
-    @Published var isLoading = false
-    
-    private let service: Service
-    
-    func loadItems() async {
-        isLoading = true
-        defer { isLoading = false }
-        
-        items = await service.fetchItems()
-    }
-}
+**Results:**
+- 50% less code than UIKit version
+- Improved testability (ViewModels easily tested)
+- Better accessibility (VoiceOver support)
+- Faster development with Xcode Previews
 
-struct ContentView: View {
-    @StateObject private var viewModel = ViewModel()
-    
-    var body: some View {
-        NavigationView {
-            List(viewModel.items) { item in
-                ItemRow(item: item)
-            }
-            .navigationTitle("Items")
-            .task {
-                await viewModel.loadItems()
-            }
+### Example 2: Swift Concurrency Migration
+
+**Scenario:** Converting callback-based code to async/await.
+
+**Implementation:**
+1. Identified all completion handler patterns
+2. Created async wrappers using @MainActor where needed
+3. Implemented structured concurrency for parallel operations
+4. Added proper error handling with throw/catch
+5. Used actors for protecting shared state
+
+**Results:**
+- 70% reduction in boilerplate code
+- Eliminated callback hell and race conditions
+- Improved code readability and maintainability
+- Better memory management with structured tasks
+
+### Example 3: Performance Optimization
+
+**Scenario:** Optimizing a slow startup time and janky scrolling.
+
+**Implementation:**
+1. Used Instruments to profile app launch
+2. Identified heavy initializers and deferred them
+3. Implemented lazy loading for resources
+4. Optimized images with proper caching
+5. Reduced view hierarchy complexity
+
+**Results:**
+- Launch time reduced from 4s to 1.2s
+- Scrolling now consistently 60fps
+- Memory usage reduced by 40%
+- Improved App Store ratings
+
+## Best Practices
+
+### SwiftUI Development
+
+- **MVVM Architecture**: Clear separation of concerns
+- **State Management**: Use proper @StateObject/@ObservedObject
+- **Performance**: Lazy loading, proper Equatable
+- **Accessibility**: Build in from the start
+
+### Swift Concurrency
+
+- **Structured Concurrency**: Use Task and TaskGroup
+- **Actors**: Protect shared state with actors
+- **MainActor**: Properly handle UI updates
+- **Error Handling**: Comprehensive throw/catch patterns
+
+### Performance
+
+- **Instruments**: Profile regularly, don't guess
+- **Lazy Loading**: Defer expensive operations
+- **Memory Management**: Watch for strong reference cycles
+- **Optimize Images**: Proper format, caching, sizing
+
+### Platform Integration
+
+- **System Frameworks**: Use appropriate Apple frameworks
+- **Privacy**: Follow App Store privacy requirements
+- **Extensions**: Support widgets, shortcuts, etc.
+- **VisionOS**: Consider spatial computing patterns
+
+**Do NOT invoke when:**
+- Building cross-platform apps with React Native/Flutter → Use `mobile-app-developer`
+- Writing simple shell scripts (unless specifically Swift scripting) → Use `bash` or `python-pro`
+- Designing game assets → Use `game-developer` (though Metal/SceneKit is in scope)
+
+---
+---
+
+## Core Capabilities
+
+### Swift Development
+- Building native iOS/macOS applications with SwiftUI
+- Implementing advanced Swift features (Actors, async/await, generics)
+- Managing state with SwiftData and Combine
+- Optimizing performance with Instruments
+
+### Apple Platform Integration
+- Integrating system frameworks (HealthKit, HomeKit, WidgetKit)
+- Developing for visionOS and spatial computing
+- Managing app distribution (App Store, TestFlight)
+- Implementing privacy and security best practices
+
+### Concurrency and Performance
+- Implementing Swift 6 concurrency patterns
+- Managing memory and preventing retain cycles
+- Debugging performance issues with profiling tools
+- Optimizing app launch time and battery usage
+
+### Testing and Quality
+- Writing unit tests with XCTest
+- Implementing UI testing with XCUITest
+- Managing test coverage and quality metrics
+- Setting up CI/CD for Apple platforms
+
+---
+---
+
+### Workflow 2: Swift 6 Concurrency (Actors)
+
+**Goal:** Manage a thread-safe cache without locks.
+
+**Steps:**
+
+1.  **Define Actor**
+    ```swift
+    actor ImageCache {
+        private var cache: [URL: UIImage] = [:]
+
+        func image(for url: URL) -> UIImage? {
+            return cache[url]
+        }
+
+        func store(_ image: UIImage, for url: URL) {
+            cache[url] = image
+        }
+
+        func clear() {
+            cache.removeAll()
         }
     }
-}
-```
+    ```
 
-### Combine Reactive Pattern
+2.  **Usage (Async context)**
+    ```swift
+    class ImageLoader {
+        private let cache = ImageCache()
+
+        func load(url: URL) async throws -> UIImage {
+            if let cached = await cache.image(for: url) {
+                return cached
+            }
+
+            let (data, _) = try await URLSession.shared.data(from: url)
+            guard let image = UIImage(data: data) else {
+                throw URLError(.badServerResponse)
+            }
+
+            await cache.store(image, for: url)
+            return image
+        }
+    }
+    ```
+
+---
+---
+
+## 4. Patterns & Templates
+
+### Pattern 1: Dependency Injection (Environment)
+
+**Use case:** Injecting services into the SwiftUI hierarchy.
+
 ```swift
-class ReactiveService: ObservableObject {
-    @Published var data: [DataModel] = []
-    private var cancellables = Set<AnyCancellable>()
+// 1. Define Key
+private struct AuthKey: EnvironmentKey {
+    static let defaultValue: AuthService = AuthService.mock
+}
+
+// 2. Extend EnvironmentValues
+extension EnvironmentValues {
+    var authService: AuthService {
+        get { self[AuthKey.self] }
+        set { self[AuthKey.self] = newValue }
+    }
+}
+
+// 3. Use
+struct LoginView: View {
+    @Environment(\.authService) var auth
     
-    func fetchData() {
-        urlSession.dataTaskPublisher(for: url)
-            .map(\.data)
-            .decode(type: [DataModel].self, decoder: JSONDecoder())
-            .receive(on: DispatchQueue.main)
-            .sink(
-                receiveCompletion: { completion in
-                    if case .failure(let error) = completion {
-                        print("Error: \(error)")
-                    }
-                },
-                receiveValue: { [weak self] models in
-                    self?.data = models
-                }
-            )
-            .store(in: &cancellables)
+    func login() {
+        Task { await auth.login() }
     }
 }
 ```
 
-### Actor-Based Concurrency
+### Pattern 2: Coordinator (Navigation)
+
+**Use case:** Decoupling navigation logic from Views.
+
 ```swift
-actor DataStore {
-    private var cache: [String: Data] = [:]
-    
-    func store(_ data: Data, forKey key: String) {
-        cache[key] = data
+@Observable
+class Coordinator {
+    var path = NavigationPath()
+
+    func push(_ destination: Destination) {
+        path.append(destination)
+    }
+
+    func pop() {
+        path.removeLast()
     }
     
-    func retrieve(key: String) -> Data? {
-        return cache[key]
+    func popToRoot() {
+        path.removeLast(path.count)
     }
-    
-    func clearCache() {
-        cache.removeAll()
-    }
+}
+
+enum Destination: Hashable {
+    case detail(Int)
+    case settings
 }
 ```
 
-## Platform-Specific Development
+### Pattern 3: Result Builder (DSL)
 
-### iOS Development
-- UIKit integration with SwiftUI
-- Core Data for local persistence
-- Core Animation for custom transitions
-- Background tasks and app lifecycle
-- Push notifications and background fetch
-- Camera and photo library integration
+**Use case:** Creating a custom DSL for configuring API requests.
 
-### macOS Development
-- AppKit and SwiftUI interop
-- Menu bar applications
-- File system integration
-- Window management
-- Touch Bar support
-- Sandboxing and security
+```swift
+@resultBuilder
+struct RequestBuilder {
+    static func buildBlock(_ components: URLQueryItem...) -> [URLQueryItem] {
+        return components
+    }
+}
 
-### Cross-Platform Patterns
-- Shared code with Swift packages
-- Platform-specific implementations
-- Universal user interface design
-- iCloud synchronization
-- Handoff and continuity features
+func makeRequest(@RequestBuilder _ builder: () -> [URLQueryItem]) {
+    let items = builder()
+    // ... construct URL
+}
 
-## Development Workflow
-
-### Project Setup
-```bash
-# Create new SwiftUI project
-swift package init --type executable
-
-# Add dependencies in Package.swift
-dependencies: [
-    .package(url: "https://github.com/Alamofire/Alamofire.git", from: "5.0.0")
-]
-
-# iOS app with Xcode
-# File > New > Project > iOS > App
+// Usage
+makeRequest {
+    URLQueryItem(name: "limit", value: "10")
+    URLQueryItem(name: "sort", value: "desc")
+}
 ```
 
-### Testing Strategy
-- Unit tests with XCTest
-- UI tests with XCUITest
-- Performance testing with measure
-- Integration tests for Combine flows
-- Snapshot testing for SwiftUI views
+---
+---
 
-### CI/CD Integration
-- Xcode Cloud or GitHub Actions
-- Automated testing on multiple simulators
-- App Store Connect deployment
-- Code signing and provisioning
+## 6. Integration Patterns
 
-## Common Use Cases
+### **backend-developer:**
+-   **Handoff**: Backend provides gRPC/REST spec → Swift Expert generates Codable structs.
+-   **Collaboration**: Handling pagination (cursors) and error envelopes.
+-   **Tools**: `swift-openapi-generator`.
 
-### Mobile Applications
-- Social networking with real-time updates
-- E-commerce with in-app purchases
-- Health and fitness tracking with HealthKit
-- Educational apps with Core Data persistence
+### **ui-designer:**
+-   **Handoff**: Designer provides Figma → Swift Expert uses `HStack/VStack` to replicate.
+-   **Collaboration**: Defining Design System (Color, Typography extensions).
+-   **Tools**: Xcode Previews.
 
-### Desktop Applications
-- Productivity tools with document management
-- Development utilities and IDE plugins
-- System monitoring applications
-- Creative tools with custom graphics
+### **mobile-app-developer:**
+-   **Handoff**: React Native team needs a native module (e.g., Apple Pay) → Swift Expert writes the Swift-JS bridge.
+-   **Collaboration**: exposing native UIViews to React Native.
 
-### Cross-Platform Solutions
-- Continuity features between iOS and macOS
-- Synchronized data across devices
-- Universal purchase flows
-- Shared business logic with platform-specific UI
-
-## When to Use This Expert
-
-**Ideal Scenarios:**
-- Native iOS/macOS application development
-- Modern SwiftUI interfaces
-- Reactive programming with Combine
-- Performance-critical applications
-- Apps requiring deep OS integration
-
-**Alternative Solutions:**
-- For cross-platform mobile: Consider flutter-expert or kotlin-specialist
-- For web-based solutions: Use web frameworks
-- For Android-only: Use kotlin-specialist
-
-## Example Interactions
-
-### SwiftUI Implementation
-**User:** "I need to create a complex form with validation in SwiftUI"
-
-**Expected Response:**
-- Design form structure with proper view composition
-- Implement validation logic with Combine publishers
-- Add real-time validation feedback
-- Handle form submission with async operations
-- Include accessibility support and error handling
-
-### Performance Optimization
-**User:** "My iOS app is consuming too much memory"
-
-**Expected Response:**
-- Analyze object retention patterns
-- Optimize image loading and caching strategies
-- Implement proper memory management in Combine subscriptions
-- Add instrumentation for memory profiling
-- Suggest architectural changes for better resource usage
-
-### Concurrency Implementation
-**User:** "I need to handle multiple concurrent API calls"
-
-**Expected Response:**
-- Implement TaskGroup for coordinated concurrency
-- Add proper error handling and retry logic
-- Use async/await with structured concurrency
-- Implement cancellation support
-- Add progress indicators for user feedback
+---

@@ -5,322 +5,232 @@ description: GraphQL schema and federation expert specializing in resolver optim
 
 # GraphQL Architect Skill
 
-## Architecture Patterns and Methodologies
+## Purpose
 
-### Schema Design Principles
-- **Schema First Approach**: Design schema before implementation
-- **Type Safety**: Strongly typed schema with input validation
-- **Single Endpoint**: One URL for all GraphQL operations
-- **Hierarchical Data**: Natural graph relationships
-- **Introspection**: Self-documenting API capabilities
+Provides expert GraphQL architecture expertise specializing in schema design, federation patterns, resolver optimization, and real-time subscriptions. Builds performant, type-safe GraphQL APIs with N+1 prevention, efficient caching, and scalable API gateway patterns across distributed systems.
 
-### GraphQL Federation Patterns
-- **Schema Composition**: Multiple subgraphs into unified gateway
-- **Entity Resolution**: Cross-service data fetching
-- **Reference Resolvers**: Distributed data relationships
-- **Federated Directives**: @key, @requires, @provides, @external
-- **Schema Registry**: Central schema management and versioning
+## When to Use
 
-### Gateway Architecture
+- Designing GraphQL schema from scratch for new APIs
+- Implementing GraphQL federation across multiple services
+- Optimizing resolvers to prevent N+1 queries (DataLoader implementation)
+- Building real-time features with GraphQL subscriptions
+- Migrating from REST to GraphQL or designing hybrid REST+GraphQL APIs
+- Implementing GraphQL API gateway patterns
+
+## Quick Start
+
+**Invoke this skill when:**
+- Designing new GraphQL schemas or federation architecture
+- Solving N+1 query performance issues
+- Implementing real-time subscriptions
+- Migrating REST APIs to GraphQL
+
+**Do NOT invoke when:**
+- Simple REST API is sufficient (use api-designer)
+- Database schema design without API layer (use database-administrator)
+- Frontend data fetching only (use frontend-developer)
+
+## Core Capabilities
+
+### Schema Design
+- Creating type-safe GraphQL schemas with best practices
+- Implementing pagination patterns (Relay, offset-based)
+- Designing mutations with input validation and error handling
+- Managing schema evolution and backward compatibility
+
+### Federation Architecture
+- Implementing Apollo Federation for microservices
+- Configuring schema stitching for service composition
+- Managing cross-service queries and mutations
+- Setting up API gateways for schema composition
+
+### Resolver Optimization
+- Implementing DataLoader for N+1 prevention
+- Caching strategies at resolver and field levels
+- Query complexity analysis and depth limiting
+- Persisted queries for production optimization
+
+### Real-Time Subscriptions
+- Implementing WebSocket-based subscriptions
+- Managing subscription lifecycle and cleanup
+- Integrating with event-driven backends
+- Handling subscription authentication and authorization
+
+## Decision Framework
+
+### GraphQL vs REST Decision Matrix
+
+| Factor | Use GraphQL | Use REST |
+|--------|-------------|----------|
+| **Client types** | Multiple clients with different needs | Single client with predictable needs |
+| **Data relationships** | Highly nested, interconnected data | Flat resources with few relationships |
+| **Over-fetching** | Clients need different subsets | Clients typically need all fields |
+| **Under-fetching** | Avoid multiple round trips | Single endpoint provides enough |
+| **Schema evolution** | Frequent changes, backward compat | Stable API, versioning acceptable |
+| **Real-time** | Subscriptions needed | Polling or webhooks sufficient |
+
+### Schema Design Decision Tree
+
 ```
-Clients → GraphQL Gateway
-    ├── User Service Subgraph
-    ├── Product Service Subgraph
-    ├── Order Service Subgraph
-    └── Inventory Service Subgraph
+Schema Design Requirements
+│
+├─ Single service (monolith)?
+│  └─ Schema-first design with single schema
+│
+├─ Multiple microservices?
+│  ├─ Services owned by different teams?
+│  │  └─ Apollo Federation
+│  └─ Services owned by same team?
+│     └─ Schema stitching (simpler)
+│
+├─ Existing REST APIs to wrap?
+│  └─ GraphQL wrapper layer
+│
+└─ Need backward compatibility?
+   └─ Hybrid REST + GraphQL
 ```
 
-## GraphQL Schema Design
+### N+1 Prevention Strategy
 
-### Type System Design
+```
+Resolver Implementation
+│
+├─ Field resolves to single related entity?
+│  └─ DataLoader with batching
+│
+├─ Field resolves to list of related entities?
+│  ├─ List size always small (<10)?
+│  │  └─ Direct query acceptable
+│  └─ List size unbounded?
+│     └─ DataLoader with batching + pagination
+│
+├─ Nested resolvers (users → posts → comments)?
+│  └─ Multi-level DataLoaders
+│
+└─ Aggregations or counts?
+   └─ Separate DataLoader for counts
+```
+
+## Core Workflow: DataLoader Implementation
+
+**Problem**: N+1 queries killing performance
+
+```typescript
+// WITHOUT DataLoader - N+1 problem
+const resolvers = {
+  Post: {
+    author: async (post, _, { db }) => {
+      // Executed once per post (N+1 problem!)
+      return db.User.findByPk(post.userId);
+    }
+  }
+};
+// Query for 100 posts triggers 101 DB queries
+```
+
+**Solution**: Batch with DataLoader
+
+```typescript
+import DataLoader from 'dataloader';
+
+// Create loader per request (important!)
+function createLoaders(db) {
+  return {
+    userLoader: new DataLoader(async (userIds) => {
+      const users = await db.User.findAll({
+        where: { id: userIds }
+      });
+      // Return in same order as requested IDs
+      const userMap = new Map(users.map(u => [u.id, u]));
+      return userIds.map(id => userMap.get(id));
+    })
+  };
+}
+
+// Resolver using DataLoader
+const resolvers = {
+  Post: {
+    author: (post, _, { loaders }) => {
+      return loaders.userLoader.load(post.userId);
+    }
+  }
+};
+// Same query now triggers 2 queries total!
+```
+
+## Quick Reference: Schema Best Practices
+
+### Pagination Pattern (Relay-style)
+
 ```graphql
-type User {
-  id: ID!
-  email: String!
-  profile: UserProfile
-  orders: [Order!]! @connection
-  createdAt: DateTime!
-  updatedAt: DateTime!
-}
-
 type Query {
-  user(id: ID!): User
-  users(filter: UserFilter, pagination: Pagination): UserConnection!
-  me: User
+  users(first: Int, after: String, last: Int, before: String): UserConnection!
 }
 
+type UserConnection {
+  edges: [UserEdge!]!
+  pageInfo: PageInfo!
+  totalCount: Int!
+}
+
+type UserEdge {
+  node: User!
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
+}
+```
+
+### Error Handling Pattern
+
+```graphql
 type Mutation {
-  updateUser(input: UpdateUserInput!): User!
-  deleteUser(id: ID!): Boolean!
+  createUser(input: CreateUserInput!): CreateUserPayload!
 }
 
-type Subscription {
-  userUpdated(id: ID!): User!
-  userCreated: User!
-}
-```
-
-### Federation Directives
-```graphql
-# Product Service
-type Product @key(fields: "id") {
-  id: ID!
-  name: String!
-  price: Float!
-  inventory: Inventory @requires(fields: "id")
+type CreateUserPayload {
+  user: User
+  errors: [UserError!]!
 }
 
-# Inventory Service
-extend type Product @key(fields: "id") {
-  id: ID! @external
-  inventory: Inventory!
+type UserError {
+  field: String
+  message: String!
+  code: ErrorCode!
 }
 
-type Inventory {
-  available: Int!
-  reserved: Int!
-  location: String!
+enum ErrorCode {
+  VALIDATION_ERROR
+  NOT_FOUND
+  UNAUTHORIZED
+  CONFLICT
 }
 ```
 
-### Input Types and Validation
-```graphql
-input ProductFilter {
-  category: String
-  minPrice: Float @constraint(min: 0)
-  maxPrice: Float @constraint(max: 10000)
-  inStock: Boolean
-  search: String @constraint(minLength: 2, maxLength: 100)
-}
+## Red Flags - When to Escalate
 
-input CreateProductInput {
-  name: String! @constraint(minLength: 1, maxLength: 200)
-  description: String
-  price: Float! @constraint(min: 0.01)
-  categoryId: ID!
-  variants: [ProductVariantInput!]!
-}
-```
+| Observation | Why Escalate |
+|-------------|--------------|
+| Query complexity explosion | Unbounded nested queries causing DoS |
+| Federation circular dependencies | Schema design issue |
+| 10K+ concurrent subscriptions | Infrastructure architecture |
+| Schema versioning across 50+ fields | Breaking change management |
+| Cross-service transaction needs | Distributed systems pattern |
 
-## Resolver Optimization
+## Additional Resources
 
-### Data Loader Pattern
-```javascript
-const batchUsers = async (ids) => {
-  const users = await User.find({ _id: { $in: ids } });
-  return ids.map(id => users.find(user => user.id === id));
-};
-
-const userLoader = new DataLoader(batchUsers);
-
-const resolvers = {
-  Query: {
-    user: (_, { id }) => userLoader.load(id)
-  },
-  Order: {
-    user: (order) => userLoader.load(order.userId)
-  }
-};
-```
-
-### N+1 Problem Solutions
-- **Data Loader**: Batch loading for related data
-- **Complex Resolvers**: Efficient database queries
-- **Caching Layers**: Redis, Memcached integration
-- **Field-level Resolution**: Lazy loading of expensive fields
-
-### Performance Optimizations
-```javascript
-// Resolver Middleware
-const resolvers = {
-  Query: {
-    products: async (_, { filter, pagination }, context) => {
-      // Efficient pagination
-      const { limit, offset } = pagination;
-      const query = buildProductQuery(filter);
-      
-      // Parallel data fetching
-      const [products, totalCount] = await Promise.all([
-        Product.find(query).limit(limit).skip(offset),
-        Product.countDocuments(query)
-      ]);
-      
-      return {
-        edges: products,
-        pageInfo: { hasNextPage: offset + limit < totalCount },
-        totalCount
-      };
-    }
-  }
-};
-```
-
-## Real-time with Subscriptions
-
-### Subscription Implementation
-```javascript
-const resolvers = {
-  Subscription: {
-    productUpdated: {
-      subscribe: (_, { id }, context) => {
-        return pubsub.asyncIterator(`PRODUCT_UPDATED_${id}`);
-      },
-      resolve: (payload) => payload.product
-    },
-    
-    orderCreated: {
-      subscribe: () => pubsub.asyncIterator('ORDER_CREATED'),
-      resolve: (payload) => payload.order
-    }
-  }
-};
-```
-
-### Event-Driven Architecture
-```javascript
-// Event Publishing
-const publishProductUpdate = async (productId, changes) => {
-  const product = await Product.findByIdAndUpdate(productId, changes, { new: true });
-  await pubsub.publish(`PRODUCT_UPDATED_${productId}`, { product });
-  await pubsub.publish('PRODUCTS_CHANGED', { product, operation: 'UPDATE' });
-};
-
-// Subscription Events
-const productEvents = {
-  'PRODUCT_CREATED': 'productCreated',
-  'PRODUCT_UPDATED': 'productUpdated', 
-  'PRODUCT_DELETED': 'productDeleted'
-};
-```
-
-## Behavioral Traits
-
-### When to Use GraphQL
-- **Multiple Client Types**: Web, mobile, third-party integrations
-- **Complex Data Relationships**: Nested and interconnected data
-- **Rapid Iteration**: Evolving API requirements
-- **Client-Driven Development**: Frontend teams need flexibility
-- **Mobile Applications**: Reduce over-fetching for bandwidth efficiency
-
-### Decision Framework
-- **Data Complexity**: High complexity favors GraphQL
-- **Team Structure**: Multiple client teams benefit from GraphQL
-- **Performance Requirements**: Consider latency and bandwidth
-- **Caching Strategies**: HTTP caching vs. GraphQL-specific caching
-
-## Integration Patterns
-
-### Database Integration
-```javascript
-// Multi-database resolvers
-const resolvers = {
-  User: {
-    orders: async (user) => {
-      // MongoDB for orders
-      return await Order.find({ userId: user.id });
-    },
-    
-    profile: async (user) => {
-      // PostgreSQL for profile
-      return await Profile.findOne({ userId: user.id });
-    }
-  }
-};
-```
-
-### External API Integration
-```javascript
-const resolvers = {
-  Product: {
-    reviews: async (product) => {
-      // External review service
-      const response = await fetch(`${REVIEWS_API}/products/${product.id}/reviews`);
-      return response.json();
-    },
-    
-    availability: async (product) => {
-      // Inventory microservice
-      return await inventoryService.getAvailability(product.id);
-    }
-  }
-};
-```
-
-## Security and Authorization
-
-### Field-Level Authorization
-```javascript
-const resolvers = {
-  Query: {
-    user: (_, { id }, context) => {
-      // Authentication check
-      if (!context.user) throw new AuthenticationError('Unauthorized');
-      
-      // Authorization check
-      if (context.user.id !== id && !context.user.isAdmin) {
-        throw new ForbiddenError('Cannot access other users');
-      }
-      
-      return User.findById(id);
-    }
-  }
-};
-```
-
-### Schema Directives
-```graphql
-directive @auth(role: String) on FIELD_DEFINITION
-directive @rateLimit(limit: Int, window: Int) on FIELD_DEFINITION
-
-type Query {
-  adminUsers: [User!]! @auth(role: "admin") @rateLimit(limit: 100, window: 60)
-  publicProducts: [Product!]!
-}
-```
-
-## Performance Monitoring
-
-### Query Complexity Analysis
-```javascript
-const complexity = new ComplexityExtension({
-  // Simple complexity estimation
-  estimators: [
-    (type, fieldName, args) => {
-      if (type === 'Query' && fieldName === 'users') {
-        return args.pagination?.limit || 10;
-      }
-      return 1;
-    }
-  ],
-  // Maximum complexity allowed
-  maximumComplexity: 1000
-});
-```
-
-### Performance Metrics
-- **Query Analysis**: Execution time, complexity, data transferred
-- **Resolver Performance**: Individual resolver timing
-- **Database Query Analysis**: Slow query identification
-- **Cache Hit Rates**: Effectiveness of caching strategies
-
-## Best Practices
-
-### Schema Evolution
-- **Non-Breaking Changes**: Add fields, deprecate old fields
-- **Versioning Strategy**: Semantic versioning for schemas
-- **Backward Compatibility**: Support existing clients
-- **Migration Planning**: Smooth transition paths
-
-### Testing Strategies
-- **Schema Testing**: Validate schema structure and types
-- **Resolver Unit Testing**: Individual resolver logic
-- **Integration Testing**: End-to-end query execution
-- **Performance Testing**: Load testing for complex queries
-
-### Documentation Standards
-- **Schema Documentation**: Descriptions for all types and fields
-- **Query Examples**: Common usage patterns
-- **Deprecation Notices**: Clear migration paths for changes
-- **API Guides**: Getting started and best practices
-
-This skill combines GraphQL expertise with performance optimization and distributed systems patterns to create efficient, scalable, and maintainable GraphQL APIs.
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+  - Apollo Federation setup workflow
+  - Field-level authorization directives
+  - Query complexity limiting
+  
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)
+  - Anti-patterns (N+1 queries, no complexity limits)
+  - Integration patterns with other skills
+  - Complete resolver implementations

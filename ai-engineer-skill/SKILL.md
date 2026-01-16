@@ -1,148 +1,86 @@
 ---
-name: AI Engineer
-domain: ai-engineering
-expertise:
-  - End-to-end AI system design
-  - AI/ML pipeline orchestration
-  - Multi-modal AI integration
-  - AI ethics and governance
-  - Scalable AI infrastructure
-frameworks:
-  - MLflow, Kubeflow, BentoML
-  - FastAPI, Flask for AI services
-  - Docker, Kubernetes for deployment
-  - Terraform, Ansible for infrastructure
-  - Prometheus, Grafana for monitoring
-technologies:
-  - Python, Go, JavaScript
-  - SQL, NoSQL, Vector databases
-  - Cloud platforms (AWS, GCP, Azure)
-  - Microservices architecture
-  - Event-driven systems
-patterns:
-  - Microservices for AI systems
-  - Event-driven ML pipelines
-  - Multi-modal data processing
-  - AI model versioning and governance
-  - Hybrid cloud AI deployment
-best_practices:
-  - Systematic AI system design
-  - Reproducible AI workflows
-  - Continuous integration for AI
-  - Security and privacy by design
-  - Performance and cost optimization
+name: ai-engineer
+description: Expert in building comprehensive AI systems, integrating LLMs, RAG architectures, and autonomous agents into production applications. Use when building AI-powered features, implementing LLM integrations, designing RAG pipelines, or deploying AI systems.
 ---
 
 # AI Engineer
 
-**Domain Expertise:**
-Designs and builds comprehensive artificial intelligence systems that combine machine learning, natural language processing, computer vision, and decision-making capabilities. Creates production-ready AI infrastructure that scales reliably and delivers measurable business value.
+## Purpose
+Provides expertise in end-to-end AI system development, from LLM integration to production deployment. Covers RAG architectures, embedding strategies, vector databases, prompt engineering, and AI application patterns.
 
-**Core Capabilities:**
+## When to Use
+- Building LLM-powered applications or features
+- Implementing RAG (Retrieval-Augmented Generation) systems
+- Integrating AI APIs (OpenAI, Anthropic, etc.)
+- Designing embedding and vector search pipelines
+- Building chatbots or conversational AI
+- Implementing AI agents with tool use
+- Optimizing AI system latency and cost
 
-## AI System Architecture
-- Design end-to-end AI systems from data ingestion to model deployment
-- Create microservices architectures for AI applications with proper service boundaries
-- Implement hybrid AI systems combining classical ML and deep learning approaches
-- Plan for scalability, reliability, and maintainability in AI infrastructure
+## Quick Start
+**Invoke this skill when:**
+- Building LLM-powered applications or features
+- Implementing RAG systems with vector databases
+- Integrating AI APIs into applications
+- Designing embedding and retrieval pipelines
+- Building conversational AI or agents
 
-## Multi-Modal AI Integration
-- Build systems that process and analyze text, images, audio, and video data
-- Implement multi-modal fusion techniques for enhanced AI capabilities
-- Create unified data pipelines for different data types and formats
-- Design APIs and interfaces that expose multi-modal AI capabilities
+**Do NOT invoke when:**
+- Training custom ML models from scratch (use ml-engineer)
+- Deploying ML models to production infrastructure (use mlops-engineer)
+- Managing multi-agent coordination (use agent-organizer)
+- Optimizing LLM serving infrastructure (use llm-architect)
 
-## AI Pipeline Orchestration
-- Implement complex AI workflows with multiple stages and dependencies
-- Build real-time and batch processing pipelines for AI applications
-- Create automated testing and validation for AI system components
-- Implement monitoring and alerting for AI pipeline health and performance
+## Decision Framework
+```
+AI Feature Type:
+├── Simple Q&A → Direct LLM API call
+├── Knowledge-based answers → RAG pipeline
+├── Multi-step reasoning → Chain-of-thought or agents
+├── External actions needed → Tool-use agents
+├── Real-time data → Streaming + function calling
+└── Complex workflows → Multi-agent orchestration
+```
 
-## AI Infrastructure & Operations
-- Design scalable infrastructure for training and serving AI models
-- Implement MLOps practices for automated model deployment and monitoring
-- Create CI/CD pipelines specifically for AI systems with model validation
-- Build governance frameworks for AI model lifecycle management
+## Core Workflows
 
-**When to Use This Agent:**
+### 1. RAG Pipeline Implementation
+1. Chunk documents with appropriate strategy
+2. Generate embeddings using suitable model
+3. Store in vector database with metadata
+4. Implement semantic search with reranking
+5. Construct prompts with retrieved context
+6. Add evaluation and monitoring
 
-**System Design:**
-- Building comprehensive AI solutions from scratch
-- Designing AI platforms that serve multiple teams or applications
-- Planning migration from prototype to production AI systems
-- Creating reusable AI components and services
+### 2. LLM Integration
+1. Select appropriate model for use case
+2. Design prompt templates with versioning
+3. Implement structured output parsing
+4. Add retry logic and fallbacks
+5. Monitor token usage and costs
+6. Cache responses where appropriate
 
-**Multi-Modal Projects:**
-- Building systems that process text, images, audio, or video
-- Implementing computer vision combined with NLP capabilities
-- Creating AI applications that need multiple data types
-- Designing unified AI platforms for diverse AI workloads
+### 3. AI Agent Development
+1. Define agent capabilities and tools
+2. Implement tool interfaces with validation
+3. Design agent loop with termination conditions
+4. Add guardrails and safety checks
+5. Implement logging and tracing
+6. Test edge cases and failure modes
 
-**Production AI:**
-- Scaling AI systems for enterprise-level usage
-- Implementing reliable AI deployment and monitoring
-- Building self-service AI platforms for organizations
-- Creating cost-effective AI infrastructure solutions
+## Best Practices
+- Version prompts alongside application code
+- Use structured outputs (JSON mode) for reliability
+- Implement semantic caching for common queries
+- Add human-in-the-loop for critical decisions
+- Monitor hallucination rates and retrieval quality
+- Design for graceful degradation when AI fails
 
-**Example Scenarios:**
-
-1. **Enterprise AI Platform:**
-   ```
-   "Design and build an enterprise AI platform that supports
-   multiple teams with data processing, model training,
-   deployment, and monitoring capabilities on Kubernetes"
-   ```
-
-2. **Multi-Modal Analytics System:**
-   ```
-   "Create an AI system that analyzes customer feedback from
-   text reviews, video testimonials, and audio calls
-   to provide comprehensive sentiment and topic analysis"
-   ```
-
-3. **Real-time AI Services:**
-   ```
-   "Build a real-time AI service that processes streaming
-   sensor data with anomaly detection, predictive maintenance,
-   and automated alerting for industrial applications"
-   ```
-
-4. **AI Governance Platform:**
-   ```
-   "Implement an AI governance system that tracks model
-   performance, detects bias, manages model versions,
-   and ensures compliance with AI ethics guidelines"
-   ```
-
-**Development Workflow:**
-1. Analyze business requirements and define AI system boundaries
-2. Design system architecture with proper component separation
-3. Implement data pipelines and processing infrastructure
-4. Build ML model training and evaluation frameworks
-5. Create serving infrastructure and API interfaces
-6. Implement monitoring, logging, and governance capabilities
-7. Add security, privacy, and compliance controls
-8. Deploy with proper testing and operational procedures
-
-**Key Metrics:**
-- AI system reliability and uptime
-- Model performance and business impact
-- Inference latency and throughput
-- Infrastructure utilization and cost efficiency
-- Developer productivity and time-to-market
-- System maintainability and update frequency
-
-**Advanced Capabilities:**
-- Edge AI deployment and mobile optimization
-- Federated learning for privacy-preserving AI
-- Explainable AI (XAI) implementation and integration
-- AutoML and neural architecture search integration
-- AI system security and adversarial robustness
-- Real-time learning and online model updating capabilities
-
-**Integration Patterns:**
-- Event-driven AI system integration with Kafka/RabbitMQ
-- API gateway patterns for AI service exposure
-- Database integration patterns for AI feature stores
-- Monitoring and observability integration with existing DevOps tools
-- Security integration with enterprise IAM and compliance systems
+## Anti-Patterns
+| Anti-Pattern | Problem | Correct Approach |
+|--------------|---------|------------------|
+| Prompt in code | Hard to iterate and test | Use prompt templates with versioning |
+| No evaluation | Unknown quality in production | Implement eval pipelines |
+| Synchronous LLM calls | Slow user experience | Use streaming responses |
+| Unbounded context | Token limits and cost | Implement context windowing |
+| No fallbacks | System fails on API errors | Add retry logic and alternatives |

@@ -210,4 +210,173 @@ Specializes in developing Model Context Protocol (MCP) implementations that enab
 - Advanced integration patterns and workflows
 - Community engagement and ecosystem development
 
+## Examples
+
+### Example 1: Internal API MCP Server
+
+**Scenario:** Expose company's internal REST API to AI agents for automated tasks.
+
+**Development Approach:**
+1. **API Analysis**: Mapped API endpoints and authentication
+2. **Server Implementation**: Built TypeScript MCP server
+3. **Tool Definition**: Created tools for each API operation
+4. **Authentication**: Implemented OAuth2 flow
+5. **Documentation**: Auto-generated tool descriptions
+
+**Server Structure:**
+```typescript
+// Tool definition example
+const createUserTool: Tool = {
+    name: "create_user",
+    description: "Create a new user in the system",
+    parameters: {
+        type: "object",
+        properties: {
+            email: { type: "string", description: "User email" },
+            name: { type: "string", description: "Full name" },
+            role: { type: "string", enum: ["admin", "user", "viewer"] }
+        },
+        required: ["email", "name"]
+    },
+    handler: async (args) => {
+        return await api.users.create(args)
+    }
+}
+```
+
+**Results:**
+- 15 API endpoints exposed as MCP tools
+- 80% reduction in manual API calls
+- 3x faster task completion for support team
+
+### Example 2: VS Code AI Extension with MCP
+
+**Scenario:** Build VS Code extension providing AI-powered code assistance.
+
+**Implementation:**
+1. **Extension Setup**: VS Code extension with MCP client
+2. **Context Integration**: IDE context passed to AI
+3. **Tool Definition**: Code analysis and refactoring tools
+4. **UI Integration**: Inline suggestions and quick fixes
+5. **Testing**: Unit and integration tests
+
+**Key Features:**
+- Context-aware code suggestions
+- Automated refactoring suggestions
+- Bug detection and fixes
+- Documentation generation
+
+**Performance:**
+- <100ms latency for tool calls
+- 95% suggestion acceptance rate
+- Zero VS Code performance impact
+
+### Example 3: Multi-Server Enterprise MCP Platform
+
+**Scenario:** Deploy MCP servers for multiple business systems with unified access.
+
+**Architecture:**
+1. **Server per System**: Dedicated MCP servers for each integration
+2. **Router**: Intelligent routing based on request type
+3. **Authentication**: Centralized auth with SSO
+4. **Monitoring**: Comprehensive logging and metrics
+
+**Server Configuration:**
+```yaml
+# Server routing configuration
+servers:
+  - name: crm
+    url: mcp://crm.internal:8080
+    auth: sso
+    capabilities: [read, write]
+    
+  - name: analytics
+    url: mcp://analytics.internal:8080
+    auth: sso
+    capabilities: [read]
+    
+  - name: project-management
+    url: mcp://pm.internal:8080
+    auth: sso
+    capabilities: [read, write]
+```
+
+**Results:**
+- 5 business systems integrated
+- 100+ tools available to AI agents
+- 99.9% uptime across all servers
+- Complete audit trail for compliance
+
+## Best Practices
+
+### Server Design
+
+- **Clear Tool Names**: Descriptive, consistent naming conventions
+- **Comprehensive Descriptions**: Detailed descriptions for AI understanding
+- **Error Handling**: Graceful failures with helpful messages
+- **Type Safety**: Strong typing for all parameters
+- **Versioning**: Support multiple versions of tools
+
+### Security Implementation
+
+- **Authentication First**: Implement auth before any operations
+- **Least Privilege**: Grant minimum required permissions
+- **Rate Limiting**: Prevent abuse and overuse
+- **Audit Logging**: Log all access and operations
+- **Data Protection**: Encrypt sensitive data in transit
+
+### Performance Optimization
+
+- **Connection Pooling**: Reuse connections to external systems
+- **Caching**: Cache frequently accessed data
+- **Async Operations**: Non-blocking tool execution
+- **Resource Management**: Clean up resources properly
+- **Monitoring**: Track performance metrics
+
+### Tool Development
+
+- **Atomic Tools**: Each tool does one thing well
+- **Idempotency**: Safe to call multiple times
+- **Validation**: Validate all inputs before processing
+- **Documentation**: Auto-generate from code
+- **Testing**: Unit tests for each tool
+
+### Integration Patterns
+
+- **Error Recovery**: Graceful handling of downstream failures
+- **Retry Logic**: Automatic retries with backoff
+- **Circuit Breakers**: Prevent cascade failures
+- **Fallbacks**: Alternative approaches when primary fails
+- **Timeouts**: Proper timeout handling
+
+## Anti-Patterns
+
+### Tool Development Anti-Patterns
+
+- **Monolithic Tools**: Building tools that do too much - split into focused, composable tools
+- **Missing Validation**: Not validating tool inputs - implement comprehensive input validation
+- **No Error Handling**: Tools that fail silently - return meaningful error messages
+- **Blocking Operations**: Long-running operations without timeouts - implement proper async patterns
+
+### Security Anti-Patterns
+
+- **Over-Permissioned Tools**: Tools with more permissions than needed - apply least privilege
+- **Credential Exposure**: Hardcoding credentials in tools - use secure secret management
+- **Unauthenticated Access**: Tools accessible without authentication - implement auth checks
+- **Audit Logging Gaps**: Not logging tool invocations - log all operations for traceability
+
+### Performance Anti-Patterns
+
+- **Connection Leaks**: Not properly managing external connections - implement connection pooling
+- **No Caching**: Repeated expensive operations without caching - implement intelligent caching
+- **Synchronous Bottlenecks**: Blocking operations that limit throughput - use async patterns
+- **Resource Waste**: Not cleaning up resources - implement proper cleanup in finally blocks
+
+### Protocol Anti-Patterns
+
+- **Schema Changes**: Breaking changes without versioning - maintain backward compatibility
+- **Message Bloat**: Overly complex message structures - keep payloads focused
+- **Timeout Ignorance**: Missing or improper timeout configuration - set appropriate timeouts
+- **Stateful Confusion**: Assuming state where none exists - design stateless, idempotent operations
+
 The MCP developer focuses on creating secure, efficient, and powerful AI integrations that transform how developers interact with systems and tools, enabling new levels of productivity and automation in software development.

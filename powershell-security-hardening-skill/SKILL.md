@@ -1,148 +1,90 @@
 ---
 name: powershell-security-hardening
-description: Use when user needs Windows security hardening, PowerShell security configuration, securing automation, enforcing least privilege, or aligning with enterprise security baselines.
-tools: Read, Write, Edit, Bash, Glob, Grep
+description: Expert in Windows security hardening and PowerShell security configuration. Specializes in securing automation, enforcing least privilege, and aligning with enterprise security baselines. Use for securing PowerShell environments and Windows systems. Triggers include "PowerShell security", "constrained language mode", "JEA", "execution policy", "security baseline", "PowerShell logging".
 ---
 
-This skill is used when the user needs PowerShell and Windows security hardening expertise, securing automation infrastructure, enforcing least privilege, or aligning scripts with enterprise security baselines and compliance frameworks (CIS, DISA STIG).
+# PowerShell Security Hardening
+
+## Purpose
+Provides expertise in Windows security hardening and PowerShell security configuration. Specializes in securing automation scripts, implementing Just Enough Administration (JEA), enforcing least privilege, and aligning with enterprise security baselines.
 
 ## When to Use
+- Configuring PowerShell security policies
+- Implementing Constrained Language Mode
+- Setting up Just Enough Administration (JEA)
+- Enabling PowerShell logging and auditing
+- Securing automation credentials
+- Applying CIS/STIG baselines
+- Protecting against PowerShell attacks
+- Implementing execution policies
 
-- User requests PowerShell security configuration and hardening
-- Securing PowerShell remoting (PSRemoting) with JEA or constrained endpoints
-- Implementing PowerShell logging, transcript logging, or script block logging
-- Reviewing scripts for security vulnerabilities and anti-patterns
-- Applying CIS/DISA STIG controls using PowerShell
-- Implementing secure credential handling (SecretManagement, Key Vault, DPAPI)
-- Hardening Windows systems via PowerShell automation
-- Detecting and remediating legacy/unsafe configurations (NTLM, SMBv1, LDAP)
+## Quick Start
+**Invoke this skill when:**
+- Hardening PowerShell environments
+- Implementing JEA or constrained language mode
+- Configuring PowerShell logging
+- Securing automation credentials
+- Applying security baselines
 
-## What This Skill Does
+**Do NOT invoke when:**
+- General Windows administration → use `/windows-infra-admin`
+- PowerShell development → use `/powershell-7-expert`
+- Active Directory security → use `/ad-security-reviewer`
+- Network security → use `/network-engineer`
 
-The powershell-security-hardening skill provides comprehensive PowerShell and Windows security capabilities. It handles security configuration, vulnerability detection, remediation, and compliance automation with emphasis on least privilege, secure automation, and audit-friendly execution.
+## Decision Framework
+```
+Security Requirement?
+├── Script Execution Control
+│   ├── Basic → Execution Policy
+│   └── Strict → AppLocker/WDAC
+├── Language Restriction
+│   └── Constrained Language Mode
+├── Privilege Reduction
+│   └── JEA (Just Enough Administration)
+└── Auditing
+    └── Script Block Logging + Transcription
+```
 
-### PowerShell Security Foundations
-- Secure PSRemoting configuration (Just Enough Administration, constrained endpoints)
-- Transcript logging, module logging, and script block logging
-- Execution Policy validation, Code Signing, and secure script publishing
-- Hardening scheduled tasks, WinRM endpoints, and service accounts
-- Secure credential patterns: SecretManagement, Key Vault, DPAPI, Credential Locker
+## Core Workflows
 
-### Windows System Hardening via PowerShell
-- Apply CIS/DISA STIG controls using PowerShell automation
-- Audit and remediate local administrator rights and group memberships
-- Enforce firewall rules and protocol hardening settings
-- Detect legacy/unsafe configurations: NTLM fallback, SMBv1, LDAP signing
-- Windows Defender configuration and security baseline enforcement
+### 1. PowerShell Logging Setup
+1. Enable Script Block Logging via GPO
+2. Enable Module Logging for key modules
+3. Configure transcription to secure location
+4. Set up protected event log forwarding
+5. Create alerts for suspicious patterns
+6. Test logging with sample scripts
 
-### Automation Security
-- Review modules/scripts for least privilege design
-- Detect anti-patterns: embedded passwords, plaintext creds, insecure logs
-- Validate secure parameter handling and error masking
-- Integrate with CI/CD checks for security gates
-- Code review for unsafe .NET calls or reflection injection points
+### 2. JEA Configuration
+1. Define role capabilities file
+2. Specify allowed cmdlets and parameters
+3. Create session configuration
+4. Register JEA endpoint
+5. Test with limited user account
+6. Document role assignments
 
-## Core Capabilities
-
-### PowerShell Remoting Security
-- Configure Just Enough Administration (JEA) endpoints
-- Set up constrained remoting endpoints with restricted cmdlets
-- WinRM hardening: SSL, transport encryption, authentication methods
-- Session configuration and delegation restrictions
-
-### Logging and Auditing
-- Enable script block logging: ScriptBlockLogging, ModuleLogging
-- Configure transcript logging with secure storage
-- Module logging for specific modules or all modules
-- Event log integration: Windows PowerShell, Microsoft-Windows-PowerShell
-
-### Execution Policy and Code Signing
-- Execution Policy configuration: AllSigned, RemoteSigned, Restricted
-- Code signing infrastructure setup and management
-- Authenticode signing for scripts and modules
-- Catalog signing for script integrity validation
-
-### Credential Security
-- SecretManagement module for secure credential storage
-- Azure Key Vault integration for cloud credential storage
-- DPAPI and Windows Credential Locker for local storage
-- Secure password generation and rotation
-
-## Tool Restrictions
-
-This skill uses standard file and code tools:
-- Read, Write, Edit for PowerShell security scripts and configuration
-- Bash for executing security scans and remediation scripts
-- Glob for finding security-related PowerShell files and logs
-- Grep for searching for security vulnerabilities in code
-
-Does NOT use:
-- Browser automation tools
-- External security scanners (implements custom scans via PowerShell)
-- Cross-platform tools (focuses on Windows security)
-
-## Integration with Other Skills
-
-- **ad-security-reviewer**: Collaborates on AD GPO, domain policy, and delegation alignment
-- **security-auditor**: Works with enterprise-level security review and compliance
-- **windows-infra-admin**: Partners on domain-specific enforcement
-- **powershell-5.1-expert / powershell-7-expert**: Coordinates language-level improvements
-- **it-ops-orchestrator**: Routes cross-domain security tasks appropriately
-
-## Example Interactions
-
-**Scenario: PowerShell Security Baseline Implementation**
-
-User: "Implement PowerShell security baseline for 500 workstations including JEA endpoints, logging, and credential protection."
-
-Skill Response:
-1. Analyzes current PowerShell configuration across workstations
-2. Designs security baseline: execution policy, logging, JEA endpoints, credential handling
-3. Implements Group Policy objects for PowerShell configuration enforcement
-4. Creates JEA endpoint configuration with role capabilities and restricted cmdlets
-5. Enables logging: script block, module, transcript with secure log storage
-6. Configures SecretManagement module for credential storage integration
-7. Implements deployment script using GPO or Intune for rollout
-8. Validates configuration and generates compliance report
-9. Delivers comprehensive PowerShell security baseline with 95% compliance
-
-**Scenario: Security Review of Automation Scripts**
-
-User: "Review our PowerShell automation scripts for security vulnerabilities and anti-patterns before deployment."
-
-Skill Response:
-1. Scans all PowerShell scripts for embedded credentials using pattern matching
-2. Identifies plaintext passwords, API keys, and secrets in scripts
-3. Checks for unsafe .NET calls: [Reflection], serialization, code execution
-4. Validates credential handling: use of PSCredential, SecureString, SecretManagement
-5. Reviews error handling for potential information disclosure
-6. Checks for Write-Host exposing sensitive information
-7. Validates parameter validation to prevent injection attacks
-8. Reviews script signing and execution policy compliance
-9. Delivers security review report with vulnerabilities, severity, and remediation steps
+### 3. Constrained Language Mode
+1. Assess application requirements
+2. Create AppLocker/WDAC policy
+3. Enable CLM for untrusted scripts
+4. Whitelist required scripts
+5. Test application functionality
+6. Monitor for bypass attempts
 
 ## Best Practices
+- Enable script block logging on all systems
+- Use JEA instead of full admin rights
+- Store credentials in secure vault (not scripts)
+- Apply AMSI for malware detection
+- Use signed scripts with AllSigned policy
+- Regularly audit PowerShell usage logs
 
-- Never embed credentials in scripts - use SecretManagement, Key Vault, or secure parameters
-- Enable script block and module logging for audit trails
-- Use JEA for least-privilege remoting when possible
-- Sign scripts and modules for integrity verification
-- Implement -WhatIf/-Confirm for destructive operations
-- Use try/catch with sanitized error messages to avoid information disclosure
-- Avoid Write-Host for sensitive data - use Write-Verbose or Write-Information
-- Validate and sanitize all user input to prevent injection
-- Use PSCredential objects for handling passwords and credentials
-- Enable transcript logging for audit and troubleshooting
-
-## Output Format
-
-The powershell-security-hardening skill delivers:
-
-1. **Security Scripts**: PowerShell scripts for hardening and remediation
-2. **GPO Configurations**: Group Policy objects for security baseline enforcement
-3. **JEA Configurations**: Role capabilities and session configurations
-4. **Logging Policies**: PowerShell logging configurations and log retention policies
-5. **Security Reports**: Vulnerability assessments, compliance reports, and remediation plans
-6. **Credential Guidance**: Secure credential handling patterns and implementation examples
-7. **STIG/CIS Scripts**: Automation for applying DISA STIG or CIS benchmarks
-8. **Documentation**: Security configurations, runbooks, and compliance documentation
+## Anti-Patterns
+| Anti-Pattern | Problem | Correct Approach |
+|--------------|---------|------------------|
+| Credentials in scripts | Exposure risk | SecretManagement vault |
+| Disabled logging | No visibility | Enable all logging |
+| Bypass execution policy | Security theater | AppLocker/WDAC |
+| Full admin for automation | Over-privileged | JEA with minimal rights |
+| Ignoring AMSI | Malware blind spot | Keep AMSI enabled |

@@ -264,29 +264,103 @@ When providing guidance, ensure:
 - Minimize disruption during transition
 - Validate at each stage
 
-## Example Guidance Scenarios
+## Examples
 
-- **"We need to choose between microservices and monolith for a new SaaS platform."**
-  - Analyze requirements, team size, expected scale
-  - Compare complexity, operational overhead, benefits
-  - Recommend based on specific constraints
-  - Provide migration path if needed
+### Example 1: Microservices vs Monolith Decision
 
-- **"Our REST API is slow under load. We've tried caching and it didn't help."**
-  - Analyze bottleneck sources (database, network, compute)
-  - Review query patterns and N+1 issues
-  - Recommend specific optimizations (connection pooling, async, etc.)
-  - Propose monitoring strategy to identify real bottleneck
+**Scenario:** A growing startup needs to decide between microservices and monolith architecture.
 
-- **"Should we use GraphQL or REST for our frontend integration?"**
-  - Analyze frontend needs (data over-fetching, caching, etc.)
-  - Evaluate team expertise and tooling
-  - Consider API evolution and versioning needs
-  - Recommend with clear rationale
+**Analysis Approach:**
+1. **Requirements Analysis**: Team size, scale expectations, deployment frequency
+2. **Tradeoff Evaluation**: Complexity, operational overhead, team expertise
+3. **Recommendation**: Data-driven decision based on specific constraints
 
-- **"We're having intermittent failures in our payment processing. Three fixes haven't worked."**
-  - This is a mandatory Oracle consultation
-  - Analyze failure patterns and logs
-  - Identify potential race conditions or timing issues
-  - Recommend robust retry and fallback strategies
-  - Design monitoring to catch root cause
+**Decision Framework:**
+| Factor | Monolith | Microservices | Recommendation |
+|--------|-----------|---------------|----------------|
+| Team Size | < 10 developers | > 20 developers | Team size drives complexity |
+| Deployment | Single pipeline | Multiple pipelines | Consider CI/CD maturity |
+| Scaling | Vertical only | Horizontal | Predictable load vs variable |
+| Latency | In-process calls | Network calls | User experience impact |
+
+**Recommendation:** Start with modular monolith, extract services incrementally based on actual needs rather than anticipated future requirements.
+
+### Example 2: Database Selection for E-Commerce Platform
+
+**Scenario:** Choose between PostgreSQL, MongoDB, and DynamoDB for a high-traffic e-commerce platform.
+
+**Analysis Approach:**
+1. **Workload Analysis**: Read/write patterns, data relationships
+2. **Consistency Requirements**: Transaction needs, ACID compliance
+3. **Scaling Patterns**: Predictable vs variable workloads
+
+**Comparison:**
+| Requirement | PostgreSQL | MongoDB | DynamoDB |
+|-------------|------------|---------|-----------|
+| Transactions | Full ACID | Limited | Limited |
+| Queries | Complex joins | Simple queries | Key-value |
+| Scaling | Vertical/Sharding | Auto-sharding | Fully managed |
+| Latency | Low | Low | Very low |
+
+**Recommendation:** PostgreSQL for transaction-heavy e-commerce with future option to add caching layer.
+
+### Example 3: Performance Troubleshooting After Multiple Failed Attempts
+
+**Scenario:** API experiencing intermittent high latency after 3 optimization attempts.
+
+**Root Cause Analysis:**
+1. **Data Collection**: Gathered comprehensive metrics from all services
+2. **Pattern Recognition**: Identified correlation with specific deployment
+3. **Hypothesis Testing**: Validated each potential cause systematically
+
+**Findings:**
+- Database connection pool exhaustion during peak loads
+- Missing index on frequently queried table
+- Redis connection timeout due to network latency
+
+**Resolution:**
+- Implemented connection pooling with proper limits
+- Added missing indexes
+- Optimized Redis connection configuration
+
+**Results:**
+- P99 latency reduced from 2.5s to 150ms
+- Zero timeouts under peak load
+- 99.9% SLA compliance achieved
+
+## Best Practices
+
+### Architecture Decisions
+
+- **Analyze First**: Gather requirements before recommending solutions
+- **Consider Tradeoffs**: No solution is perfect; balance factors
+- **Plan for Evolution**: Design for future changes
+- **Document Rationale**: Record why decisions were made
+
+### Performance Optimization
+
+- **Measure First**: Profiling before optimization
+- **Target Hotspots**: Focus on actual bottlenecks
+- **Validate Changes**: Benchmark before and after
+- **Monitor Continuously**: Track long-term performance
+
+### Security Design
+
+- **Defense in Depth**: Multiple security layers
+- **Least Privilege**: Minimize access rights
+- **Zero Trust**: Verify every request
+- **Regular Reviews**: Periodic security assessments
+
+### Technology Selection
+
+- **Fit for Purpose**: Match technology to use case
+- **Team Expertise**: Consider learning curve
+- **Ecosystem Maturity**: Support and tooling availability
+- **Long-term Viability**: Project sustainability
+
+### Complex Problem Solving
+
+- **Systematic Approach**: Break down complex problems
+- **Elimination Method**: Rule out causes systematically
+- **Root Cause Focus**: Fix underlying issues, not symptoms
+- **Documentation**: Record findings and solutions

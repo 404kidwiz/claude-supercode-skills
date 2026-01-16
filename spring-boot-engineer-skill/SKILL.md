@@ -1,365 +1,89 @@
 ---
 name: spring-boot-engineer
-description: Spring Boot 3+ specialist with expertise in Spring Cloud, microservices, and Kubernetes deployment
+description: Expert in Spring Boot 3+, Microservices, and Cloud-Native Java. Specializes in Virtual Threads, Spring Cloud, and Reactive Stack.
 ---
 
 # Spring Boot Engineer
 
-## Core Capabilities
+## Purpose
+Provides expertise in building production-grade Java applications with Spring Boot 3+. Specializes in microservices architecture, cloud-native patterns, reactive programming, and leveraging modern Java features including virtual threads.
 
-### Spring Boot 3+ Features
-- **Java 17+ Integration**: Full support for modern Java features including records, pattern matching, and sealed classes
-- **Native Compilation**: GraalVM native image support for optimal performance
-- **Observability**: Built-in Micrometer metrics, distributed tracing with OpenTelemetry
-- **Configuration**: YAML/Properties configuration with environment profiles and Cloud Config
-- **Startup Performance**: Lazy initialization, classpath scanning optimization
+## When to Use
+- Building Spring Boot applications and microservices
+- Implementing REST APIs with Spring Web or WebFlux
+- Configuring Spring Security for authentication/authorization
+- Setting up Spring Data JPA, MongoDB, or R2DBC
+- Implementing Spring Cloud patterns (Config, Gateway, Circuit Breaker)
+- Using virtual threads with Spring Boot 3.2+
+- Building reactive applications with Project Reactor
+- Integrating messaging with Spring Kafka or RabbitMQ
 
-### Spring Cloud Expertise
-- **Service Discovery**: Eureka, Consul, Kubernetes service discovery
-- **API Gateway**: Spring Cloud Gateway with reactive routing and filters
-- **Circuit Breakers**: Resilience4j implementation for fault tolerance
-- **Load Balancing**: Spring Cloud LoadBalancer client-side load balancing
-- **Configuration Management**: Centralized config server with Git/Vault backends
-- **Message Bus**: RabbitMQ, Kafka integration with Spring Cloud Stream
+## Quick Start
+**Invoke this skill when:**
+- Building Spring Boot applications and microservices
+- Implementing REST APIs with Spring Web or WebFlux
+- Configuring Spring Security for authentication/authorization
+- Setting up Spring Data repositories
+- Implementing Spring Cloud patterns
 
-### Container Orchestration
-- **Kubernetes Deployment**: Helm charts, ConfigMaps, Secrets management
-- **Docker Optimization**: Multi-stage builds, layer optimization, health checks
-- **Service Mesh**: Istio integration for advanced traffic management
-- **Resource Management**: CPU/Memory limits, HPA (Horizontal Pod Autoscaling)
+**Do NOT invoke when:**
+- General Java questions without Spring → use java-architect
+- Kubernetes deployment → use kubernetes-specialist
+- Database design → use database-administrator
+- Frontend development → use appropriate frontend skill
 
-## Architecture Patterns
-
-### Microservices Design
-```java
-@SpringBootApplication
-@EnableEurekaClient
-@EnableCircuitBreaker
-public class OrderServiceApplication {
-    public static void main(String[] args) {
-        SpringApplication.run(OrderServiceApplication.class, args);
-    }
-}
+## Decision Framework
+```
+Spring Boot Task?
+├── API Development → Spring Web (blocking) vs WebFlux (reactive)
+├── Data Access → JPA (relational) vs MongoDB (document) vs R2DBC (reactive)
+├── Security → OAuth2/OIDC vs JWT vs Basic Auth
+├── Messaging → Kafka (high throughput) vs RabbitMQ (routing)
+├── Service Communication → REST vs gRPC vs messaging
+└── Configuration → Spring Cloud Config vs Kubernetes ConfigMaps
 ```
 
-### RESTful API Development
-```java
-@RestController
-@RequestMapping("/api/v1/orders")
-@Validated
-public class OrderController {
-    
-    @PostMapping
-    public ResponseEntity<OrderResponse> createOrder(
-            @Valid @RequestBody CreateOrderRequest request) {
-        Order order = orderService.createOrder(request);
-        return ResponseEntity.status(HttpStatus.CREATED)
-                .body(OrderResponse.from(order));
-    }
-    
-    @GetMapping("/{id}")
-    public ResponseEntity<OrderResponse> getOrder(@PathVariable UUID id) {
-        return orderService.findById(id)
-                .map(OrderResponse::from)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
-}
-```
+## Core Workflows
 
-### Data Access Layer
-```java
-@Service
-@Transactional
-public class OrderService {
-    
-    private final OrderRepository orderRepository;
-    private final OrderMapper orderMapper;
-    
-    public Order createOrder(CreateOrderRequest request) {
-        Order order = orderMapper.toEntity(request);
-        order.setOrderNumber(generateOrderNumber());
-        order.setStatus(OrderStatus.PENDING);
-        return orderRepository.save(order);
-    }
-    
-    @Retryable(maxAttempts = 3, backoff = @Backoff(delay = 1000))
-    public Optional<Order> findById(UUID id) {
-        return orderRepository.findByIdWithItems(id);
-    }
-}
-```
+### 1. Microservice Development
+1. Initialize project with Spring Initializr and required starters
+2. Define domain model and DTOs
+3. Implement repository layer with Spring Data
+4. Create service layer with business logic
+5. Build REST controllers with proper error handling
+6. Add validation, security, and observability
+7. Write tests at unit, integration, and contract levels
+8. Configure for cloud deployment (health, metrics, config)
 
-## Development Best Practices
+### 2. Spring Security Configuration
+1. Add spring-boot-starter-security dependency
+2. Define security filter chain configuration
+3. Configure authentication provider (JWT, OAuth2, LDAP)
+4. Set up authorization rules for endpoints
+5. Implement custom UserDetailsService if needed
+6. Add CORS and CSRF configuration
+7. Test security configuration thoroughly
 
-### Configuration Management
-```yaml
-# application.yml
-spring:
-  application:
-    name: order-service
-  profiles:
-    active: ${SPRING_PROFILES_ACTIVE:dev}
-  datasource:
-    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/orders}
-    username: ${DATABASE_USERNAME:orders}
-    password: ${DATABASE_PASSWORD:password}
-    hikari:
-      maximum-pool-size: 20
-      minimum-idle: 5
-  jpa:
-    hibernate:
-      ddl-auto: validate
-    show-sql: false
-    properties:
-      hibernate.format_sql: true
+### 3. Reactive Application Development
+1. Use WebFlux instead of Spring Web
+2. Configure R2DBC for reactive database access
+3. Return Mono/Flux from controllers and services
+4. Use WebClient for non-blocking HTTP calls
+5. Implement backpressure handling
+6. Test with StepVerifier
+7. Monitor with reactive-aware observability
 
-management:
-  endpoints:
-    web:
-      exposure:
-        include: health,info,metrics,prometheus
-  endpoint:
-    health:
-      show-details: when-authorized
-```
+## Best Practices
+- Use constructor injection over field injection
+- Externalize configuration with profiles and ConfigMaps
+- Implement proper exception handling with @ControllerAdvice
+- Enable Actuator endpoints for health and metrics
+- Use Testcontainers for integration tests
+- Leverage virtual threads for I/O-bound workloads (Spring Boot 3.2+)
 
-### Exception Handling
-```java
-@ControllerAdvice
-@Slf4j
-public class GlobalExceptionHandler {
-    
-    @ExceptionHandler(ValidationException.class)
-    public ResponseEntity<ErrorResponse> handleValidation(
-            ValidationException ex) {
-        log.warn("Validation error: {}", ex.getMessage());
-        return ResponseEntity.badRequest()
-                .body(ErrorResponse.of("VALIDATION_ERROR", ex.getMessage()));
-    }
-    
-    @ExceptionHandler(ResourceNotFoundException.class)
-    public ResponseEntity<ErrorResponse> handleNotFound(
-            ResourceNotFoundException ex) {
-        log.info("Resource not found: {}", ex.getMessage());
-        return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                .body(ErrorResponse.of("NOT_FOUND", ex.getMessage()));
-    }
-}
-```
-
-## Testing Strategies
-
-### Unit Testing with JUnit 5
-```java
-@ExtendWith(MockitoExtension.class)
-class OrderServiceTest {
-    
-    @Mock
-    private OrderRepository orderRepository;
-    
-    @InjectMocks
-    private OrderService orderService;
-    
-    @Test
-    @DisplayName("Should create order successfully")
-    void createOrder_Success() {
-        // Given
-        CreateOrderRequest request = OrderTestData.createOrderRequest();
-        Order expectedOrder = OrderTestData.newOrder();
-        when(orderRepository.save(any(Order.class))).thenReturn(expectedOrder);
-        
-        // When
-        Order result = orderService.createOrder(request);
-        
-        // Then
-        assertThat(result.getStatus()).isEqualTo(OrderStatus.PENDING);
-        assertThat(result.getOrderNumber()).isNotNull();
-        verify(orderRepository).save(any(Order.class));
-    }
-}
-```
-
-### Integration Testing
-```java
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@TestPropertySource(properties = {
-    "spring.datasource.url=jdbc:h2:mem:testdb",
-    "spring.jpa.hibernate.ddl-auto=create-drop"
-})
-@Testcontainers
-class OrderControllerIntegrationTest {
-    
-    @Container
-    static PostgreSQLContainer<?> postgres = new PostgreSQLContainer<>("postgres:15")
-            .withDatabaseName("testdb")
-            .withUsername("test")
-            .withPassword("test");
-    
-    @Autowired
-    private TestRestTemplate restTemplate;
-    
-    @Test
-    void createOrder_Integration() {
-        CreateOrderRequest request = OrderTestData.createOrderRequest();
-        ResponseEntity<OrderResponse> response = restTemplate.postForEntity(
-                "/api/v1/orders", request, OrderResponse.class);
-        
-        assertThat(response.getStatusCode()).isEqualTo(HttpStatus.CREATED);
-        assertThat(response.getBody().getOrderNumber()).isNotNull();
-    }
-}
-```
-
-## Performance Optimization
-
-### Caching Strategies
-```java
-@Service
-public class ProductCacheService {
-    
-    @Cacheable(value = "products", key = "#id", unless = "#result.price == null")
-    public Product getProduct(UUID id) {
-        return productRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Product not found"));
-    }
-    
-    @CacheEvict(value = "products", key = "#product.id")
-    public Product updateProduct(Product product) {
-        return productRepository.save(product);
-    }
-}
-```
-
-### Async Processing
-```java
-@Service
-public class NotificationService {
-    
-    @Async("notificationExecutor")
-    public CompletableFuture<Void> sendOrderConfirmation(Order order) {
-        emailService.sendOrderConfirmation(order);
-        smsService.sendOrderSms(order);
-        return CompletableFuture.completedFuture(null);
-    }
-}
-
-@Configuration
-@EnableAsync
-public class AsyncConfig {
-    
-    @Bean("notificationExecutor")
-    public Executor notificationExecutor() {
-        ThreadPoolTaskExecutor executor = new ThreadPoolTaskExecutor();
-        executor.setCorePoolSize(5);
-        executor.setMaxPoolSize(10);
-        executor.setQueueCapacity(100);
-        executor.setThreadNamePrefix("Notification-");
-        executor.initialize();
-        return executor;
-    }
-}
-```
-
-## Security Implementation
-
-### Spring Security Configuration
-```java
-@Configuration
-@EnableWebSecurity
-@EnableMethodSecurity(prePostEnabled = true)
-public class SecurityConfig {
-    
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> 
-                session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .authorizeHttpRequests(authz -> authz
-                .requestMatchers("/api/public/**").permitAll()
-                .requestMatchers("/api/v1/orders/**").hasRole("USER")
-                .requestMatchers("/api/admin/**").hasRole("ADMIN")
-                .anyRequest().authenticated())
-            .oauth2ResourceServer(oauth2 -> 
-                oauth2.jwt(withDefaults()));
-        
-        return http.build();
-    }
-}
-```
-
-## Monitoring & Observability
-
-### Metrics Configuration
-```java
-@Component
-public class OrderMetrics {
-    
-    private final MeterRegistry meterRegistry;
-    private final Counter orderCreatedCounter;
-    private final Timer orderProcessingTimer;
-    
-    public OrderMetrics(MeterRegistry meterRegistry) {
-        this.meterRegistry = meterRegistry;
-        this.orderCreatedCounter = Counter.builder("orders.created")
-                .description("Total orders created")
-                .register(meterRegistry);
-        this.orderProcessingTimer = Timer.builder("orders.processing.time")
-                .description("Order processing time")
-                .register(meterRegistry);
-    }
-    
-    public void recordOrderCreated() {
-        orderCreatedCounter.increment();
-    }
-    
-    public void recordProcessingTime(Duration duration) {
-        orderProcessingTimer.record(duration);
-    }
-}
-```
-
-## Common Use Cases
-
-### Event-Driven Architecture
-```java
-@KafkaListener(topics = "order-events", groupId = "order-service")
-public void handleOrderEvent(OrderEvent event) {
-    switch (event.getEventType()) {
-        case ORDER_CREATED:
-            paymentService.processPayment(event.getOrderId());
-            inventoryService.reserveItems(event.getOrderItems());
-            break;
-        case PAYMENT_COMPLETED:
-            shippingService.initiateShipping(event.getOrderId());
-            break;
-        case PAYMENT_FAILED:
-            notificationService.sendPaymentFailedNotification(event.getOrderId());
-            break;
-    }
-}
-```
-
-### Background Jobs
-```java
-@Component
-public class OrderCleanupJob {
-    
-    @Scheduled(cron = "0 0 2 * * ?") // Daily at 2 AM
-    public void cleanupExpiredOrders() {
-        List<Order> expiredOrders = orderRepository
-                .findExpiredOrders(LocalDateTime.now().minusDays(30));
-        
-        expiredOrders.forEach(order -> {
-            order.setStatus(OrderStatus.CANCELLED);
-            order.setCancellationReason("Auto-cancelled - expired");
-        });
-        
-        orderRepository.saveAll(expiredOrders);
-        log.info("Cleaned up {} expired orders", expiredOrders.size());
-    }
-}
-```
-
-This Spring Boot skill provides comprehensive expertise for building production-ready microservices with modern Spring ecosystem tools and Kubernetes deployment strategies.
+## Anti-Patterns
+- **Field injection** → Use constructor injection for testability
+- **Blocking in reactive chains** → Keep reactive pipeline non-blocking
+- **Catching generic exceptions** → Handle specific exceptions appropriately
+- **Hardcoded configuration** → Externalize with environment variables
+- **Missing health checks** → Always expose Actuator health endpoint

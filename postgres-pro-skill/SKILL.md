@@ -1,31 +1,58 @@
 ---
 name: postgres-pro
 description: Use when user needs PostgreSQL database administration, performance optimization, high availability setup, backup/recovery, or advanced PostgreSQL feature implementation.
-tools: Read, Write, Edit, Bash, Glob, Grep
 ---
 
-This skill is used when the user needs expertise in PostgreSQL database administration, performance tuning, replication strategies, or advanced PostgreSQL features. The skill specializes in achieving maximum reliability, performance, and scalability for PostgreSQL deployments.
+# PostgreSQL Professional
+
+## Purpose
+
+Provides comprehensive PostgreSQL expertise specializing in database administration, performance optimization, and advanced feature implementation. Excels at achieving maximum reliability, performance, and scalability for PostgreSQL deployments with high availability and advanced extensions.
 
 ## When to Use
 
-- User requests PostgreSQL performance optimization or tuning
-- Setting up PostgreSQL replication or high availability
-- Implementing backup and recovery strategies
-- Designing PostgreSQL partitioning or index strategies
-- Using advanced PostgreSQL features (JSONB, PostGIS, full-text search)
-- Troubleshooting PostgreSQL performance issues or bottlenecks
-- Migrating to PostgreSQL or upgrading versions
-- Configuring PostgreSQL monitoring and alerting
+- PostgreSQL-specific features needed (JSONB, full-text search, PostGIS, pgvector)
+- Setting up streaming or logical replication
+- Implementing PostgreSQL extensions
+- Troubleshooting PostgreSQL-specific issues
+- Optimizing PostgreSQL configuration
+- Implementing partitioning and high availability
 
-## What This Skill Does
+## Quick Start
 
-The postgres-pro skill provides comprehensive PostgreSQL database administration capabilities. It handles end-to-end PostgreSQL optimization from configuration tuning through replication setup to backup automation. The skill ensures solutions achieve high query performance (< 50ms), minimal replication lag (< 500ms), excellent uptime (> 99.95%), and fast recovery (RTO < 1 hour).
+**Invoke this skill when:**
+- PostgreSQL-specific features needed (JSONB indexing, full-text search, PostGIS, pgvector)
+- Setting up streaming replication or logical replication for PostgreSQL
+- Implementing PostgreSQL extensions (pg_trgm, PostGIS, timescaledb, pg_partman)
+- Troubleshooting PostgreSQL-specific issues (autovacuum, bloat, WAL archiving)
+- Optimizing PostgreSQL configuration (shared_buffers, work_mem, vacuum settings)
+- Implementing PostgreSQL partitioning (declarative partitioning, constraint exclusion)
+- Setting up PostgreSQL high availability (Patroni, repmgr, pgpool-II)
+- Designing JSONB schema and query optimization with GIN indexes
+
+**Do NOT invoke when:**
+- General SQL query writing (use sql-pro for ANSI SQL queries)
+- Cross-platform database optimization (use database-optimizer for general tuning)
+- MySQL or SQL Server specific features (use platform-specific skills)
+- Database administration basics (users, permissions - use database-administrator)
+- Simple query optimization without PostgreSQL-specific features
+- ORM query patterns (use backend-developer with ORM expertise)
+
+## Core Capabilities
 
 ### PostgreSQL Architecture
 - Process architecture and memory configuration
 - WAL mechanics and MVCC implementation
 - Storage layout and buffer management
 - Lock management and background workers
+
+### Advanced Features
+- JSONB optimization with GIN indexes
+- Full-text search with tsvector and GIN indexes
+- PostGIS spatial queries and indexing
+- Time-series data handling and partitioning
+- Foreign data wrappers and cross-database queries
+- Parallel queries and JIT compilation
 
 ### Performance Tuning
 - Configuration optimization (memory, connections, checkpoints)
@@ -46,111 +73,94 @@ The postgres-pro skill provides comprehensive PostgreSQL database administration
 - Backup validation and recovery testing
 - Automation scripts and retention policies
 
-## Core Capabilities
+## Decision Framework
 
-### Advanced Features
-- JSONB optimization with GIN indexes
-- Full-text search with tsvector and GIN indexes
-- PostGIS spatial queries and indexing
-- Time-series data handling and partitioning
-- Foreign data wrappers and cross-database queries
-- Parallel queries and JIT compilation
+### JSONB Index Strategy
 
-### Partitioning Design
-- Range partitioning for time-series data
-- List partitioning for categorical data
-- Hash partitioning for even distribution
-- Partition pruning and constraint exclusion
-- Partition maintenance and migration strategies
+```
+JSONB Query Pattern Analysis
+│
+├─ Containment queries (@> operator)?
+│   └─ Use GIN with jsonb_path_ops
+│       CREATE INDEX idx ON table USING GIN (column jsonb_path_ops);
+│       • 2-3x smaller than default GIN
+│       • Faster for @> containment checks
+│       • Does NOT support key existence (?)
+│
+├─ Key existence queries (? or ?| or ?& operators)?
+│   └─ Use default GIN operator class
+│       CREATE INDEX idx ON table USING GIN (column);
+│       • Supports all JSONB operators
+│       • Larger index size
+│
+├─ Specific path frequently queried?
+│   └─ Use expression index
+│       CREATE INDEX idx ON table ((column->>'key'));
+│       • Most efficient for specific path
+│       • B-tree allows range queries
+│
+└─ Full document search needed?
+    └─ Combine GIN + expression indexes
+        • GIN for flexible queries
+        • Expression for hot paths
+```
 
-### High Availability
-- Replication setup and automatic failover
-- Connection routing with pgpool-II or PgBouncer
-- Split-brain prevention and consistency guarantees
-- Monitoring setup and testing procedures
+### Replication Strategy Selection
 
-### Monitoring Setup
-- Performance metrics collection and visualization
-- Query statistics with pg_stat_statements
-- Replication status monitoring and alerting
-- Lock monitoring and bloat tracking
-- Connection tracking and dashboard design
+| Requirement | Strategy | Configuration |
+|------------|----------|---------------|
+| Read scaling | Streaming (async) | Multiple read replicas |
+| Zero data loss | Streaming (sync) | synchronous_commit = on |
+| Table-level replication | Logical | CREATE PUBLICATION/SUBSCRIPTION |
+| Cross-version upgrade | Logical | Replicate to new version |
+| Disaster recovery | Streaming + WAL archive | PITR capability |
+| Delayed recovery | Delayed replica | recovery_min_apply_delay |
 
-## Tool Restrictions
+## Quality Checklist
 
-This skill uses standard file and code tools:
-- Read, Write, Edit for PostgreSQL configuration and SQL scripts
-- Bash for executing psql, pg_dump, and administrative commands
-- Glob for finding PostgreSQL configuration and data files
-- Grep for searching in logs and SQL files
+**Performance:**
+- [ ] Query performance targets met (OLTP <50ms, Analytics <2s)
+- [ ] EXPLAIN ANALYZE reviewed for all critical queries
+- [ ] GIN/GiST indexes used for JSONB, array, full-text queries
+- [ ] Partitioning implemented for tables >10GB with time-series data
+- [ ] Cache hit ratio >95% (shared_buffers + OS cache)
+- [ ] Connection pooling implemented (PgBouncer or application pool)
 
-Does NOT use:
-- Browser automation tools
-- Database-specific GUI tools (uses command-line psql)
-- Cloud deployment tools (uses Bash for cloud database operations)
+**Configuration:**
+- [ ] shared_buffers = 25% of RAM
+- [ ] effective_cache_size = 75% of RAM
+- [ ] work_mem tuned for workload (no temp file spills in EXPLAIN)
+- [ ] Autovacuum configured (scale_factor ≤0.05 for large tables)
+- [ ] max_connections appropriate (or using PgBouncer)
+- [ ] WAL archiving enabled for PITR
 
-## Integration with Other Skills
+**Replication (if applicable):**
+- [ ] Replication slots created (prevents WAL deletion)
+- [ ] Replication lag <500ms (P95)
+- [ ] pg_stat_replication monitored (sync_state, replay_lag)
+- [ ] Failover tested (promote replica to primary)
+- [ ] pg_hba.conf configured for replication access
 
-- **database-optimizer**: Collaborates on general database optimization techniques
-- **backend-developer**: Supports with PostgreSQL-specific query patterns and optimizations
-- **data-engineer**: Works together on ETL processes and data pipeline integration
-- **devops-engineer**: Guides on PostgreSQL deployment and infrastructure automation
-- **sre-engineer**: Helps with reliability, monitoring, and incident response
-- **cloud-architect**: Assists with cloud PostgreSQL (RDS, Cloud SQL, etc.)
-- **security-auditor**: Partners on PostgreSQL security and compliance
-- **performance-engineer**: Coordinates on system-level performance tuning
+**Extensions:**
+- [ ] Required extensions installed (pg_trgm, PostGIS, pgvector, etc.)
+- [ ] Extension versions compatible with PostgreSQL version
+- [ ] GIN indexes created for JSONB, tsvector, trigrams
+- [ ] Full-text search configured with proper language dictionaries
 
-## Example Interactions
+**JSONB (if used):**
+- [ ] GIN indexes created (jsonb_path_ops for containment queries)
+- [ ] Expression indexes for frequently queried paths
+- [ ] JSONB validation in application (jsonschema or custom)
+- [ ] No deeply nested JSONB (>3 levels → consider normalization)
 
-**Scenario: Optimizing Slow PostgreSQL Database**
+**Monitoring:**
+- [ ] Slow query log configured (log_min_duration_statement = 200ms)
+- [ ] pg_stat_statements installed and monitored
+- [ ] Autovacuum progress monitored (pg_stat_progress_vacuum)
+- [ ] Table bloat monitored (<15% dead tuples)
+- [ ] Replication lag alerts configured (<1s threshold)
 
-User: "Our PostgreSQL database is experiencing slow queries and high CPU usage. We need to optimize it."
+## Additional Resources
 
-Skill Response:
-1. Collects performance metrics: pg_stat_statements, system stats, slow query log
-2. Identifies top 20 slow queries and their execution plans (EXPLAIN ANALYZE)
-3. Analyzes missing indexes, inefficient joins, and configuration issues
-4. Creates appropriate indexes (B-tree, GIN, BRIN) based on query patterns
-5. Optimizes configuration: shared_buffers, work_mem, effective_cache_size
-6. Implements autovacuum tuning to prevent bloat
-7. Sets up monitoring for ongoing performance tracking
-8. Achieves 89 critical queries optimized, avg latency reduced from 287ms to 32ms
-
-**Scenario: Setting Up PostgreSQL High Availability**
-
-User: "We need to set up PostgreSQL high availability with automatic failover and backup."
-
-Skill Response:
-1. Assesses current deployment: single node, version, data size, RPO/RTO requirements
-2. Designs HA architecture: primary, standby replicas, load balancer, failover mechanism
-3. Implements streaming replication with synchronous option for critical tables
-4. Sets up automatic failover using Patroni or repmgr
-5. Configures connection routing with pgpool-II for read/write splitting
-6. Implements backup strategy: daily base backups + continuous WAL archiving (RPO < 5 min)
-7. Creates monitoring and alerting for replication lag, failover events, backup status
-8. Tests failover and recovery procedures (RTO < 1 hour)
-9. Delivers PostgreSQL cluster with 99.97% uptime and 234ms replication lag
-
-## Best Practices
-
-- Always measure baseline performance before making changes
-- Change configuration incrementally and test each change
-- Use EXPLAIN ANALYZE to understand query execution plans
-- Monitor bloat with pg_stat_progress_vacuum and implement autovacuum tuning
-- Design indexes based on actual query patterns, not assumptions
-- Implement comprehensive monitoring: performance, replication, backups, system resources
-- Test backup and recovery procedures regularly
-- Document all configuration changes, optimization decisions, and runbooks
-
-## Output Format
-
-The postgres-pro skill delivers:
-
-1. **Configuration Files**: Optimized postgresql.conf, pg_hba.conf, recovery.conf
-2. **SQL Scripts**: Index creation, query optimization, data migration scripts
-3. **Backup Scripts**: Automated backup automation with validation and retention policies
-4. **Monitoring Queries**: SQL queries for performance metrics, replication status, bloat tracking
-5. **Documentation**: Configuration guides, optimization reports, runbooks, recovery procedures
-6. **HA Setup**: Replication configuration, failover automation, connection routing
-7. **Performance Reports**: Query analysis, index usage, optimization recommendations
-8. **Dashboards**: Grafana/Prometheus queries for PostgreSQL monitoring and alerting
+- **Detailed Technical Reference**: See [REFERENCE.md](REFERENCE.md)
+- **Code Examples & Patterns**: See [EXAMPLES.md](EXAMPLES.md)
